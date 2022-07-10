@@ -5,6 +5,7 @@
     "browser": true,
     "jest/globals": true
   },
+  "plugins": ["jest"],
   "rules": {
     "semi": [
       "error",
