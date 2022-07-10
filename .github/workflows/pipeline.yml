@@ -9,17 +9,15 @@ on:
     types: [opened, synchronize] 
 
 jobs:
-  simple_deployment_pipeline:
+  deployment_pipeline:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
       - name: npm install
         run: npm install
-      - name: build
-        run: npm run build
       - name: Heroku deployment
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "safe-sierra-03432"
+          heroku_app_name: "reseptiapuri"
           heroku_email: ${{secrets.HEROKU_EMAIL}}
