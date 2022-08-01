@@ -2,8 +2,8 @@ const { Model, DataTypes } = require('sequelize')
 
 const { sequelize } = require('../util/db')
 
-class Recipe extends Model { }
-Recipe.init({
+class Ingredient extends Model { }
+Ingredient.init({
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -13,19 +13,10 @@ Recipe.init({
     type: DataTypes.TEXT,
     unique: true,
   },
-  servings: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    min: 0,
-  },
-  time: {
-    type: DataTypes.TEXT,
-    allowNull: true,
-  },
 }, {
   sequelize,
   underscored: true,
-  modelName: 'recipes',
+  modelName: 'ingredients',
 })
 
-module.exports = Recipe
+module.exports = Ingredient
