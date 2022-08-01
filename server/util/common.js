@@ -1,8 +1,9 @@
 const common = require('@root/config/common')
-
-const PORT = process.env.PORT || 8000
+require('dotenv').config()
 
 module.exports = {
   ...common,
-  PORT,
+  PORT: process.env.PORT || 3001,
+  SECRET: process.env.SECRET,
+  DATABASE_URL: process.env.DATABASE_URL,
 }
