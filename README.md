@@ -2,6 +2,8 @@
 
 https://reseptiapuri.herokuapp.com/
 
+[Työaikakirjanpito](tyoaikakirjanpito.md)
+
 Sovellus on tällä hetkellä kopioitu täysin suoraan esimerkkisovelluksesta https://github.com/fullstack-hy2020/create-app. Koodi vaati paljon päivityksiä riippuvuusongelmien takia, mutta mitään funktionaalista ei ole lisätty.
 
 ## Sovelluksen tila nyt

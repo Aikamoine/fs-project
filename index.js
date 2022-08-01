@@ -1,3 +1,5 @@
+// most of the content in this file is from https://github.com/fullstack-hy2020/create-app
+
 require('dotenv').config()
 require('module-alias/register')
 const chokidar = require('chokidar')
@@ -6,6 +8,7 @@ const path = require('path')
 require('express-async-errors')
 
 const { PORT, inProduction } = require('@util/common')
+const { connectToDatabase } = require('./server/util/db')
 
 const app = express()
 
@@ -58,6 +61,11 @@ if (!inProduction) {
   app.get('*', (req, res) => res.sendFile(INDEX_PATH))
 }
 
-app.listen(PORT, () => {
-  console.log(`Started on port ${PORT}`)
-})
+const start = async () => {
+  await connectToDatabase()
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`)
+  })
+}
+
+start()
