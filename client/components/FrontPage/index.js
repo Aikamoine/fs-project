@@ -4,7 +4,7 @@ const FrontPage = () => (
   <>
     Welcome
     <a href="/messages">Messages</a>
-    <a href="/recipes">Recipes</a>
+    <a href="/recipes">Reseptit</a>
   </>
 )
 

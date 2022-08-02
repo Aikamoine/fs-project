@@ -2,9 +2,9 @@ const { Model, DataTypes } = require('sequelize')
 
 const { sequelize } = require('../util/db')
 
-class RecipeIngredients extends Model {}
+class RecipeIngredient extends Model {}
 
-RecipeIngredients.init({
+RecipeIngredient.init({
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -20,6 +20,12 @@ RecipeIngredients.init({
     allowNull: false,
     references: { model: 'ingredients', key: 'id' },
   },
+  amount: {
+    type: DataTypes.DECIMAL(2),
+  },
+  unit: {
+    type: DataTypes.TEXT,
+  },
 }, {
   sequelize,
   underscored: true,
@@ -27,4 +33,4 @@ RecipeIngredients.init({
   modelName: 'recipe_ingredients',
 })
 
-module.exports = RecipeIngredients
+module.exports = RecipeIngredient
