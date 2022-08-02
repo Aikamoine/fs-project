@@ -13,10 +13,10 @@ const getRecipeDetails = async (req, res) => {
     where: { urlName: req.params.urlName },
     include: [{
       model: Ingredient,
+      order: [['id', 'ASC']],
     }],
   })
 
-  console.log('recipe controller details', JSON.stringify(details, null, 2))
   res.json(details)
 }
 

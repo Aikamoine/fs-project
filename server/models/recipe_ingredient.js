@@ -21,7 +21,7 @@ RecipeIngredient.init({
     references: { model: 'ingredients', key: 'id' },
   },
   amount: {
-    type: DataTypes.DECIMAL(2),
+    type: DataTypes.DECIMAL(10, 2),
   },
   unit: {
     type: DataTypes.TEXT,

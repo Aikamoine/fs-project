@@ -18,7 +18,6 @@ export const deleteRecipe = async (recipe) => {
 }
 
 export const getRecipeDetails = async (urlName) => {
-  console.log('getrecipedetails', urlName)
   const response = await axios.get(`${basePath}/${urlName}`)
 
   return response.data
