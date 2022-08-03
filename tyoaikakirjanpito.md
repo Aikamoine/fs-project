@@ -8,4 +8,5 @@
 | 1.8.  | 3    | Alkukantainen reseptinäkymä tietokannasta, linkki yksittäiseen reseptiin, tietokantaan lisää tauluja ja many-to-many suhteen lisäys |
 | 2.8.  | 5    | Koodin refaktorointia, tietokantakyselyiden tunkkaamista, yksittäisen reseptin näkymä |
 | 2.8.  | 1    | Yksittäisen reseptinäkymän refaktorointi yhden kansion alle, tietokannan tallennusmuotojen parantelua |
-| yht   | 16   | | 
+| 3.8.  | 1    | Reseptin työvaiheiden taulu ja näkymä käyttöliittymään |
+| yht   | 17   | | 

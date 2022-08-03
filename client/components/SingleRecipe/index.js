@@ -4,6 +4,7 @@ import { getRecipeDetails } from 'Utilities/services/recipes'
 
 import RecipeHeader from './RecipeHeader'
 import IngredientView from './IngredientView'
+import StepsView from './StepsView'
 
 const SingleRecipe = () => {
   const { urlName } = useParams()
@@ -24,10 +25,12 @@ const SingleRecipe = () => {
     )
   }
 
+  console.log('SingleRecipe, details', recipeDetails)
   return (
     <div>
       <RecipeHeader recipeDetails={recipeDetails} />
       <IngredientView ingredients={recipeDetails.ingredients} />
+      <StepsView steps={recipeDetails.recipe_steps} />
       <p>
         <Link to="/recipes">
           Takaisin reseptilistaan

@@ -1,6 +1,7 @@
 const {
   Recipe,
   Ingredient,
+  RecipeStep,
 } = require('../models')
 
 const getAll = async (req, res) => {
@@ -11,10 +12,18 @@ const getAll = async (req, res) => {
 const getRecipeDetails = async (req, res) => {
   const details = await Recipe.findOne({
     where: { urlName: req.params.urlName },
-    include: [{
-      model: Ingredient,
-      order: [['id', 'ASC']],
-    }],
+    include: [
+      {
+        model: Ingredient,
+      },
+      {
+        model: RecipeStep,
+      },
+    ],
+    order: [
+      [Ingredient, 'id', 'ASC'],
+      [RecipeStep, 'number', 'ASC'],
+    ],
   })
 
   res.json(details)
