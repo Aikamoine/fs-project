@@ -10,4 +10,5 @@
 | 2.8.  | 1    | Yksittäisen reseptinäkymän refaktorointi yhden kansion alle, tietokannan tallennusmuotojen parantelua |
 | 3.8.  | 1    | Reseptin työvaiheiden taulu ja näkymä käyttöliittymään |
 | 3.8.  | 3,5    | Käyttäjähallinta ja token-kirjautuminen |
-| yht   | 20,5   | | 
+| 3.8.  | 1,5    | Server-side session |
+| yht   | 22   | | 

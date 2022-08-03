@@ -1,8 +1,9 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const { Op } = require('sequelize')
 const { SECRET, saltRounds } = require('../util/common')
 
-const { User } = require('../models')
+const { User, Session } = require('../models')
 
 const getAll = async (req, res) => {
   const users = await User.findAll()
@@ -10,9 +11,7 @@ const getAll = async (req, res) => {
 }
 
 const postUser = async (req, res) => {
-  console.log('usercontroller reached')
   const { username, password } = req.body
-  console.log('usercontroller', username, password)
   const hashedPassword = await bcrypt.hash(password, saltRounds)
 
   const user = {
@@ -20,23 +19,26 @@ const postUser = async (req, res) => {
     password: hashedPassword,
   }
 
-  console.log('usercontroller user', user)
   const createdUser = await User.create(user)
-  console.log('created user', createdUser)
   return res.json({ username: createdUser.username, id: createdUser.id })
 }
 
 const login = async (req, res) => {
-  console.log('users controller, login')
+  const sessionLength = () => {
+    const today = new Date()
+    const validDays = 2
+    const validDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + validDays)
+
+    return validDate
+  }
+
   const { username, password } = req.body
-  console.log(username, password)
   const user = await User.findOne({
     where: {
       username,
       isActive: true,
     },
   })
-  console.log('fetcheduser', user)
 
   const passwordCorrect = user === null
     ? false
@@ -54,13 +56,35 @@ const login = async (req, res) => {
   }
 
   const token = jwt.sign(approvedUser, SECRET)
-  console.log('approved', approvedUser, token)
 
-  return res.status(200).send({ token, username })
+  await Session.create({
+    userId: user.id,
+    validUntil: sessionLength(),
+    token,
+  })
+
+  return res.status(200).send({ token, username, id: user.id })
+}
+
+const logout = async (req, res) => {
+  console.log('server logging out', req.body)
+  const { id, token } = req.body
+  await Session.destroy({
+    where: {
+      [Op.and]: [
+        {
+          userId: id,
+        },
+        { token },
+      ],
+    },
+  })
+  return res.status(200).end()
 }
 
 module.exports = {
   getAll,
   postUser,
   login,
+  logout,
 }

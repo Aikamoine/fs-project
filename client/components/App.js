@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import NavBar from 'Components/NavBar'
 import Footer from 'Components/Footer'
 import Router from 'Components/Router'
 
+// eslint-disable-next-line arrow-body-style
 export default () => {
+  /*
   const [token, setToken] = useState(null)
 
   useEffect(() => {
@@ -13,7 +15,7 @@ export default () => {
       setToken(user.token)
     }
   }, [])
-
+ */
   return (
     <>
       <NavBar />

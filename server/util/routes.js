@@ -9,6 +9,7 @@ router.get('/recipes', recipes.getAll)
 router.get('/recipes/:urlName', recipes.getRecipeDetails)
 router.post('/users', users.postUser)
 router.post('/login', users.login)
+router.post('/logout', users.logout)
 
 router.get('/messages', messages.getAll)
 router.post('/messages', messages.create)

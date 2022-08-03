@@ -7,6 +7,7 @@ import RecipeView from 'Components/RecipeView'
 import SingleRecipe from 'Components/SingleRecipe'
 import CreateUser from './User/CreateUser'
 import LoginForm from './User/LoginForm'
+import Logout from './User/Logout'
 
 export default () => (
   <div className="content">
@@ -17,6 +18,7 @@ export default () => (
       <Route path="/login" element={<LoginForm />} />
       <Route path="/recipes" element={<RecipeView />} />
       <Route path="/recipes/:urlName" element={<SingleRecipe />} />
+      <Route path="/logout" element={<Logout />} />
     </Routes>
   </div>
 )

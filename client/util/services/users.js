@@ -16,6 +16,11 @@ export const postUser = async (user) => {
 export const login = async (user) => {
   console.log('client util login', user)
   const response = await axios.post('api/login', user)
-  console.log('client util login', response)
+  return response.data
+}
+
+export const logout = async (user) => {
+  console.log('client util logout', user)
+  const response = await axios.post('api/logout', user)
   return response.data
 }
