@@ -3,6 +3,7 @@ const Ingredient = require('./ingredient')
 const RecipeIngredient = require('./recipe_ingredient')
 const Unit = require('./unit')
 const RecipeStep = require('./recipe_step')
+const User = require('./user')
 
 Recipe.belongsToMany(Ingredient, { through: RecipeIngredient })
 Ingredient.belongsToMany(Recipe, { through: RecipeIngredient })
@@ -16,4 +17,5 @@ module.exports = {
   RecipeIngredient,
   Unit,
   RecipeStep,
+  User,
 }

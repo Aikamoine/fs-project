@@ -1,6 +1,6 @@
 # Työaikakirjanpito
 
-| päivä | aika | mitä tein  |
+| päivä | tuntia| mitä tein  |
 | :----:|:-----| :-----|
 | 10.7. | 3   | Repositorion pystytys, esimerkkisovelluksen tunkkaus, testit, linter, ym. perusjutut  |
 | 10.7. | 2    | Heroku-sivuston pystytys, CI-pipeline käyttöön|
@@ -9,4 +9,5 @@
 | 2.8.  | 5    | Koodin refaktorointia, tietokantakyselyiden tunkkaamista, yksittäisen reseptin näkymä |
 | 2.8.  | 1    | Yksittäisen reseptinäkymän refaktorointi yhden kansion alle, tietokannan tallennusmuotojen parantelua |
 | 3.8.  | 1    | Reseptin työvaiheiden taulu ja näkymä käyttöliittymään |
-| yht   | 17   | | 
+| 3.8.  | 3,5    | Käyttäjähallinta ja token-kirjautuminen |
+| yht   | 20,5   | | 
