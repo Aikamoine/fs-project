@@ -55,7 +55,7 @@ const login = async (req, res) => {
     id: user.id,
   }
 
-  const token = jwt.sign(approvedUser, SECRET)
+  const token = jwt.sign(approvedUser, `${SECRET}`)
 
   await Session.create({
     userId: user.id,

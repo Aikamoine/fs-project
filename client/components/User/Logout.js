@@ -12,7 +12,7 @@ const Logout = () => {
     handleLogout()
     window.localStorage.removeItem('reseptiapuriUser')
     navigate('/', { replace: true })
-    window.location.reload()
+    // window.location.reload()
   }, [])
 
   return (

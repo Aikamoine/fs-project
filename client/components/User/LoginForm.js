@@ -14,7 +14,7 @@ const LoginForm = () => {
     console.log('LoginForm response', response)
     window.localStorage.setItem('reseptiapuriUser', JSON.stringify(response))
     navigate('/recipes', { replace: true })
-    window.location.reload()
+    // window.location.reload()
   }
 
   const usernameChange = ({ target }) => setUsername(target.value)
