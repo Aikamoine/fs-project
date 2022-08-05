@@ -18,7 +18,7 @@ const RecipeList = ({ recipes }) => {
         {recipes.map((recipe) => (
           <tr key={recipe.id}>
             <td>
-              <Link to={`/recipes/${recipe.name.replace(/-| /gi, '_').toLowerCase()}`}>
+              <Link to={`/recipes/${recipe.urlName}`}>
                 {recipe.name}
               </Link>
             </td>

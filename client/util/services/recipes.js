@@ -7,8 +7,12 @@ export const getRecipes = async () => {
   return response.data
 }
 
-export const postRecipe = async (recipe) => {
-  const response = await axios.post(basePath, { recipe })
+export const addRecipe = async (recipe, user) => {
+  console.log('client util recipes', recipe)
+  const config = {
+    headers: { authorization: `bearer ${user.token}` },
+  }
+  const response = await axios.post(basePath, recipe, config)
   return response.data
 }
 

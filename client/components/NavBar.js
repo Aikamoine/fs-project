@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { images } from 'Utilities/common'
+import { images, localStorageName } from 'Utilities/common'
 
 const UserActions = ({ user }) => {
   if (user) {
@@ -25,7 +25,7 @@ const UserActions = ({ user }) => {
 }
 
 const NavBar = () => {
-  const loggedUser = window.localStorage.getItem('reseptiapuriUser')
+  const loggedUser = window.localStorage.getItem(localStorageName)
 
   return (
     <div className="navbar">

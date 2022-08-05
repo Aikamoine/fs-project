@@ -11,4 +11,6 @@
 | 3.8.  | 1    | Reseptin työvaiheiden taulu ja näkymä käyttöliittymään |
 | 3.8.  | 3,5    | Käyttäjähallinta ja token-kirjautuminen |
 | 3.8.  | 1,5    | Server-side session |
-| yht   | 22   | | 
+| 4.8.  | 6    | Heroku-bugin selvitys ja korjaus, uuden reseptin lisääminen ja tämän sitominen käyttäjään, reseptien inputin tunkkaamista |
+| 5.8.  | 2    | Reseptien syöttäminen ja tarkistukset kelvolliseen kuntoon |
+| yht   | 30  | | 

@@ -7,6 +7,7 @@ const router = Router()
 
 router.get('/recipes', recipes.getAll)
 router.get('/recipes/:urlName', recipes.getRecipeDetails)
+router.post('/recipes', recipes.addRecipe)
 router.post('/users', users.postUser)
 router.post('/login', users.login)
 router.post('/logout', users.logout)

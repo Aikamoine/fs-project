@@ -5,17 +5,6 @@ import Router from 'Components/Router'
 
 // eslint-disable-next-line arrow-body-style
 export default () => {
-  /*
-  const [token, setToken] = useState(null)
-
-  useEffect(() => {
-    const loggedUser = window.localStorage.getItem('reseptiapuriUser')
-    if (loggedUser) {
-      const user = JSON.parse(loggedUser)
-      setToken(user.token)
-    }
-  }, [])
- */
   return (
     <>
       <NavBar />

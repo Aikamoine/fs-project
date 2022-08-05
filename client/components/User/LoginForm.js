@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import { localStorageName } from 'Utilities/common'
 import { login } from 'Utilities/services/users'
 
 const LoginForm = () => {
@@ -12,7 +13,7 @@ const LoginForm = () => {
     event.preventDefault()
     const response = await login({ username, password })
     console.log('LoginForm response', response)
-    window.localStorage.setItem('reseptiapuriUser', JSON.stringify(response))
+    window.localStorage.setItem(localStorageName, JSON.stringify(response))
     navigate('/recipes', { replace: true })
     // window.location.reload()
   }
@@ -21,13 +22,13 @@ const LoginForm = () => {
   const passwordChange = ({ target }) => setPassword(target.value)
 
   return (
-    <div>
+    <form onSubmit={handleSubmit}>
       <input id="username" value={username} onChange={usernameChange} />
       <input id="password" type="password" value={password} onChange={passwordChange} />
-      <button type="submit" color="purple" onClick={handleSubmit}>
+      <button type="submit" color="purple">
         Kirjaudu sisään
       </button>
-    </div>
+    </form>
   )
 }
 

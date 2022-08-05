@@ -15,6 +15,9 @@ RecipeStep.belongsTo(Recipe)
 User.hasMany(Session)
 Session.belongsTo(User)
 
+User.hasMany(Recipe)
+Recipe.belongsTo(User)
+
 module.exports = {
   Recipe,
   Ingredient,

@@ -1,7 +1,12 @@
+/* eslint-disable no-await-in-loop */
+const jwt = require('jsonwebtoken')
+
+const { SECRET } = require('../util/common')
 const {
   Recipe,
   Ingredient,
   RecipeStep,
+  RecipeIngredient,
 } = require('../models')
 
 const getAll = async (req, res) => {
@@ -29,7 +34,68 @@ const getRecipeDetails = async (req, res) => {
   res.json(details)
 }
 
+const extractToken = (authorization) => {
+  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+    return authorization.substring(7)
+  }
+  return null
+}
+
+const postIngredient = async (ingredient, recipeId) => {
+  const dbIngredient = await Ingredient.findOrCreate({
+    where: { name: ingredient.name },
+  })
+
+  await RecipeIngredient.create({
+    recipeId,
+    ingredientId: dbIngredient[0].id,
+    amount: ingredient.amount,
+    unit: ingredient.unit,
+  })
+}
+
+const postStep = async (step, number, recipeId) => {
+  await RecipeStep.create({
+    recipeId,
+    step,
+    number: number + 1,
+  })
+}
+
+const addRecipe = async (req, res) => {
+  const token = extractToken(req.get('authorization'))
+  const {
+    name, servings, time, urlName, ingredients, steps,
+  } = req.body
+
+  const decodedToken = jwt.verify(token, `${SECRET}`)
+  console.log(decodedToken)
+  console.log(name, servings, time, ingredients, steps)
+  if (!token || !decodedToken.id) {
+    return res.status(401).end()
+  }
+
+  const recipe = await Recipe.create({
+    name,
+    servings,
+    time,
+    urlName,
+    userId: decodedToken.id,
+  })
+
+  for (let index = 0; index < ingredients.length; index++) {
+    await postIngredient(ingredients[index], recipe.id)
+  }
+
+  for (let index = 0; index < steps.length; index++) {
+    await postStep(steps[index], index, recipe.id)
+  }
+
+  return res.status(200).end()
+}
+
 module.exports = {
   getAll,
   getRecipeDetails,
+  addRecipe,
 }
