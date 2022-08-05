@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { images, localStorageName } from 'Utilities/common'
+import { localStorageName } from 'Utilities/common'
 
 const UserActions = ({ user }) => {
   if (user) {
@@ -29,7 +29,6 @@ const NavBar = () => {
 
   return (
     <div className="navbar">
-      <img src={images.toskaLogo} alt="toska" />
       <Link to="/recipes">
         Reseptien selaus
       </Link>

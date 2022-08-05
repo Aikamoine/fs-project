@@ -1,11 +1,6 @@
 /**
  * Insert common items for frontend here
  */
-import toskaLogo from 'Assets/toskalogo_color.svg'
-
-export const images = {
-  toskaLogo,
-}
 
 export const localStorageName = 'reseptiapuriUser'
 

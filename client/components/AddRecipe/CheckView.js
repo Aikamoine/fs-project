@@ -24,7 +24,6 @@ const CheckView = ({
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    console.log('submitting')
 
     await addRecipe(
       {

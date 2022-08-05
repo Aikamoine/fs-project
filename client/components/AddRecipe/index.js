@@ -4,29 +4,26 @@ import CheckView from './CheckView'
 
 const splitOneIngredient = (ingredient) => {
   const split = ingredient.split(' ')
-  console.log('split', split)
 
   if (split.length === 1) {
-    return { name: split[0], amount: 1, unit: '' }
+    return { name: split[0], amount: null, unit: null }
   }
   if (split.length === 2) {
-    return { name: split[1], amount: split[0], unit: 'kpl' }
+    return { name: split[1], amount: 1, unit: split[0] }
   }
   const firstIndex = ingredient.indexOf(' ')
   const secondIndex = ingredient.indexOf(' ', firstIndex + 1)
 
   return ({
     name: ingredient.substring(secondIndex + 1),
-    amount: ingredient.substring(0, firstIndex),
+    amount: ingredient.substring(0, firstIndex).replace(',', '.'),
     unit: ingredient.substring(firstIndex + 1, secondIndex),
   })
 }
 
 const formatIngredients = (ingredients) => {
-  console.log('unformatted ingredients', ingredients)
   const split = ingredients.split('\n')
   const splitIngredients = split.map((i) => splitOneIngredient(i))
-  console.log('formatted ingredients', splitIngredients)
   return splitIngredients
 }
 

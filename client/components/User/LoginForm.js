@@ -12,7 +12,6 @@ const LoginForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault()
     const response = await login({ username, password })
-    console.log('LoginForm response', response)
     window.localStorage.setItem(localStorageName, JSON.stringify(response))
     navigate('/recipes', { replace: true })
     // window.location.reload()

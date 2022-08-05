@@ -25,7 +25,6 @@ const SingleRecipe = () => {
     )
   }
 
-  console.log('SingleRecipe, details', recipeDetails)
   return (
     <div>
       <RecipeHeader recipeDetails={recipeDetails} />

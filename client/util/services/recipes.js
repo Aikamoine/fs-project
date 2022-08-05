@@ -8,7 +8,6 @@ export const getRecipes = async () => {
 }
 
 export const addRecipe = async (recipe, user) => {
-  console.log('client util recipes', recipe)
   const config = {
     headers: { authorization: `bearer ${user.token}` },
   }

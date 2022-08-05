@@ -8,6 +8,7 @@ const {
   RecipeStep,
   RecipeIngredient,
 } = require('../models')
+const Session = require('../models/session')
 
 const getAll = async (req, res) => {
   const recipes = await Recipe.findAll()
@@ -41,6 +42,20 @@ const extractToken = (authorization) => {
   return null
 }
 
+const tokenIsValid = async (token, decodedToken) => {
+  if (!decodedToken || !decodedToken.id) {
+    return false
+  }
+
+  const session = await Session.findOne({
+    where: { token },
+  })
+  if (session.validUntil < new Date()) {
+    return false
+  }
+  return true
+}
+
 const postIngredient = async (ingredient, recipeId) => {
   const dbIngredient = await Ingredient.findOrCreate({
     where: { name: ingredient.name },
@@ -69,9 +84,7 @@ const addRecipe = async (req, res) => {
   } = req.body
 
   const decodedToken = jwt.verify(token, `${SECRET}`)
-  console.log(decodedToken)
-  console.log(name, servings, time, ingredients, steps)
-  if (!token || !decodedToken.id) {
+  if (!(await tokenIsValid(token, decodedToken))) {
     return res.status(401).end()
   }
 

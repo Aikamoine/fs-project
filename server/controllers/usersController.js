@@ -50,16 +50,18 @@ const login = async (req, res) => {
     })
   }
 
+  const validUntil = sessionLength()
   const approvedUser = {
     username,
     id: user.id,
+    validUntil,
   }
 
   const token = jwt.sign(approvedUser, `${SECRET}`)
 
   await Session.create({
     userId: user.id,
-    validUntil: sessionLength(),
+    validUntil,
     token,
   })
 
@@ -67,7 +69,6 @@ const login = async (req, res) => {
 }
 
 const logout = async (req, res) => {
-  console.log('server logging out', req.body)
   const { id, token } = req.body
   await Session.destroy({
     where: {

@@ -13,4 +13,5 @@
 | 3.8.  | 1,5    | Server-side session |
 | 4.8.  | 6    | Heroku-bugin selvitys ja korjaus, uuden reseptin lisääminen ja tämän sitominen käyttäjään, reseptien inputin tunkkaamista |
 | 5.8.  | 2    | Reseptien syöttäminen ja tarkistukset kelvolliseen kuntoon |
-| yht   | 30  | | 
+| 5.8.  | 2    | Parannuksia reseptien syöttöön ja tarkistuksiin, käyttäjän session tarkistaminen tietokannasta |
+| yht   | 32  | | 
