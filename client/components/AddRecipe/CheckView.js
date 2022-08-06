@@ -2,7 +2,6 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { addRecipe } from 'Utilities/services/recipes'
-import { localStorageName } from 'Utilities/common'
 
 const formatUrlName = (name) => {
   const spacesToUnderScore = name.replace(' ', '_').toLowerCase()
@@ -34,7 +33,6 @@ const CheckView = ({
         ingredients: splitIngredients,
         steps: splitSteps,
       },
-      JSON.parse(window.localStorage.getItem(localStorageName)),
     )
 
     navigate('/recipes', { replace: false })

@@ -2,6 +2,7 @@ const Router = require('express')
 const messages = require('@controllers/messagesController')
 const recipes = require('@controllers/recipesController')
 const users = require('@controllers/usersController')
+const shoppinglists = require('@controllers/shoppinglistsController')
 
 const router = Router()
 
@@ -11,7 +12,7 @@ router.post('/recipes', recipes.addRecipe)
 router.post('/users', users.postUser)
 router.post('/login', users.login)
 router.post('/logout', users.logout)
-
+router.get('/shoppinglist', shoppinglists.getList)
 router.get('/messages', messages.getAll)
 router.post('/messages', messages.create)
 router.delete('/messages/:id', messages.destroy)

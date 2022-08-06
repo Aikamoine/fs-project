@@ -1,5 +1,6 @@
 /* eslint-disable no-await-in-loop */
 const jwt = require('jsonwebtoken')
+const { sequelize } = require('../util/db')
 
 const { SECRET } = require('../util/common')
 const {
@@ -8,59 +9,47 @@ const {
   RecipeStep,
   RecipeIngredient,
 } = require('../models')
-const Session = require('../models/session')
+const { tokenIsValid, extractToken } = require('./util')
 
 const getAll = async (req, res) => {
-  const recipes = await Recipe.findAll()
+  console.log('GETTING RECIPES')
+  const recipes = await Recipe.findAll({
+    order: [
+      ['name', 'ASC'],
+    ],
+  })
+  console.log(JSON.stringify(recipes, null, 2))
   res.json(recipes)
 }
 
 const getRecipeDetails = async (req, res) => {
-  const details = await Recipe.findOne({
+  const recipe = await Recipe.findOne({
     where: { urlName: req.params.urlName },
+    attributes: ['id', 'name', 'servings', 'time'],
     include: [
-      {
-        model: Ingredient,
-      },
       {
         model: RecipeStep,
       },
     ],
     order: [
-      [Ingredient, 'id', 'ASC'],
       [RecipeStep, 'number', 'ASC'],
     ],
   })
 
+  console.log('recipeId', recipe.id)
+  // eslint-disable-next-line no-unused-vars
+  const [ingredients, metadata] = await sequelize.query(
+    `SELECT RI.id, RI.amount, RI.unit, I.name as name FROM recipe_ingredients RI LEFT JOIN ingredients I on RI.ingredient_id=I.id WHERE RI.recipe_id=${recipe.id} ORDER BY RI.id`,
+  )
+
+  const details = { recipe, ingredients }
   res.json(details)
 }
 
-const extractToken = (authorization) => {
-  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-    return authorization.substring(7)
-  }
-  return null
-}
-
-const tokenIsValid = async (token, decodedToken) => {
-  if (!decodedToken || !decodedToken.id) {
-    return false
-  }
-
-  const session = await Session.findOne({
-    where: { token },
-  })
-  if (session.validUntil < new Date()) {
-    return false
-  }
-  return true
-}
-
-const postIngredient = async (ingredient, recipeId) => {
+const postIngredient = async (ingredient, index, recipeId) => {
   const dbIngredient = await Ingredient.findOrCreate({
     where: { name: ingredient.name },
   })
-
   await RecipeIngredient.create({
     recipeId,
     ingredientId: dbIngredient[0].id,
@@ -79,14 +68,14 @@ const postStep = async (step, number, recipeId) => {
 
 const addRecipe = async (req, res) => {
   const token = extractToken(req.get('authorization'))
-  const {
-    name, servings, time, urlName, ingredients, steps,
-  } = req.body
-
   const decodedToken = jwt.verify(token, `${SECRET}`)
   if (!(await tokenIsValid(token, decodedToken))) {
     return res.status(401).end()
   }
+
+  const {
+    name, servings, time, urlName, ingredients, steps,
+  } = req.body
 
   const recipe = await Recipe.create({
     name,
@@ -97,7 +86,7 @@ const addRecipe = async (req, res) => {
   })
 
   for (let index = 0; index < ingredients.length; index++) {
-    await postIngredient(ingredients[index], recipe.id)
+    await postIngredient(ingredients[index], index, recipe.id)
   }
 
   for (let index = 0; index < steps.length; index++) {

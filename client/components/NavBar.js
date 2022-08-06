@@ -5,9 +5,14 @@ import { localStorageName } from 'Utilities/common'
 const UserActions = ({ user }) => {
   if (user) {
     return (
-      <Link to="/logout">
-        Kirjaudu ulos
-      </Link>
+      <>
+        <Link to="/shoppinglist">
+          Ostoslista
+        </Link>
+        <Link to="/logout">
+          Kirjaudu ulos
+        </Link>
+      </>
     )
   }
 

@@ -6,9 +6,9 @@ const IngredientView = ({ ingredients }) => (
     <div>
       {ingredients.map((ingredient) => (
         <div key={ingredient.id}>
-          {ingredient.recipe_ingredients.amount ? Number(ingredient.recipe_ingredients.amount) : ''}
+          {ingredient.amount ? Number(ingredient.amount) : ''}
           {' '}
-          {ingredient.recipe_ingredients.unit}
+          {ingredient.unit}
           {' '}
           {ingredient.name}
         </div>

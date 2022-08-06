@@ -9,6 +9,7 @@ import CreateUser from './User/CreateUser'
 import LoginForm from './User/LoginForm'
 import Logout from './User/Logout'
 import AddRecipe from './AddRecipe/index'
+import Shoppinglist from './Shoppinglist/index'
 
 export default () => (
   <div className="content">
@@ -16,6 +17,7 @@ export default () => (
       <Route exact path="/" element={<FrontPage />} />
       <Route path="/messages" element={<MessageView />} />
       <Route path="/users" element={<CreateUser />} />
+      <Route path="/shoppinglist" element={<Shoppinglist />} />
       <Route path="/login" element={<LoginForm />} />
       <Route path="/recipes" element={<RecipeView />} />
       <Route path="/recipes/:urlName" element={<SingleRecipe />} />

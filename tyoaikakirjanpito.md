@@ -14,4 +14,6 @@
 | 4.8.  | 6    | Heroku-bugin selvitys ja korjaus, uuden reseptin lisääminen ja tämän sitominen käyttäjään, reseptien inputin tunkkaamista |
 | 5.8.  | 2    | Reseptien syöttäminen ja tarkistukset kelvolliseen kuntoon |
 | 5.8.  | 2    | Parannuksia reseptien syöttöön ja tarkistuksiin, käyttäjän session tarkistaminen tietokannasta |
-| yht   | 32  | | 
+| 6.8.  | 2    | QoL-parannuksia ja bugikorjauksia tietokantaan/poimintoihin |
+| 6.8.  | 2    | Ostoslistan perusominaisuudet kantaan ja clientiin mahdollisuus katsella käyttäjän omaa listaa |
+| yht   | 36  | | 

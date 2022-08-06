@@ -6,13 +6,13 @@ import RecipeList from 'Components/RecipeView/RecipeList'
 const RecipeView = () => {
   const [recipes, setRecipes] = useState([])
 
-  const handleGetMessages = async () => {
+  const handleGetRecipes = async () => {
     const newRecipes = await getRecipes()
     setRecipes(newRecipes)
   }
 
   useEffect(() => {
-    handleGetMessages()
+    handleGetRecipes()
   }, [])
 
   /*

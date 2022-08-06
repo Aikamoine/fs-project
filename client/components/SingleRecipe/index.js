@@ -27,9 +27,9 @@ const SingleRecipe = () => {
 
   return (
     <div>
-      <RecipeHeader recipeDetails={recipeDetails} />
+      <RecipeHeader name={recipeDetails.recipe.name} servings={recipeDetails.recipe.servings} time={recipeDetails.recipe.time} />
       <IngredientView ingredients={recipeDetails.ingredients} />
-      <StepsView steps={recipeDetails.recipe_steps} />
+      <StepsView steps={recipeDetails.recipe.recipe_steps} />
       <p>
         <Link to="/recipes">
           Takaisin reseptilistaan
