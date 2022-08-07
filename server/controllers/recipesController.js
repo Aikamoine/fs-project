@@ -12,13 +12,11 @@ const {
 const { tokenIsValid, extractToken } = require('./util')
 
 const getAll = async (req, res) => {
-  console.log('GETTING RECIPES')
   const recipes = await Recipe.findAll({
     order: [
       ['name', 'ASC'],
     ],
   })
-  console.log(JSON.stringify(recipes, null, 2))
   res.json(recipes)
 }
 
@@ -36,10 +34,9 @@ const getRecipeDetails = async (req, res) => {
     ],
   })
 
-  console.log('recipeId', recipe.id)
   // eslint-disable-next-line no-unused-vars
   const [ingredients, metadata] = await sequelize.query(
-    `SELECT RI.id, RI.amount, RI.unit, I.name as name FROM recipe_ingredients RI LEFT JOIN ingredients I on RI.ingredient_id=I.id WHERE RI.recipe_id=${recipe.id} ORDER BY RI.id`,
+    `SELECT RI.id, RI.amount, RI.unit, I.name as name, I.id as ing_id FROM recipe_ingredients RI LEFT JOIN ingredients I on RI.ingredient_id=I.id WHERE RI.recipe_id=${recipe.id} ORDER BY RI.id`,
   )
 
   const details = { recipe, ingredients }

@@ -10,23 +10,23 @@ Shoppinglist.init({
     primaryKey: true,
     autoIncrement: true,
   },
-  user_id: {
+  userId: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: { model: 'users', key: 'id' },
   },
-  ingredient_id: {
+  ingredientId: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: { model: 'ingredients', key: 'id' },
   },
   amount: {
     type: DataTypes.DECIMAL(10, 2),
-    allowNull: false,
+    allowNull: true,
   },
   unit: {
     type: DataTypes.TEXT,
-    allowNull: false,
+    allowNull: true,
   },
 }, {
   sequelize,

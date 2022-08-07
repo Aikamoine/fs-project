@@ -17,7 +17,7 @@ export const addToList = async (recipe) => {
   const config = {
     headers: { authorization: `bearer ${user.token}` },
   }
-  const response = await axios.post(basePath, recipe, config)
+  const response = await axios.post(`${basePath}/${recipe.id}`, recipe, config)
   return response.data
 }
 
@@ -30,8 +30,12 @@ export const removeFromList = async (products) => {
   return response.data
 }
 
-export const getRecipeDetails = async (urlName) => {
-  const response = await axios.get(`${basePath}/${urlName}`)
+export const deleteList = async () => {
+  const user = JSON.parse(window.localStorage.getItem(localStorageName))
+  const config = {
+    headers: { authorization: `bearer ${user.token}` },
+  }
+  const response = await axios.delete(basePath, config)
 
   return response.data
 }

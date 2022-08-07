@@ -16,4 +16,5 @@
 | 5.8.  | 2    | Parannuksia reseptien syöttöön ja tarkistuksiin, käyttäjän session tarkistaminen tietokannasta |
 | 6.8.  | 2    | QoL-parannuksia ja bugikorjauksia tietokantaan/poimintoihin |
 | 6.8.  | 2    | Ostoslistan perusominaisuudet kantaan ja clientiin mahdollisuus katsella käyttäjän omaa listaa |
-| yht   | 36  | | 
+| 7.8.  | 3    | Ostoslistalle lisäys, lisättävien tilavuusyksiköiden yhteenlasku ja yksikkömuunnos, ostoslistan poisto |
+| yht   | 39  | | 

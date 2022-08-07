@@ -11,6 +11,7 @@ import Logout from './User/Logout'
 import AddRecipe from './AddRecipe/index'
 import Shoppinglist from './Shoppinglist/index'
 
+// <Route path="/addtoshoppinglist/:id" element={<RecipeView />} />
 export default () => (
   <div className="content">
     <Routes>
