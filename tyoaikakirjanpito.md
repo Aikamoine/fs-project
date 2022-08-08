@@ -17,4 +17,5 @@
 | 6.8.  | 2    | QoL-parannuksia ja bugikorjauksia tietokantaan/poimintoihin |
 | 6.8.  | 2    | Ostoslistan perusominaisuudet kantaan ja clientiin mahdollisuus katsella käyttäjän omaa listaa |
 | 7.8.  | 3    | Ostoslistalle lisäys, lisättävien tilavuusyksiköiden yhteenlasku ja yksikkömuunnos, ostoslistan poisto |
-| yht   | 39  | | 
+| 8.8.  | 4    | Ostoslistalta valittujen tuotteiden poisto, middleware, virhekäsittely, koodin refaktorointi |
+| yht   | 43  | | 

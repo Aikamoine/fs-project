@@ -3,38 +3,42 @@ import { localStorageName } from 'Utilities/common'
 
 const basePath = '/api/shoppinglist'
 
-export const getShoppinglist = async () => {
+const setConfig = () => {
   const user = JSON.parse(window.localStorage.getItem(localStorageName))
-  const config = {
+
+  if (!user) {
+    return { headers: null }
+  }
+
+  return {
     headers: { authorization: `bearer ${user.token}` },
   }
-  const response = await axios.get(basePath, config)
-  return response.data
+}
+
+export const getShoppinglist = async () => {
+  try {
+    const config = setConfig()
+    const response = await axios.get(basePath, config)
+    return response.data
+  } catch (error) {
+    return new Error(error.response.data.error)
+  }
 }
 
 export const addToList = async (recipe) => {
-  const user = JSON.parse(window.localStorage.getItem(localStorageName))
-  const config = {
-    headers: { authorization: `bearer ${user.token}` },
-  }
-  const response = await axios.post(`${basePath}/${recipe.id}`, recipe, config)
+  const config = setConfig()
+  const response = await axios.post(basePath, recipe, config)
   return response.data
 }
 
 export const removeFromList = async (products) => {
-  const user = JSON.parse(window.localStorage.getItem(localStorageName))
-  const config = {
-    headers: { authorization: `bearer ${user.token}` },
-  }
-  const response = await axios.delete(basePath, products, config)
+  const config = setConfig()
+  const response = await axios.post('/api/deletefromshoppinglist', products, config)
   return response.data
 }
 
 export const deleteList = async () => {
-  const user = JSON.parse(window.localStorage.getItem(localStorageName))
-  const config = {
-    headers: { authorization: `bearer ${user.token}` },
-  }
+  const config = setConfig()
   const response = await axios.delete(basePath, config)
 
   return response.data

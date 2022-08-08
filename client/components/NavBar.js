@@ -6,9 +6,14 @@ const UserActions = ({ user }) => {
   if (user) {
     return (
       <>
+        <Link to="/addrecipe">
+          Reseptin lisäys
+        </Link>
+        {' '}
         <Link to="/shoppinglist">
           Ostoslista
         </Link>
+        {' '}
         <Link to="/logout">
           Kirjaudu ulos
         </Link>
@@ -37,11 +42,7 @@ const NavBar = () => {
       <Link to="/recipes">
         Reseptien selaus
       </Link>
-      {'  '}
-      <Link to="/addrecipe">
-        Reseptin lisäys
-      </Link>
-      {'  '}
+      {' '}
       <UserActions user={loggedUser} />
     </div>
   )

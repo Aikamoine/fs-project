@@ -1,15 +1,12 @@
 /* eslint-disable no-await-in-loop */
-const jwt = require('jsonwebtoken')
 const { sequelize } = require('../util/db')
 
-const { SECRET } = require('../util/common')
 const {
   Recipe,
   Ingredient,
   RecipeStep,
   RecipeIngredient,
 } = require('../models')
-const { tokenIsValid, extractToken } = require('./util')
 
 const getAll = async (req, res) => {
   const recipes = await Recipe.findAll({
@@ -64,12 +61,6 @@ const postStep = async (step, number, recipeId) => {
 }
 
 const addRecipe = async (req, res) => {
-  const token = extractToken(req.get('authorization'))
-  const decodedToken = jwt.verify(token, `${SECRET}`)
-  if (!(await tokenIsValid(token, decodedToken))) {
-    return res.status(401).end()
-  }
-
   const {
     name, servings, time, urlName, ingredients, steps,
   } = req.body
@@ -79,7 +70,7 @@ const addRecipe = async (req, res) => {
     servings,
     time,
     urlName,
-    userId: decodedToken.id,
+    userId: req.decodedToken.id,
   })
 
   for (let index = 0; index < ingredients.length; index++) {

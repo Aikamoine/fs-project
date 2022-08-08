@@ -13,7 +13,7 @@ const Logout = () => {
     handleLogout()
     window.localStorage.removeItem(localStorageName)
     navigate('/', { replace: true })
-    // window.location.reload()
+    window.location.reload()
   }, [])
 
   return (

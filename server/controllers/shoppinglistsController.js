@@ -1,43 +1,46 @@
 /* eslint-disable no-await-in-loop */
-const jwt = require('jsonwebtoken')
-const { extractToken, tokenIsValid } = require('./util')
+const { Op } = require('sequelize')
 
-const { SECRET } = require('../util/common')
 const {
   Ingredient,
   Shoppinglist,
 } = require('../models')
 
 const getList = async (req, res) => {
-  const token = extractToken(req.get('authorization'))
-  const decodedToken = jwt.verify(token, `${SECRET}`)
-  if (!(await tokenIsValid(token, decodedToken))) {
-    return res.status(401).end()
-  }
-
   const list = await Shoppinglist.findAll({
-    attributes: ['amount', 'unit'],
+    attributes: ['id', 'amount', 'unit'],
     include: [
       {
         model: Ingredient,
         attributes: ['name'],
       },
     ],
-    where: { userId: decodedToken.id },
+    where: { userId: req.decodedToken.id },
   })
 
   return res.json(list)
 }
 
 const deleteList = async (req, res) => {
-  const token = extractToken(req.get('authorization'))
-  const decodedToken = jwt.verify(token, `${SECRET}`)
-  if (!(await tokenIsValid(token, decodedToken))) {
-    return res.status(401).end()
-  }
+  await Shoppinglist.destroy({
+    where: { userId: req.decodedToken.id },
+  })
+
+  return res.status(200).end()
+}
+
+const deleteSelected = async (req, res) => {
+  const toDestroy = req.body
 
   await Shoppinglist.destroy({
-    where: { userId: decodedToken.id },
+    where: {
+      [Op.and]: [
+        {
+          userId: req.decodedToken.id,
+        },
+        { id: toDestroy },
+      ],
+    },
   })
 
   return res.status(200).end()
@@ -82,15 +85,10 @@ const addItemToList = async (item, userId) => {
 }
 
 const addToList = async (req, res) => {
-  const token = extractToken(req.get('authorization'))
-  const decodedToken = jwt.verify(token, `${SECRET}`)
-  if (!(await tokenIsValid(token, decodedToken))) {
-    return res.status(401).end()
-  }
   const { ingredients } = req.body
 
   for (let index = 0; index < ingredients.length; index++) {
-    await addItemToList(ingredients[index], decodedToken.id)
+    await addItemToList(ingredients[index], req.decodedToken.id)
   }
   return res.status(200).end()
 }
@@ -99,4 +97,5 @@ module.exports = {
   getList,
   addToList,
   deleteList,
+  deleteSelected,
 }
