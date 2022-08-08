@@ -2,14 +2,19 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { localStorageName } from 'Utilities/common'
 
+const AdminActions = () => (
+  <>
+    <Link to="/addrecipe">
+      Reseptin lisäys
+    </Link>
+    {' '}
+  </>
+)
+
 const UserActions = ({ user }) => {
   if (user) {
     return (
       <>
-        <Link to="/addrecipe">
-          Reseptin lisäys
-        </Link>
-        {' '}
         <Link to="/shoppinglist">
           Ostoslista
         </Link>
@@ -35,8 +40,7 @@ const UserActions = ({ user }) => {
 }
 
 const NavBar = () => {
-  const loggedUser = window.localStorage.getItem(localStorageName)
-
+  const loggedUser = JSON.parse(window.localStorage.getItem(localStorageName))
   return (
     <div className="navbar">
       <Link to="/recipes">
@@ -44,6 +48,8 @@ const NavBar = () => {
       </Link>
       {' '}
       <UserActions user={loggedUser} />
+      {' '}
+      {loggedUser && loggedUser.isAdmin ? <AdminActions /> : null}
     </div>
   )
 }

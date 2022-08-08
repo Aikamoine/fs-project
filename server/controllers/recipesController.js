@@ -61,6 +61,12 @@ const postStep = async (step, number, recipeId) => {
 }
 
 const addRecipe = async (req, res) => {
+  if (!req.decodedToken.isAdmin) {
+    return res.status(401).json({
+      error: 'Käyttöoikeutesi ei riitä reseptien lisäämiseen',
+    })
+  }
+
   const {
     name, servings, time, urlName, ingredients, steps,
   } = req.body
