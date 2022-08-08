@@ -6,16 +6,16 @@ const splitOneIngredient = (ingredient) => {
   const split = ingredient.split(' ')
 
   if (split.length === 1) {
-    return { name: split[0], amount: null, unit: null }
+    return { name: split[0].replace('_', ' '), amount: null, unit: null }
   }
   if (split.length === 2) {
-    return { name: split[1], amount: 1, unit: split[0] }
+    return { name: split[1].replace('_', ' '), amount: 1, unit: split[0] }
   }
   const firstIndex = ingredient.indexOf(' ')
   const secondIndex = ingredient.indexOf(' ', firstIndex + 1)
 
   return ({
-    name: ingredient.substring(secondIndex + 1),
+    name: ingredient.substring(secondIndex + 1).replace('_', ' '),
     amount: ingredient.substring(0, firstIndex).replace(',', '.'),
     unit: ingredient.substring(firstIndex + 1, secondIndex),
   })

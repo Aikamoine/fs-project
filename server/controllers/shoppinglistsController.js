@@ -51,7 +51,7 @@ const deConstructVolumes = (amount, unit) => {
   let checkedAmount = amount
   let checkedUnit = unit
 
-  if (/mm|tl|rkl|dl/.test(unit)) {
+  if (/^mm$|^tl$|^rkl$|^dl$/.test(unit)) {
     checkedUnit = 'ml'
 
     if (unit === 'tl') {
