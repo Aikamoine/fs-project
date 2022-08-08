@@ -15,18 +15,6 @@ const RecipeView = () => {
     handleGetRecipes()
   }, [])
 
-  /*
-  const handlePostMessage = async (newMessage) => {
-    await postMessage(newMessage)
-    handleGetMessages()
-  }
-
-  const handleDeleteMessage = async (message) => {
-    await deleteMessage(message)
-    handleGetMessages()
-  }
-*/
-
   return (
     <>
       <h1>Reseptit</h1>

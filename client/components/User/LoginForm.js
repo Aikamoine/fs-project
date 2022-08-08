@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Form, Button } from 'react-bootstrap'
 
 import { localStorageName } from 'Utilities/common'
 import { login } from 'Utilities/services/users'
@@ -21,13 +22,20 @@ const LoginForm = () => {
   const passwordChange = ({ target }) => setPassword(target.value)
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input id="username" value={username} onChange={usernameChange} />
-      <input id="password" type="password" value={password} onChange={passwordChange} />
-      <button type="submit" color="purple">
+    <Form onSubmit={handleSubmit}>
+      <Form.Group controlId="username">
+        <Form.Label>Käyttäjänimi</Form.Label>
+        <Form.Control type="username" value={username} onChange={usernameChange} />
+      </Form.Group>
+      <p />
+      <Form.Group controlId="password">
+        <Form.Label>Salasana</Form.Label>
+        <Form.Control type="password" value={password} onChange={passwordChange} />
+      </Form.Group>
+      <Button type="submit" color="purple">
         Kirjaudu sisään
-      </button>
-    </form>
+      </Button>
+    </Form>
   )
 }
 

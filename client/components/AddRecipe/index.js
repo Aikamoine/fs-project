@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Form, Button } from 'react-bootstrap'
 
 import CheckView from './CheckView'
 
@@ -48,35 +49,34 @@ const AddRecipe = () => {
 
   return (
     <div>
-      <form onSubmit={handleCheck}>
-        <div>
-          Reseptin nimi: <input id="name" value={name} onChange={nameChange} />
-        </div>
-        <div>
-          Annoksia: <input id="servings" type="number" value={servings} onChange={servingsChange} />
-        </div>
-        <div>
-          Työaika: <input id="time" value={time} onChange={timeChange} />
-        </div>
+      <Form onSubmit={handleCheck}>
+        <Form.Group controlId="recipe-name">
+          <Form.Label>Reseptin nimi:</Form.Label>
+          <Form.Control value={name} onChange={nameChange} />
+        </Form.Group>
+        <Form.Group controlId="servings">
+          <Form.Label>Annoksia:</Form.Label>
+          <Form.Control type="number" value={servings} onChange={servingsChange} />
+        </Form.Group>
+        <Form.Group controlId="time">
+          <Form.Label>Työaika: </Form.Label>
+          <Form.Control value={time} onChange={timeChange} />
+        </Form.Group>
         <br />
-        <div>
-          <div>Ainesosat</div>
-          <div>
-            <textarea id="ingredients" onChange={ingredientsChange} rows="8" cols="50" maxLength="10000" />
-          </div>
-        </div>
+        <Form.Group controlId="ingredients">
+          <Form.Label>Ainesosat</Form.Label>
+          <Form.Control as="textarea" onChange={ingredientsChange} rows={8} cols={50} maxLength={10000} />
+        </Form.Group>
         <br />
-        <div>
-          <div>Työvaiheet</div>
-          <div>
-            <textarea id="steps" onChange={stepsChange} rows="8" cols="100" maxLength="10000" />
-          </div>
-        </div>
+        <Form.Group controlId="steps">
+          <Form.Label>Työvaiheet</Form.Label>
+          <Form.Control as="textarea" onChange={stepsChange} rows={8} cols={100} maxLength={10000} />
+        </Form.Group>
         <br />
-        <button type="submit" color="purple">
+        <Button type="submit" color="purple">
           Tarkista
-        </button>
-      </form>
+        </Button>
+      </Form>
       <br />
       {postCheck ? <CheckView recipeInfo={{ name, time, servings }} ingredients={ingredients} steps={steps} formatIngredients={formatIngredients} /> : <div /> }
     </div>

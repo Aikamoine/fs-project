@@ -1,12 +1,12 @@
 import React from 'react'
-
 import { Link } from 'react-router-dom'
+import Table from 'react-bootstrap/Table'
 
 const RecipeList = ({ recipes }) => {
   if (!recipes) return null
 
   return (
-    <table>
+    <Table striped bordered hover>
       <thead>
         <tr>
           <th>Resepti</th>
@@ -27,7 +27,7 @@ const RecipeList = ({ recipes }) => {
           </tr>
         ))}
       </tbody>
-    </table>
+    </Table>
   )
 }
 

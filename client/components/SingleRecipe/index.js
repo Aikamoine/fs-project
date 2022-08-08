@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
+import Button from 'react-bootstrap/Button'
 import { getRecipeDetails } from 'Utilities/services/recipes'
 import { addToList } from 'Utilities/services/shoppinglists'
 
@@ -43,9 +44,9 @@ const SingleRecipe = () => {
       <IngredientView ingredients={recipeDetails.ingredients} />
       <StepsView steps={recipeDetails.recipe.recipe_steps} />
       <p>
-        <button type="submit" onClick={addToShoppinglist}>
+        <Button type="submit" onClick={addToShoppinglist}>
           Lisää ostoslistalle
-        </button>
+        </Button>
       </p>
       <p>
         <Link to="/recipes">

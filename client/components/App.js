@@ -6,10 +6,10 @@ import Router from 'Components/Router'
 // eslint-disable-next-line arrow-body-style
 export default () => {
   return (
-    <>
+    <div className="container">
       <NavBar />
       <Router />
       <Footer />
-    </>
+    </div>
   )
 }
