@@ -25,7 +25,7 @@ const LoginForm = () => {
     <Form onSubmit={handleSubmit}>
       <Form.Group controlId="username">
         <Form.Label>Käyttäjänimi</Form.Label>
-        <Form.Control type="username" value={username} onChange={usernameChange} />
+        <Form.Control id="username" type="username" value={username} onChange={usernameChange} />
       </Form.Group>
       <p />
       <Form.Group controlId="password">

@@ -41,7 +41,9 @@ const SingleRecipe = () => {
   return (
     <div>
       <RecipeHeader name={recipeDetails.recipe.name} servings={recipeDetails.recipe.servings} time={recipeDetails.recipe.time} />
+      <br />
       <IngredientView ingredients={recipeDetails.ingredients} />
+      <br />
       <StepsView steps={recipeDetails.recipe.recipe_steps} />
       <p>
         <Button type="submit" onClick={addToShoppinglist}>

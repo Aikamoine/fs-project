@@ -1,5 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import Table from 'react-bootstrap/Table'
 
 import { addRecipe } from 'Utilities/services/recipes'
 
@@ -24,6 +26,7 @@ const CheckView = ({
   const handleSubmit = async (event) => {
     event.preventDefault()
 
+    toast('Reseptiä lisätään\nSinut ohjataan seuraavalle sivulle, kun lisäys on valmis')
     await addRecipe(
       {
         name,
@@ -44,7 +47,7 @@ const CheckView = ({
         Reseptin yksilöivä nettiosoite: {urlName}
       </div>
 
-      <table>
+      <Table striped bordered>
         <thead>
           <tr>
             <th>Määrä</th>
@@ -61,7 +64,7 @@ const CheckView = ({
             </tr>
           ))}
         </tbody>
-      </table>
+      </Table>
       <br />
       {splitSteps.map((step, i) => (
         <div key={step}>{`${i + 1}. ${step}`}</div>

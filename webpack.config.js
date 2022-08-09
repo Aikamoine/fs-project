@@ -36,6 +36,10 @@ module.exports = (env, argv) => {
             loader: 'babel-loader',
           },
         },
+        {
+          test: /\.css$/,
+          use: ['style-loader', 'css-loader'],
+        },
         { // Load SCSS & SASS files
           test: /\.s[ac]ss$/i,
           use: [

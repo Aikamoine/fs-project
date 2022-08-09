@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useEffect } from 'react'
 import { useChecklist } from 'react-checklist'
+import Button from 'react-bootstrap/Button'
 import { getShoppinglist, deleteList, removeFromList } from 'Utilities/services/shoppinglists'
 import ErrorView from 'Components/ErrorView'
 
@@ -58,18 +59,19 @@ const Shoppinglist = () => {
             onChange={handleCheck}
             checked={checkedItems.has(item.id)}
           />
-          <label> {Number(item.amount) > 0 ? Number(item.amount) : ''} {item.unit} {item.ingredient.name}</label>
+          <label>{Number(item.amount) > 0 ? Number(item.amount) : ''} {item.unit} {item.ingredient.name}</label>
         </div>
       ))}
+      <br />
       <p>
-        <button type="submit" onClick={deleteSelected}>
+        <Button type="submit" onClick={deleteSelected}>
           Poista valinnat ostoslistalta
-        </button>
+        </Button>
       </p>
       <p>
-        <button type="submit" onClick={deleteShoppingList}>
+        <Button type="submit" onClick={deleteShoppingList}>
           Tyhjennä ostoslista
-        </button>
+        </Button>
       </p>
     </div>
   )
