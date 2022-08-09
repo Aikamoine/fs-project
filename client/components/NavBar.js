@@ -57,7 +57,7 @@ const NavBar = () => {
           <Nav className="me-auto">
             <Nav.Link href="#" as="span">
               <Link to="/recipes">
-                Reseptien selaus
+                Reseptit
               </Link>
             </Nav.Link>
             <UserActions user={loggedUser} />

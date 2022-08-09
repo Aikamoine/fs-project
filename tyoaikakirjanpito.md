@@ -17,8 +17,9 @@
 | 6.8.  | 2    | QoL-parannuksia ja bugikorjauksia tietokantaan/poimintoihin |
 | 6.8.  | 2    | Ostoslistan perusominaisuudet kantaan ja clientiin mahdollisuus katsella käyttäjän omaa listaa |
 | 7.8.  | 3    | Ostoslistalle lisäys, lisättävien tilavuusyksiköiden yhteenlasku ja yksikkömuunnos, ostoslistan poisto |
+|       | 39   | Heinäkuu + vko 31 yhteensä |
 | 8.8.  | 4    | Ostoslistalta valittujen tuotteiden poisto, middleware, virhekäsittely, koodin refaktorointi |
 | 8.8.  | 2    | React Bootstrap käyttöön ja monia visuaalisia parannuksia |
 | 9.8.  | 2    | Notifikaatioiden pähkäily ja käyttöönotto, visuaalisia parannuksia |
-| 9.8.  | 1    | Yksittäisen reseptin näkymän parannukset. README-selkeytys |
-| yht   | 48  | | 
+| 9.8.  | 2    | Yksittäisen reseptin näkymän parannukset, README-selkeytys, repositorion siistimistä |
+| yht   | 49  | | 

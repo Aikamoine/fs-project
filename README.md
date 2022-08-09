@@ -13,11 +13,10 @@ Kirjautunut käyttäjä voi lisätä reseptin ainesosat omalle ostoslistalleen, 
 Pääkäyttäjä voi lisätä reseptejä käyttöliittymän kautta.
 
 ### Backlog
-- virheilmoitus, kun kirjautumaton käyttäjä yrittää lisätä jotain ostoslistalleen
-- ostoslistalle lisäyksen nappi pois kirjautumattoman käyttäjän näkymästä
 - pääkäyttäjälle näkymä, jossa voi editoida ainesosien tietoja käyttöliittymän kautta
 - tutkitaan miten Finelin API:n kautta saataisiin tuotua ravintoainetietoa
  - listataan reseptin ravintosisältö reseptin yhteydessä
+- ostoslistalle tieto siitä, montako annosta sille on lisätty
 
 ## Harjoitustyön tavoite
 

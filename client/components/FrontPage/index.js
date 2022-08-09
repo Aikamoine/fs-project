@@ -2,9 +2,8 @@ import React from 'react'
 
 const FrontPage = () => (
   <>
-    Welcome
-    <a href="/messages">Messages</a>
-    <a href="/recipes">Reseptit</a>
+    Tervetuloa! Tämä on turhan oloinen etusivu.
+    <a href="/recipes">Tästä selaamaan reseptejä</a>
   </>
 )
 

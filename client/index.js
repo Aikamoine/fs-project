@@ -4,13 +4,10 @@ import { BrowserRouter } from 'react-router-dom'
 
 import 'Assets/custom.scss'
 import App from 'Components/App'
-import ErrorBoundary from 'Components/ErrorBoundary'
 
 const refresh = () => render(
   <BrowserRouter>
-    <ErrorBoundary>
-      <App />
-    </ErrorBoundary>
+    <App />
   </BrowserRouter>,
   document.getElementById('root'),
 )

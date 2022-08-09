@@ -23,12 +23,12 @@ const LoginForm = () => {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <Form.Group controlId="username">
+      <Form.Group>
         <Form.Label>Käyttäjänimi</Form.Label>
         <Form.Control id="username" type="username" value={username} onChange={usernameChange} />
       </Form.Group>
       <p />
-      <Form.Group controlId="password">
+      <Form.Group>
         <Form.Label>Salasana</Form.Label>
         <Form.Control type="password" value={password} onChange={passwordChange} />
       </Form.Group>

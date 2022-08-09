@@ -2,7 +2,6 @@ import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 
 import FrontPage from 'Components/FrontPage'
-import MessageView from 'Components/MessageView'
 import RecipeView from 'Components/RecipeView'
 import SingleRecipe from 'Components/SingleRecipe'
 import CreateUser from './User/CreateUser'
@@ -16,7 +15,6 @@ export default () => (
   <div className="content">
     <Routes>
       <Route exact path="/" element={<FrontPage />} />
-      <Route path="/messages" element={<MessageView />} />
       <Route path="/users" element={<CreateUser />} />
       <Route path="/shoppinglist" element={<Shoppinglist />} />
       <Route path="/login" element={<LoginForm />} />

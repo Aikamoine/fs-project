@@ -7,7 +7,6 @@ const {
 } = require('../models')
 
 const getList = async (req, res) => {
-  console.log('token', req.decodedToken)
   const list = await Shoppinglist.findAll({
     attributes: ['id', 'amount', 'unit'],
     include: [

@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button'
 import { toast } from 'react-toastify'
 import { getRecipeDetails } from 'Utilities/services/recipes'
 import { addToList } from 'Utilities/services/shoppinglists'
+import { localStorageName } from 'Utilities/common'
 
 import RecipeHeader from './RecipeHeader'
 import IngredientView from './IngredientView'
@@ -40,6 +41,7 @@ const SingleRecipe = () => {
     })
   }
 
+  const loggedUser = JSON.parse(window.localStorage.getItem(localStorageName))
   return (
     <div>
       <RecipeHeader name={recipeDetails.recipe.name} servings={recipeDetails.recipe.servings} time={recipeDetails.recipe.time} />
@@ -48,11 +50,13 @@ const SingleRecipe = () => {
       <br />
       <StepsView steps={recipeDetails.recipe.recipe_steps} />
       <br />
-      <p>
-        <Button type="submit" onClick={addToShoppinglist}>
-          Lisää ostoslistalle
-        </Button>
-      </p>
+      {loggedUser && (
+        <p>
+          <Button type="submit" onClick={addToShoppinglist}>
+            Lisää ostoslistalle
+          </Button>
+        </p>
+      )}
       <p>
         <Link to="/recipes">
           Takaisin reseptilistaan
