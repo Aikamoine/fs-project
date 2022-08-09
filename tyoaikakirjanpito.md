@@ -22,4 +22,5 @@
 | 8.8.  | 2    | React Bootstrap käyttöön ja monia visuaalisia parannuksia |
 | 9.8.  | 2    | Notifikaatioiden pähkäily ja käyttöönotto, visuaalisia parannuksia |
 | 9.8.  | 2    | Yksittäisen reseptin näkymän parannukset, README-selkeytys, repositorion siistimistä |
-| yht   | 49  | | 
+| 9.8.  | 2    | Kolme erilaista filtteriä reseptien listaukseen |
+| yht   | 51  | | 
