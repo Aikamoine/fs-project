@@ -19,4 +19,6 @@
 | 7.8.  | 3    | Ostoslistalle lisäys, lisättävien tilavuusyksiköiden yhteenlasku ja yksikkömuunnos, ostoslistan poisto |
 | 8.8.  | 4    | Ostoslistalta valittujen tuotteiden poisto, middleware, virhekäsittely, koodin refaktorointi |
 | 8.8.  | 2    | React Bootstrap käyttöön ja monia visuaalisia parannuksia |
-| yht   | 45  | | 
+| 9.8.  | 2    | Notifikaatioiden pähkäily ja käyttöönotto, visuaalisia parannuksia |
+| 9.8.  | 1    | Yksittäisen reseptin näkymän parannukset. README-selkeytys |
+| yht   | 48  | | 
