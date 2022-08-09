@@ -42,7 +42,6 @@ const RecipeList = ({ recipes }) => {
   }
 
   if (timeFilter.length > 0) {
-    console.log('timefilter', timeFilter)
     filteredRecipes = JSON.parse(JSON.stringify(
       filteredRecipes.filter((r) => timeFilter.findIndex((t) => r.time === t.label) >= 0),
     ))
@@ -59,7 +58,7 @@ const RecipeList = ({ recipes }) => {
         <tr>
           <td><input value={nameFilter} onChange={({ target }) => nameFilterChange(target.value)} /></td>
           <td><input type="number" value={numberFilter} onChange={numberChange} /></td>
-          <td><Select options={timeOptions} isMulti onChange={timesChange}/></td>
+          <td><Select options={timeOptions} isMulti onChange={timesChange} /></td>
         </tr>
       </thead>
       <tbody>
