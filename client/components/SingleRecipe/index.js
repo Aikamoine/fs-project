@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import Button from 'react-bootstrap/Button'
+import { toast } from 'react-toastify'
 import { getRecipeDetails } from 'Utilities/services/recipes'
 import { addToList } from 'Utilities/services/shoppinglists'
 
@@ -31,6 +32,7 @@ const SingleRecipe = () => {
   const addToShoppinglist = async (event) => {
     event.preventDefault()
     navigate('/recipes', { replace: true })
+    toast(`Lisätään ${recipeDetails.recipe.name} ostoslistalle. Kaikkien tuotteiden näkymisessä saattaa mennä pieni hetki`)
     await addToList({
       ingredients: recipeDetails.ingredients,
       id: recipeDetails.recipe.id,
@@ -45,6 +47,7 @@ const SingleRecipe = () => {
       <IngredientView ingredients={recipeDetails.ingredients} />
       <br />
       <StepsView steps={recipeDetails.recipe.recipe_steps} />
+      <br />
       <p>
         <Button type="submit" onClick={addToShoppinglist}>
           Lisää ostoslistalle
