@@ -4,6 +4,7 @@ import { Form, Button } from 'react-bootstrap'
 
 import { localStorageName } from 'Utilities/common'
 import { login } from 'Utilities/services/users'
+import { toast } from 'react-toastify'
 
 const LoginForm = () => {
   const [username, setUsername] = useState('')
@@ -11,11 +12,15 @@ const LoginForm = () => {
   const navigate = useNavigate()
 
   const handleSubmit = async (event) => {
-    event.preventDefault()
-    const response = await login({ username, password })
-    window.localStorage.setItem(localStorageName, JSON.stringify(response))
-    navigate('/recipes', { replace: true })
-    window.location.reload()
+    try {
+      event.preventDefault()
+      const response = await login({ username, password })
+      window.localStorage.setItem(localStorageName, JSON.stringify(response))
+      navigate('/recipes', { replace: true })
+      window.location.reload()
+    } catch (error) {
+      toast(error.response.data.error)
+    }
   }
 
   const usernameChange = ({ target }) => setUsername(target.value)

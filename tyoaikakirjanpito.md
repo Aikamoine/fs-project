@@ -25,4 +25,5 @@
 | 9.8.  | 2    | Kolme erilaista filtteriä reseptien listaukseen |
 | 10.8. | 2    | Reseptiä lisätessä kaikkien ainesten haku ja tarkistus löytyykö ainesosa listalta |
 | 10.8. | 4    | Ainesosien muokkauksen näkymä, ainesosien lisäys |
-| yht   | 53  | | 
+| 10.8. | 1    | Koodin refaktorointia ja validointeja |
+| yht   | 58  | | 

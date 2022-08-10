@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button'
 import { toast } from 'react-toastify'
 
 import { getIngredients, updateIngredients } from 'Utilities/services/ingredients'
+import { userIsAdmin } from 'Utilities/services/users'
 
 const ManageIngredients = () => {
   const [ingredientList, setIngredientList] = useState([])
@@ -29,6 +30,7 @@ const ManageIngredients = () => {
   }
 
   const handleSave = async () => {
+    // eslint-disable-next-line no-alert
     if (window.confirm('Haluatko päivittää tekemäsi muutokset kantaan? Tätä ei voi perua')) {
       const edited = ingredientList.filter((i) => i.edited)
       toast('Muutoksia tallennetaan')
@@ -43,6 +45,15 @@ const ManageIngredients = () => {
     list[index][name] = value
     list[index].edited = true
     setIngredientList(list)
+  }
+
+  const isAdmin = userIsAdmin()
+  if (!isAdmin.isAdmin) {
+    return (
+      <div>
+        Tämä sivu on vain pääkäyttäjille!
+      </div>
+    )
   }
 
   return (

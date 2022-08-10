@@ -15,11 +15,22 @@ const CreateUser = () => {
   const handleSubmit = async (event) => {
     event.preventDefault()
     if (password && password === passwordCheck) {
-      await postUser({ username, password })
-      const response = await login({ username, password })
-      window.localStorage.setItem(localStorageName, JSON.stringify(response))
-      navigate('/recipes', { replace: true })
-      window.location.reload()
+      try {
+        await postUser({ username, password })
+        const response = await login({ username, password })
+        window.localStorage.setItem(localStorageName, JSON.stringify(response))
+        navigate('/recipes', { replace: true })
+        window.location.reload()
+      } catch (error) {
+        if (error.response.data.error === 'Validation error') {
+          toast('Käyttäjänimi on jo varattu')
+        } else {
+          toast('Tapahtui tuntematon virhe. Yritä uudestaan, tai hae (ammatti)apua.')
+        }
+        setUsername('')
+        setPassword('')
+        setPasswordCheck('')
+      }
     } else {
       toast('Salasanat eivät täsmää!')
       setPassword('')

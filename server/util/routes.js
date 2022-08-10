@@ -24,6 +24,7 @@ router.get('/recipes', recipes.getAll)
 router.get('/recipes/:urlName', recipes.getRecipeDetails)
 router.post('/recipes', sessionValidator, recipes.addRecipe)
 router.post('/users', users.postUser)
+router.get('/users/isadmin', sessionValidator, users.isAdmin)
 router.post('/login', users.login)
 router.post('/logout', users.logout)
 

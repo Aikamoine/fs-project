@@ -10,6 +10,10 @@ const getAll = async (req, res) => {
   res.json(users)
 }
 
+const isAdmin = async (req, res) => (
+  res.json({ isAdmin: req.decodedToken.isAdmin })
+)
+
 const postUser = async (req, res) => {
   const { username, password } = req.body
   const hashedPassword = await bcrypt.hash(password, saltRounds)
@@ -46,7 +50,7 @@ const login = async (req, res) => {
 
   if (!(user && passwordCorrect)) {
     return res.status(401).json({
-      error: 'invalid username and/or password',
+      error: 'virheellinen käyttäjätunnus ja/tai salasana',
     })
   }
 
@@ -94,4 +98,5 @@ module.exports = {
   postUser,
   login,
   logout,
+  isAdmin,
 }

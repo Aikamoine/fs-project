@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { localStorageName } from 'Utilities/common'
+import { setConfig } from 'Utilities/common'
 
 const basePath = '/api/recipes'
 
@@ -9,11 +9,7 @@ export const getRecipes = async () => {
 }
 
 export const addRecipe = async (recipe) => {
-  const user = JSON.parse(window.localStorage.getItem(localStorageName))
-  const config = {
-    headers: { authorization: `bearer ${user.token}` },
-  }
-
+  const config = setConfig()
   const response = await axios.post(basePath, recipe, config)
   return response.data
 }

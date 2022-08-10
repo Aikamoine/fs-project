@@ -1,6 +1,17 @@
 import axios from 'axios'
+import { setConfig } from 'Utilities/common'
 
 const basePath = '/api/users'
+
+export const userIsAdmin = async () => {
+  try {
+    const config = setConfig()
+    const response = await axios.get(`${basePath}/isadmin`, config)
+    return response.data
+  } catch (error) {
+    return new Error(error.response.data.error)
+  }
+}
 
 export const getUsers = async () => {
   const response = await axios.get(basePath)

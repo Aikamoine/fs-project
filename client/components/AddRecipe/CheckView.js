@@ -2,6 +2,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import Table from 'react-bootstrap/Table'
+import Button from 'react-bootstrap/Button'
 
 import { addRecipe } from 'Utilities/services/recipes'
 
@@ -95,9 +96,9 @@ const CheckView = ({
         <div key={step}>{`${i + 1}. ${step}`}</div>
       ))}
       <br />
-      <button type="submit" onClick={handleSubmit}>
+      <Button type="submit" size="sm" onClick={handleSubmit}>
         Lisää resepti
-      </button>
+      </Button>
     </div>
   )
 }

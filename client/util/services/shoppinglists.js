@@ -1,19 +1,7 @@
 import axios from 'axios'
-import { localStorageName } from 'Utilities/common'
+import { setConfig } from 'Utilities/common'
 
 const basePath = '/api/shoppinglist'
-
-const setConfig = () => {
-  const user = JSON.parse(window.localStorage.getItem(localStorageName))
-
-  if (!user) {
-    return { headers: null }
-  }
-
-  return {
-    headers: { authorization: `bearer ${user.token}` },
-  }
-}
 
 export const getShoppinglist = async () => {
   try {
