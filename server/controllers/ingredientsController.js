@@ -18,7 +18,6 @@ const getIngredients = async (req, res) => {
 }
 
 const getIngredientNames = async (req, res) => {
-  console.log('getting names')
   const ingredients = await Ingredient.findAll({
     attributes: ['name'],
     order: [
@@ -30,12 +29,19 @@ const getIngredientNames = async (req, res) => {
 
 const editIngredients = async (req, res) => {
   const newEntries = req.body.filter((i) => i.id < 1)
-  const entriesToPost = newEntries.map((i) => ({ name: i.name }))
-  const edited = req.body.map((i) => i.id > 0)
-  console.log('ingredients controller', entriesToPost, edited)
+  const entriesToPost = newEntries.map((i) => ({ name: i.name.toLowerCase() }))
+  const edited = req.body.filter((i) => i.id > 0)
 
   const created = await Ingredient.bulkCreate(entriesToPost)
-  console.log('created', JSON.stringify(created))
+
+  edited.forEach((i) => {
+    Ingredient.update(
+      { name: i.name.toLowerCase() },
+      { where: { id: i.id } },
+    )
+  })
+
+  res.json([...created, ...edited])
 }
 
 module.exports = {

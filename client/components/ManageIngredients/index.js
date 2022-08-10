@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Table from 'react-bootstrap/Table'
 import Button from 'react-bootstrap/Button'
+import { toast } from 'react-toastify'
 
 import { getIngredients, updateIngredients } from 'Utilities/services/ingredients'
 
@@ -30,21 +31,20 @@ const ManageIngredients = () => {
   const handleSave = async () => {
     if (window.confirm('Haluatko päivittää tekemäsi muutokset kantaan? Tätä ei voi perua')) {
       const edited = ingredientList.filter((i) => i.edited)
+      toast('Muutoksia tallennetaan')
       const response = await updateIngredients(edited)
-      console.log('response', response)
+      toast(`Tallennettu muutokset: ${response.map((i) => i.name)}`)
     }
   }
 
   const handleChange = (event, index) => {
     const { name, value } = event.target
-    // console.log('name changing', name, value, index)
     const list = [...ingredientList]
     list[index][name] = value
     list[index].edited = true
     setIngredientList(list)
   }
 
-  // console.log('ingredientList', ingredientList)
   return (
     <div>
       <Button size="sm" onClick={handleAdd}>

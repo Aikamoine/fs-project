@@ -26,7 +26,6 @@ export const getIngredients = async () => {
 }
 
 export const getIngredientNames = async () => {
-  console.log('util getNames')
   try {
     const config = setConfig()
     const response = await axios.get(`${basePath}/names`, config)
@@ -37,7 +36,6 @@ export const getIngredientNames = async () => {
 }
 
 export const updateIngredients = async (toAdd) => {
-  console.log('util toAdd', toAdd)
   try {
     const config = setConfig()
     const response = await axios.put(basePath, toAdd, config)
