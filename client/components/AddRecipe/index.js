@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Form, Button } from 'react-bootstrap'
-import { getIngredientList } from 'Utilities/services/recipes'
+import { getIngredientNames } from 'Utilities/services/ingredients'
 
 import CheckView from './CheckView'
 
@@ -19,7 +19,7 @@ const AddRecipe = () => {
   }
 
   const handleGetIngredients = async () => {
-    const allIngredients = await getIngredientList()
+    const allIngredients = await getIngredientNames()
     setIngredientList(allIngredients.map((i) => (i.name)))
   }
 

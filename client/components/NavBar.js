@@ -8,15 +8,11 @@ import { localStorageName } from 'Utilities/common'
 
 const AdminActions = () => (
   <NavDropdown title="Admin" id="navbarScrollingDropdown">
-    <NavDropdown.Item href="#action4">
-      <Link to="/addrecipe">
-        Reseptin lisäys
-      </Link>
+    <NavDropdown.Item href="/addrecipe">
+      Reseptin lisäys
     </NavDropdown.Item>
-    <NavDropdown.Item href="#action4">
-      <Link to="/manageingredients">
-        Ainesosien hallinta
-      </Link>
+    <NavDropdown.Item href="/manageingredients">
+      Ainesosien hallinta
     </NavDropdown.Item>
   </NavDropdown>
 )

@@ -17,7 +17,7 @@ const getAll = async (req, res) => {
   res.json(recipes)
 }
 
-const getIngredients = async (req, res) => {
+const getIngredientNames = async (req, res) => {
   const ingredients = await Ingredient.findAll({
     attributes: ['name'],
     order: [
@@ -104,5 +104,5 @@ module.exports = {
   getAll,
   getRecipeDetails,
   addRecipe,
-  getIngredients,
+  getIngredientNames,
 }

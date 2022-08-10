@@ -23,5 +23,6 @@
 | 9.8.  | 2    | Notifikaatioiden pähkäily ja käyttöönotto, visuaalisia parannuksia |
 | 9.8.  | 2    | Yksittäisen reseptin näkymän parannukset, README-selkeytys, repositorion siistimistä |
 | 9.8.  | 2    | Kolme erilaista filtteriä reseptien listaukseen |
-| 10.8.  | 2   | Reseptiä lisätessä kaikkien ainesten haku ja tarkistus löytyykö ainesosa listalta, ainesosien muokkauksen näkymä |
+| 10.8. | 2    | Reseptiä lisätessä kaikkien ainesten haku ja tarkistus löytyykö ainesosa listalta |
+| 10.8. | 3    | Ainesosien muokkauksen näkymä, ainesosien lisäys |
 | yht   | 53  | | 
