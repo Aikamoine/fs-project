@@ -3,14 +3,22 @@ import { Link } from 'react-router-dom'
 import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
+import NavDropdown from 'react-bootstrap/NavDropdown'
 import { localStorageName } from 'Utilities/common'
 
 const AdminActions = () => (
-  <Nav.Link href="#" as="span">
-    <Link to="/addrecipe">
-      Reseptin lisäys
-    </Link>
-  </Nav.Link>
+  <NavDropdown title="Admin" id="navbarScrollingDropdown">
+    <NavDropdown.Item href="#action4">
+      <Link to="/addrecipe">
+        Reseptin lisäys
+      </Link>
+    </NavDropdown.Item>
+    <NavDropdown.Item href="#action4">
+      <Link to="/manageingredients">
+        Ainesosien hallinta
+      </Link>
+    </NavDropdown.Item>
+  </NavDropdown>
 )
 
 const UserActions = ({ user }) => {

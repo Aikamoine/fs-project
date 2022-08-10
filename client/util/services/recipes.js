@@ -28,3 +28,8 @@ export const getRecipeDetails = async (urlName) => {
 
   return response.data
 }
+
+export const getIngredientList = async () => {
+  const response = await axios.get('/api/ingredients')
+  return response.data
+}

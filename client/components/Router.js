@@ -9,6 +9,7 @@ import LoginForm from './User/LoginForm'
 import Logout from './User/Logout'
 import AddRecipe from './AddRecipe/index'
 import Shoppinglist from './Shoppinglist/index'
+import ManageIngredients from './ManageIngredients/index'
 
 // <Route path="/addtoshoppinglist/:id" element={<RecipeView />} />
 export default () => (
@@ -22,6 +23,7 @@ export default () => (
       <Route path="/recipes/:urlName" element={<SingleRecipe />} />
       <Route path="/logout" element={<Logout />} />
       <Route path="/addrecipe" element={<AddRecipe />} />
+      <Route path="/manageingredients" element={<ManageIngredients />} />
     </Routes>
   </div>
 )

@@ -17,6 +17,16 @@ const getAll = async (req, res) => {
   res.json(recipes)
 }
 
+const getIngredients = async (req, res) => {
+  const ingredients = await Ingredient.findAll({
+    attributes: ['name'],
+    order: [
+      ['name', 'ASC'],
+    ],
+  })
+  res.json(ingredients)
+}
+
 const getRecipeDetails = async (req, res) => {
   const recipe = await Recipe.findOne({
     where: { urlName: req.params.urlName },
@@ -94,4 +104,5 @@ module.exports = {
   getAll,
   getRecipeDetails,
   addRecipe,
+  getIngredients,
 }

@@ -1,32 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Form, Button } from 'react-bootstrap'
+import { getIngredientList } from 'Utilities/services/recipes'
 
 import CheckView from './CheckView'
-
-const splitOneIngredient = (ingredient) => {
-  const split = ingredient.split(' ')
-
-  if (split.length === 1) {
-    return { name: split[0].replace('_', ' '), amount: null, unit: null }
-  }
-  if (split.length === 2) {
-    return { name: split[1].replace('_', ' '), amount: 1, unit: split[0] }
-  }
-  const firstIndex = ingredient.indexOf(' ')
-  const secondIndex = ingredient.indexOf(' ', firstIndex + 1)
-
-  return ({
-    name: ingredient.substring(secondIndex + 1).replace('_', ' '),
-    amount: ingredient.substring(0, firstIndex).replace(',', '.'),
-    unit: ingredient.substring(firstIndex + 1, secondIndex),
-  })
-}
-
-const formatIngredients = (ingredients) => {
-  const split = ingredients.split('\n')
-  const splitIngredients = split.map((i) => splitOneIngredient(i))
-  return splitIngredients
-}
 
 const AddRecipe = () => {
   const [name, setName] = useState('')
@@ -35,11 +11,21 @@ const AddRecipe = () => {
   const [ingredients, setIngredients] = useState('')
   const [steps, setSteps] = useState('')
   const [postCheck, setPostCheck] = useState(false)
+  const [ingredientList, setIngredientList] = useState([])
 
   const handleCheck = async (event) => {
     event.preventDefault()
     setPostCheck(true)
   }
+
+  const handleGetIngredients = async () => {
+    const allIngredients = await getIngredientList()
+    setIngredientList(allIngredients.map((i) => (i.name)))
+  }
+
+  useEffect(() => {
+    handleGetIngredients()
+  }, [])
 
   const nameChange = ({ target }) => setName(target.value)
   const servingsChange = ({ target }) => setServings(target.value)
@@ -78,7 +64,7 @@ const AddRecipe = () => {
         </Button>
       </Form>
       <br />
-      {postCheck ? <CheckView recipeInfo={{ name, time, servings }} ingredients={ingredients} steps={steps} formatIngredients={formatIngredients} /> : <div /> }
+      {postCheck ? <CheckView recipeInfo={{ name, time, servings }} ingredients={ingredients} steps={steps} ingredientList={ingredientList} /> : <div /> }
     </div>
   )
 }
