@@ -18,6 +18,7 @@ router.post('/deletefromshoppinglist', shoppinglists.deleteSelected)
 router.use('/ingredients', sessionValidator)
 router.get('/ingredients', ingredients.getIngredients)
 router.put('/ingredients', ingredients.editIngredients)
+router.put('/ingredients/replace', ingredients.replaceIngredient)
 router.get('/ingredients/names', ingredients.getIngredientNames)
 router.get('/ingredients/fineli/:id', ingredients.getFineliIngredients)
 

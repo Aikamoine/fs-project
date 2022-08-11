@@ -69,9 +69,26 @@ const getFineliIngredients = async (req, res) => {
   })
 }
 
+const replaceIngredient = async (req, res) => {
+  const ingredient = req.body
+  const originalName = await Ingredient.findOne({
+    where: { id: ingredient.id },
+    attributes: ['name'],
+  })
+  const newIngredient = await Ingredient.update(
+    { name: ingredient.name.toLowerCase() },
+    {
+      where: { id: ingredient.id },
+      returning: true,
+    },
+  )
+  res.json({ originalName: originalName.name, newName: newIngredient[1][0].name })
+}
+
 module.exports = {
   getIngredients,
   getIngredientNames,
   editIngredients,
   getFineliIngredients,
+  replaceIngredient,
 }

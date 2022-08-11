@@ -4,9 +4,32 @@ import Button from 'react-bootstrap/Button'
 import { toast } from 'react-toastify'
 import Select from 'react-select'
 
-import { getIngredients, updateIngredients, getFromFineliApi } from 'Utilities/services/ingredients'
 import { userIsAdmin } from 'Utilities/services/users'
+import {
+  getIngredients,
+  updateIngredients,
+  getFromFineliApi,
+  replaceIngredientName,
+} from 'Utilities/services/ingredients'
+
 import foodNames from '../../assets/foodNames.json'
+
+const ControlButton = ({
+  index,
+  ingredient,
+  handleDelete,
+  handleReplace,
+}) => {
+  if (!ingredient.edited) {
+    return null
+  }
+
+  if (ingredient.id <= 0) {
+    return <Button variant="danger" size="sm" onClick={(event) => handleDelete(event, index)}>Poista</Button>
+  }
+
+  return <Button variant="warning" size="sm" onClick={(event) => handleReplace(event, ingredient)}>Korvaa nykyisellä tekstillä</Button>
+}
 
 const ManageIngredients = () => {
   const [ingredientList, setIngredientList] = useState([])
@@ -55,8 +78,22 @@ const ManageIngredients = () => {
     setIngredientList(list)
   }
 
+  const handleDeleteNew = (event, index) => {
+    const filteredArray = ingredientList.filter((ing, i) => i !== index)
+    setIngredientList(filteredArray)
+  }
+
+  const handleReplace = async (event, ingredient) => {
+    // const toReplace = ingredientList[index]
+    // eslint-disable-next-line no-alert
+    if (window.confirm(`Hyväksymällä kaikki kannassa ID:llä ${ingredient.id} olevat ainesosat korvataan nimellä ${ingredient.name}`)) {
+      const replaced = await replaceIngredientName(ingredient)
+      toast(`Korvattu '${replaced.originalName}' arvolla '${replaced.newName}' kaikissa resepteissä`)
+      handleGetIngredients()
+    }
+  }
+
   const handleFineliChange = async (selectedOptions) => {
-    console.log('fineli change', selectedOptions)
     const data = await getFromFineliApi(selectedOptions.value)
     console.log('got from fineli', data)
     setIngredientList([{
@@ -103,6 +140,12 @@ const ManageIngredients = () => {
             <tr key={ingredient.id}>
               <td>
                 <input value={ingredient.name} name="name" onChange={(event) => handleChange(event, index)} />
+                <ControlButton
+                  index={index}
+                  ingredient={ingredient}
+                  handleDelete={handleDeleteNew}
+                  handleReplace={handleReplace}
+                />
               </td>
               <td>{ingredient.count}</td>
             </tr>
