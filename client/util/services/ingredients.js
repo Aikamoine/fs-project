@@ -44,3 +44,13 @@ export const updateIngredients = async (toAdd) => {
     return new Error(error.response.data.error)
   }
 }
+
+export const getFromFineliApi = async (id) => {
+  try {
+    const config = setConfig()
+    const response = await axios.get(`${basePath}/fineli/${id}`, config)
+    return response.data
+  } catch (error) {
+    return new Error(error.response.data.error)
+  }
+}

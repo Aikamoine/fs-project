@@ -26,4 +26,5 @@
 | 10.8. | 2    | Reseptiä lisätessä kaikkien ainesten haku ja tarkistus löytyykö ainesosa listalta |
 | 10.8. | 4    | Ainesosien muokkauksen näkymä, ainesosien lisäys |
 | 10.8. | 1    | Koodin refaktorointia ja validointeja |
-| yht   | 58  | | 
+| 11.8. | 4    | Finelin APIin tutustumista ja kutsun totetutus |
+| yht   | 58+11.8.  | | 

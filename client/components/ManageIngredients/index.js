@@ -2,16 +2,24 @@ import React, { useEffect, useState } from 'react'
 import Table from 'react-bootstrap/Table'
 import Button from 'react-bootstrap/Button'
 import { toast } from 'react-toastify'
+import Select from 'react-select'
 
-import { getIngredients, updateIngredients } from 'Utilities/services/ingredients'
+import { getIngredients, updateIngredients, getFromFineliApi } from 'Utilities/services/ingredients'
 import { userIsAdmin } from 'Utilities/services/users'
+import foodNames from '../../assets/foodNames.json'
 
 const ManageIngredients = () => {
   const [ingredientList, setIngredientList] = useState([])
+  const [fineliIngredients, setFineliIngredients] = useState()
+  const [isAdmin, setIsAdmin] = useState(false)
 
   const handleGetIngredients = async () => {
+    const admin = await userIsAdmin()
+    setIsAdmin(admin)
     const allIngredients = await getIngredients()
     setIngredientList(allIngredients)
+    const fineliNames = foodNames.map((food) => ({ value: food.FOODID, label: `${food.FOODNAME}, ${food.FOODTYPE}` }))
+    setFineliIngredients(fineliNames)
   }
 
   useEffect(() => {
@@ -47,7 +55,18 @@ const ManageIngredients = () => {
     setIngredientList(list)
   }
 
-  const isAdmin = userIsAdmin()
+  const handleFineliChange = async (selectedOptions) => {
+    console.log('fineli change', selectedOptions)
+    const data = await getFromFineliApi(selectedOptions.value)
+    console.log('got from fineli', data)
+    setIngredientList([{
+      id: ingredientList[0].id > 0 ? 0 : ingredientList[0].id - 1,
+      name: data.name.fi.toLowerCase(),
+      count: 0,
+      edited: true,
+    }, ...ingredientList])
+  }
+
   if (!isAdmin.isAdmin) {
     return (
       <div>
@@ -58,17 +77,24 @@ const ManageIngredients = () => {
 
   return (
     <div>
-      <Button size="sm" onClick={handleAdd}>
-        Lisää ainesosa
-      </Button>
-      {'              '}
-      <Button size="sm" onClick={handleSave}>
-        Tallenna muutokset
-      </Button>
+      <div>
+        Hae ainesosa Finelistä
+        <Select options={fineliIngredients} onChange={handleFineliChange} />
+      </div>
+      <br />
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th>Nimi</th>
+            <th>
+              {'Nimi    '}
+              <Button size="sm" onClick={handleAdd}>
+                Lisää ainesosa
+              </Button>
+              {'              '}
+              <Button size="sm" onClick={handleSave}>
+                Tallenna muutokset
+              </Button>
+            </th>
             <th>Käyttökertoja</th>
           </tr>
         </thead>
