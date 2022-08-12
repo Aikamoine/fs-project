@@ -31,11 +31,17 @@ const getIngredientNames = async (req, res) => {
 }
 
 const addIngredient = async (req, res) => {
-  const ingredient = req.body
-  const added = await Ingredient.create({
-    name: ingredient.name.toLowerCase(),
-  })
-  res.json(added)
+  try {
+    const ingredient = req.body
+    const added = await Ingredient.create({
+      name: ingredient.name.toLowerCase(),
+    })
+    console.log('ADDED', added)
+    res.json({ message: `Lisätty ${added.name}` })
+  } catch (error) {
+    console.log(error)
+    res.json({ message: 'Lisäyksessä tapahtui virhe. Ainesosa on todennäköisesti jo olemassa.' })
+  }
 }
 
 const getFineliIngredients = async (req, res) => {

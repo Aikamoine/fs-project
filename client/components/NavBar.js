@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 import NavDropdown from 'react-bootstrap/NavDropdown'
 import { localStorageName } from 'Utilities/common'
+import { userIsAdmin } from 'Utilities/services/users'
 
 const AdminActions = () => (
   <NavDropdown title="Admin" id="navbarScrollingDropdown">
@@ -52,7 +53,19 @@ const UserActions = ({ user }) => {
 }
 
 const NavBar = () => {
+  const [isAdmin, setIsAdmin] = useState(false)
+
+  const checkAdminStatus = async () => {
+    const query = await userIsAdmin()
+    setIsAdmin(query.isAdmin)
+  }
+
+  useEffect(() => {
+    checkAdminStatus()
+  }, [])
+
   const loggedUser = JSON.parse(window.localStorage.getItem(localStorageName))
+
   return (
     <Navbar bg="light" expand="sm" variant="light">
       <Container>
@@ -65,7 +78,7 @@ const NavBar = () => {
               </Link>
             </Nav.Link>
             <UserActions user={loggedUser} />
-            {loggedUser && loggedUser.isAdmin ? <AdminActions /> : null}
+            {(loggedUser && isAdmin) ? <AdminActions /> : null}
           </Nav>
         </Navbar.Collapse>
       </Container>

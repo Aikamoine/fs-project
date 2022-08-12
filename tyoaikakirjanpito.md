@@ -29,5 +29,5 @@
 | 11.8. | 4    | Finelin APIin tutustumista ja kutsun totetutus |
 | 11.8. | 2    | Tietokannan muutosten suunnittelua ja lisäyksiä/muutoksia nykyisiin kantakyselyihin |
 | 12.8. | 4    | Päivityksiä ainesosaluettelon käyttöliittymään ja tietokantakyselyihin |
-| 12.8. | 1    | Päivän päivityksien päivittelyä ja bugikorjauksia |
-| yht   | 64 + 12.8. | | 
+| 12.8. | 3    | Päivän päivityksien päivittelyä, bugikorjauksia, kannan siistimistä, käyttötestausta |
+| yht   | 71 | | 

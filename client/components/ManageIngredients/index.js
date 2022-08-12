@@ -91,11 +91,16 @@ const ManageIngredients = () => {
   }
 
   const handleAddIngredient = async (event, ingredient) => {
-    console.log('adding', ingredient)
-    toast(`Lisätään ainesosaa ${ingredient.name}`)
-    const added = await addIngredient(ingredient)
-    toast(`Lisätty ${added.name}`)
-    handleGetIngredients()
+    try {
+      console.log('adding', ingredient)
+      toast(`Lisätään ainesosaa ${ingredient.name}`)
+      const added = await addIngredient(ingredient)
+      console.log('added', added)
+      toast(added.message)
+      handleGetIngredients()
+    } catch (error) {
+      console.log('error', error)
+    }
   }
 
   if (!isAdmin.isAdmin) {

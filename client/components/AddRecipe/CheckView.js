@@ -96,6 +96,7 @@ const CheckView = ({
         <div key={step}>{`${i + 1}. ${step}`}</div>
       ))}
       <br />
+      <div>Jos kaikkia ainesosia ei löydy valmiina, niin reseptin ravintoarvojen laskeminen ei onnistu.</div>
       <Button type="submit" size="sm" onClick={handleSubmit}>
         Lisää resepti
       </Button>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Form, Button } from 'react-bootstrap'
 import { getIngredientNames } from 'Utilities/services/ingredients'
+import { userIsAdmin } from 'Utilities/services/users'
 
 import CheckView from './CheckView'
 
@@ -12,6 +13,12 @@ const AddRecipe = () => {
   const [steps, setSteps] = useState('')
   const [postCheck, setPostCheck] = useState(false)
   const [ingredientList, setIngredientList] = useState([])
+  const [isAdmin, setIsAdmin] = useState(false)
+
+  const checkAdminStatus = async () => {
+    const query = await userIsAdmin()
+    setIsAdmin(query.isAdmin)
+  }
 
   const handleCheck = async (event) => {
     event.preventDefault()
@@ -25,6 +32,7 @@ const AddRecipe = () => {
 
   useEffect(() => {
     handleGetIngredients()
+    checkAdminStatus()
   }, [])
 
   const nameChange = ({ target }) => setName(target.value)
@@ -32,6 +40,10 @@ const AddRecipe = () => {
   const timeChange = ({ target }) => setTime(target.value)
   const ingredientsChange = ({ target }) => setIngredients(target.value)
   const stepsChange = ({ target }) => setSteps(target.value)
+
+  if (!isAdmin) {
+    return <div>Tämä sivu on vain pääkäyttäjille!</div>
+  }
 
   return (
     <div>
