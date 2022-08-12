@@ -7,9 +7,11 @@ import Select from 'react-select'
 import { userIsAdmin } from 'Utilities/services/users'
 import {
   getIngredients,
-  updateIngredients,
+  // updateIngredients,
+  addIngredient,
   getFromFineliApi,
   replaceIngredientName,
+  deleteIngredient,
 } from 'Utilities/services/ingredients'
 
 import foodNames from '../../assets/foodNames.json'
@@ -17,18 +19,46 @@ import foodNames from '../../assets/foodNames.json'
 const ControlButton = ({
   index,
   ingredient,
-  handleDelete,
+  handleRemove,
   handleReplace,
+  handleDelete,
+  handleAddIngredient,
 }) => {
+  if (!ingredient.name) {
+    return null
+  }
+
+  if (Number(ingredient.count) === 0 && !ingredient.edited) {
+    return (
+      <Button size="sm" onClick={(event) => handleDelete(event, ingredient)}>Poista kokonaan</Button>
+    )
+  }
+
   if (!ingredient.edited) {
     return null
   }
 
   if (ingredient.id <= 0) {
-    return <Button variant="danger" size="sm" onClick={(event) => handleDelete(event, index)}>Poista</Button>
+    return (
+      <>
+        <Button variant="danger" size="sm" onClick={(event) => handleRemove(event, index)}>Peru lisäys</Button>
+        {'    '}
+        <Button size="sm" onClick={(event) => handleAddIngredient(event, ingredient)}>Lisää ainesosa</Button>
+      </>
+    )
   }
 
-  return <Button variant="warning" size="sm" onClick={(event) => handleReplace(event, ingredient)}>Korvaa nykyisellä tekstillä</Button>
+  if (Number(ingredient.count) === 0) {
+    return (
+      <>
+        <Button variant="warning" size="sm" onClick={(event) => handleReplace(event, ingredient)}>Korvaa nykyisellä tekstillä</Button>
+        <Button variant="danger" size="sm" onClick={(event) => handleDelete(event, index)}>Poista kokonaan</Button>
+      </>
+    )
+  }
+  return (
+    <Button variant="warning" size="sm" onClick={(event) => handleReplace(event, ingredient)}>Korvaa nykyisellä tekstillä</Button>
+  )
 }
 
 const ManageIngredients = () => {
@@ -60,16 +90,6 @@ const ManageIngredients = () => {
     }, ...ingredientList])
   }
 
-  const handleSave = async () => {
-    // eslint-disable-next-line no-alert
-    if (window.confirm('Haluatko päivittää tekemäsi muutokset kantaan? Tätä ei voi perua')) {
-      const edited = ingredientList.filter((i) => i.edited)
-      toast('Muutoksia tallennetaan')
-      const response = await updateIngredients(edited)
-      toast(`Tallennettu muutokset: ${response.map((i) => i.name)}`)
-    }
-  }
-
   const handleChange = (event, index) => {
     const { name, value } = event.target
     const list = [...ingredientList]
@@ -78,17 +98,17 @@ const ManageIngredients = () => {
     setIngredientList(list)
   }
 
-  const handleDeleteNew = (event, index) => {
+  const handleRemove = (event, index) => {
     const filteredArray = ingredientList.filter((ing, i) => i !== index)
     setIngredientList(filteredArray)
   }
 
   const handleReplace = async (event, ingredient) => {
-    // const toReplace = ingredientList[index]
     // eslint-disable-next-line no-alert
     if (window.confirm(`Hyväksymällä kaikki kannassa ID:llä ${ingredient.id} olevat ainesosat korvataan nimellä ${ingredient.name}`)) {
       const replaced = await replaceIngredientName(ingredient)
-      toast(`Korvattu '${replaced.originalName}' arvolla '${replaced.newName}' kaikissa resepteissä`)
+      // toast(`Korvattu '${replaced.originalName}' arvolla '${replaced.newName}' kaikissa resepteissä`)
+      toast(replaced.message)
       handleGetIngredients()
     }
   }
@@ -102,6 +122,20 @@ const ManageIngredients = () => {
       count: 0,
       edited: true,
     }, ...ingredientList])
+  }
+
+  const handleDelete = async (event, ingredient) => {
+    console.log('deleting', ingredient)
+    const deleted = await deleteIngredient(ingredient)
+    console.log('deleted', deleted)
+    toast(deleted.message)
+    handleGetIngredients()
+  }
+
+  const handleAddIngredient = async (event, ingredient) => {
+    console.log('adding', ingredient)
+    const added = await addIngredient(ingredient)
+    console.log('added', added)
   }
 
   if (!isAdmin.isAdmin) {
@@ -127,10 +161,6 @@ const ManageIngredients = () => {
               <Button size="sm" onClick={handleAdd}>
                 Lisää ainesosa
               </Button>
-              {'              '}
-              <Button size="sm" onClick={handleSave}>
-                Tallenna muutokset
-              </Button>
             </th>
             <th>Käyttökertoja</th>
           </tr>
@@ -143,8 +173,10 @@ const ManageIngredients = () => {
                 <ControlButton
                   index={index}
                   ingredient={ingredient}
-                  handleDelete={handleDeleteNew}
+                  handleRemove={handleRemove}
                   handleReplace={handleReplace}
+                  handleDelete={handleDelete}
+                  handleAddIngredient={handleAddIngredient}
                 />
               </td>
               <td>{ingredient.count}</td>

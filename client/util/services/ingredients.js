@@ -35,17 +35,6 @@ export const getIngredientNames = async () => {
   }
 }
 
-export const updateIngredients = async (toAdd) => {
-  try {
-    const config = setConfig()
-    console.log('toAdd', toAdd)
-    const response = await axios.put(basePath, toAdd, config)
-    return response.data
-  } catch (error) {
-    return new Error(error.response.data.error)
-  }
-}
-
 export const getFromFineliApi = async (id) => {
   try {
     const config = setConfig()
@@ -59,8 +48,31 @@ export const getFromFineliApi = async (id) => {
 export const replaceIngredientName = async (ingredient) => {
   try {
     const config = setConfig()
-    console.log('util', ingredient)
     const response = await axios.put(`${basePath}/replace`, ingredient, config)
+    return response.data
+  } catch (error) {
+    return new Error(error.response.data.error)
+  }
+}
+
+export const deleteIngredient = async (ingredient) => {
+  if (Number(ingredient.count) !== 0) {
+    return new Error('Ainesosalla on reseptiriippuvuuksia')
+  }
+
+  try {
+    const config = setConfig()
+    const response = await axios.delete(`${basePath}/${ingredient.id}`, config)
+    return response.data
+  } catch (error) {
+    return new Error(error.response.data.error)
+  }
+}
+
+export const addIngredient = async (ingredient) => {
+  try {
+    const config = setConfig()
+    const response = await axios.put(basePath, ingredient, config)
     return response.data
   } catch (error) {
     return new Error(error.response.data.error)

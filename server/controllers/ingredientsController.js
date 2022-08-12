@@ -1,6 +1,8 @@
 const https = require('https')
 const {
   Ingredient,
+  RecipeIngredient,
+  Shoppinglist,
 } = require('../models')
 const { sequelize } = require('../util/db')
 
@@ -28,21 +30,12 @@ const getIngredientNames = async (req, res) => {
   res.json(ingredients)
 }
 
-const editIngredients = async (req, res) => {
-  const newEntries = req.body.filter((i) => i.id < 1)
-  const entriesToPost = newEntries.map((i) => ({ name: i.name.toLowerCase() }))
-  const edited = req.body.filter((i) => i.id > 0)
-
-  const created = await Ingredient.bulkCreate(entriesToPost)
-
-  edited.forEach((i) => {
-    Ingredient.update(
-      { name: i.name.toLowerCase() },
-      { where: { id: i.id } },
-    )
+const addIngredient = async (req, res) => {
+  const ingredient = req.body
+  const added = await Ingredient.create({
+    name: ingredient.name.toLowerCase(),
   })
-
-  res.json([...created, ...edited])
+  res.json(added)
 }
 
 const getFineliIngredients = async (req, res) => {
@@ -75,20 +68,79 @@ const replaceIngredient = async (req, res) => {
     where: { id: ingredient.id },
     attributes: ['name'],
   })
-  const newIngredient = await Ingredient.update(
-    { name: ingredient.name.toLowerCase() },
-    {
+  const targetEntry = await Ingredient.findOne({
+    where: { name: ingredient.name },
+  })
+
+  if (targetEntry) {
+    await Shoppinglist.update(
+      { ingredientId: targetEntry.id },
+      {
+        where: { ingredientId: ingredient.id },
+      },
+    )
+
+    await RecipeIngredient.update(
+      { ingredientId: targetEntry.id },
+      {
+        where: { ingredientId: ingredient.id },
+      },
+    )
+
+    await Ingredient.destroy({
       where: { id: ingredient.id },
-      returning: true,
-    },
+    })
+
+    res.json({ message: `Päivitetty kaikki ainesosat '${originalName.name}' nimen '${targetEntry.name}' alle` })
+  } else {
+    const newIngredient = await Ingredient.update(
+      { name: ingredient.name.toLowerCase() },
+      {
+        where: { id: ingredient.id },
+        returning: true,
+      },
+    )
+    res.json({ message: `Korvattu '${originalName.name}' ainesosalla '${newIngredient[1][0].name}'` })
+  }
+}
+
+const deleteIngredient = async (req, res) => {
+  const id = Number(req.params.id)
+  const destroyQuery = await sequelize.query(
+    `SELECT I.id, I.name, COUNT(RI.id)
+    FROM ingredients I
+    LEFT JOIN recipe_ingredients RI on I.id=RI.ingredient_id
+    WHERE I.id=${id}
+    GROUP BY I.name, I.id
+    ORDER BY I.name`,
+    { type: sequelize.QueryTypes.SELECT },
   )
-  res.json({ originalName: originalName.name, newName: newIngredient[1][0].name })
+
+  const toDestroy = destroyQuery[0]
+
+  if (Number(toDestroy.count) !== 0) {
+    return res.status(400).json({
+      error: 'Tuhottavalla ainesosalla on reseptiriippuvuuksia',
+    })
+  }
+
+  const destroyed = await Ingredient.destroy({
+    where: { id: toDestroy.id },
+  })
+
+  if (destroyed === 1) {
+    return res.json({ message: `Poistettu ${toDestroy.name} kannasta` })
+  }
+
+  return res.json({ message: `${toDestroy.name} poistaminen epäonnistui` })
 }
 
 module.exports = {
   getIngredients,
   getIngredientNames,
-  editIngredients,
+  addIngredient,
+  // editIngredients,
   getFineliIngredients,
   replaceIngredient,
+  deleteIngredient,
 }

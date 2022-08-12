@@ -17,10 +17,11 @@ router.post('/deletefromshoppinglist', shoppinglists.deleteSelected)
 
 router.use('/ingredients', sessionValidator)
 router.get('/ingredients', ingredients.getIngredients)
-router.put('/ingredients', ingredients.editIngredients)
+router.put('/ingredients', ingredients.addIngredient)
 router.put('/ingredients/replace', ingredients.replaceIngredient)
 router.get('/ingredients/names', ingredients.getIngredientNames)
 router.get('/ingredients/fineli/:id', ingredients.getFineliIngredients)
+router.delete('/ingredients/:id', ingredients.deleteIngredient)
 
 router.get('/recipes', recipes.getAll)
 router.get('/recipes/:urlName', recipes.getRecipeDetails)
