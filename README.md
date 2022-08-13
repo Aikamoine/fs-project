@@ -19,6 +19,8 @@ Pääkäyttäjä voi lisätä reseptejä käyttöliittymän kautta.
 - ostoslistalle tieto siitä, montako annosta sille on lisätty
 - ostoslistalle tieto mitä reseptejä sinne on lisätty
  - mahdollisuus poistaa ostoslistalta reseptikohtaisesti
+- selkeämpi ilmoitus käyttäjälle siitä, että palvelimen puolen sessio on loppunut/puuttuu
+- turvallisemmat localstorage-kyselyt
 
 ## Harjoitustyön tavoite
 

@@ -6,18 +6,24 @@ import { getRecipeDetails } from 'Utilities/services/recipes'
 import { addToList } from 'Utilities/services/shoppinglists'
 import { localStorageName } from 'Utilities/common'
 
+import { userIsAdmin } from 'Utilities/services/users'
 import RecipeHeader from './RecipeHeader'
 import IngredientView from './IngredientView'
 import StepsView from './StepsView'
+import EditView from './EditView'
 
 const SingleRecipe = () => {
   const { urlName } = useParams()
   const [recipeDetails, setRecipeDetails] = useState()
+  const [isAdmin, setIsAdmin] = useState()
+  const [isEditing, setIsEditing] = useState(false)
   const navigate = useNavigate()
 
   const handleGetRecipeDetails = async () => {
     const details = await getRecipeDetails(urlName)
     setRecipeDetails(details)
+    const admin = await userIsAdmin()
+    setIsAdmin(admin.isAdmin)
   }
 
   useEffect(() => {
@@ -42,9 +48,20 @@ const SingleRecipe = () => {
   }
 
   const loggedUser = JSON.parse(window.localStorage.getItem(localStorageName))
+  if (isEditing) {
+    return <EditView recipeDetails={recipeDetails} setIsEditing={setIsEditing} />
+  }
+
   return (
     <div>
       <RecipeHeader name={recipeDetails.recipe.name} servings={recipeDetails.recipe.servings} time={recipeDetails.recipe.time} />
+      {(loggedUser && (loggedUser.id === recipeDetails.recipe.user_id || isAdmin))
+        && (
+          // eslint-disable-next-line no-unused-vars
+          <Button variant="link" onClick={(event) => setIsEditing(true)}>
+            Muokkaa reseptiä
+          </Button>
+        )}
       <br />
       <IngredientView ingredients={recipeDetails.ingredients} />
       <br />
