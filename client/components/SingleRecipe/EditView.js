@@ -1,8 +1,10 @@
+/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-unused-vars */
 // disabled only for the {event => } lines, don't know if necessary...
 import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Table from 'react-bootstrap/Table'
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 
 import { editRecipe } from 'Utilities/services/recipes'
 
@@ -58,6 +60,38 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
     await editRecipe(toEdit, urlName)
   }
 
+  const handleIngredientDrag = (e) => {
+    if (e.source.index !== e.destination.index) {
+      const dragged = ingredients[e.source.index]
+      const bumped = ingredients[e.destination.index]
+
+      const smallerIndices = ingredients.filter((i, index) => index < e.destination.index && i.id !== dragged.id)
+      const largerIndices = ingredients.filter((i, index) => index > e.destination.index && i.id !== dragged.id)
+
+      if (e.destination.index === 0) {
+        setIngredients([...smallerIndices, dragged, bumped, ...largerIndices])
+      } else {
+        setIngredients([...smallerIndices, bumped, dragged, ...largerIndices])
+      }
+    }
+  }
+
+  const handleStepDrag = (e) => {
+    if (e.source.index !== e.destination.index) {
+      const dragged = steps[e.source.index]
+      const bumped = steps[e.destination.index]
+
+      const smallerIndices = steps.filter((i, index) => index < e.destination.index && i.id !== dragged.id)
+      const largerIndices = steps.filter((i, index) => index > e.destination.index && i.id !== dragged.id)
+
+      if (e.destination.index === 0) {
+        setSteps([...smallerIndices, dragged, bumped, ...largerIndices])
+      } else {
+        setSteps([...smallerIndices, bumped, dragged, ...largerIndices])
+      }
+    }
+  }
+
   return (
     <div>
       <Button variant="danger" onClick={(event) => setIsEditing(false)}>
@@ -75,58 +109,83 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
         Työaika: <input value={time} onChange={({ target }) => setTime(target.value)} />
       </div>
       <br />
-
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>Määrä</th>
-            <th>Yksikkö</th>
-            <th>Ainesosa</th>
-          </tr>
-        </thead>
-        <tbody>
-          {ingredients.map((ingredient) => (
-            <tr key={ingredient.id}>
-              <td>
-                <input value={ingredient.amount ? ingredient.amount : ''} name="amount" onChange={(event) => changeIngredients(event, ingredient.id)} />
-              </td>
-              <td>
-                <input value={ingredient.unit ? ingredient.unit : ''} name="unit" onChange={(event) => changeIngredients(event, ingredient.id)} />
-              </td>
-              <td>
-                <input value={ingredient.name ? ingredient.name : ''} name="name" onChange={(event) => changeIngredients(event, ingredient.id)} />
-              </td>
-              <td>
-                <Button size="sm" onClick={(event) => deleteIngredient(ingredient.id)}>
-                  Poista
-                </Button>
-              </td>
+      <DragDropContext onDragEnd={handleIngredientDrag}>
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th> </th>
+              <th>Määrä</th>
+              <th>Yksikkö</th>
+              <th>Ainesosa</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <Droppable droppableId="droppable-1">
+            {(provider) => (
+              <tbody ref={provider.innerRef} {...provider.droppableProps}>
+                {ingredients.map((ingredient, index) => (
+                  <Draggable key={ingredient.id} draggableId={String(ingredient.id)} index={index}>
+                    {(provider) => (
+                      <tr key={ingredient.id} {...provider.draggableProps} ref={provider.innerRef}>
+                        <td {...provider.dragHandleProps}> = </td>
+                        <td>
+                          <input value={ingredient.amount ? ingredient.amount : ''} name="amount" onChange={(event) => changeIngredients(event, ingredient.id)} />
+                        </td>
+                        <td>
+                          <input value={ingredient.unit ? ingredient.unit : ''} name="unit" onChange={(event) => changeIngredients(event, ingredient.id)} />
+                        </td>
+                        <td>
+                          <input value={ingredient.name ? ingredient.name : ''} name="name" onChange={(event) => changeIngredients(event, ingredient.id)} />
+                        </td>
+                        <td>
+                          <Button size="sm" onClick={(event) => deleteIngredient(ingredient.id)}>
+                            Poista
+                          </Button>
+                        </td>
+                      </tr>
+                    )}
+                  </Draggable>
+                ))}
+                {(provider.placeholder)}
+              </tbody>
+            )}
+          </Droppable>
+        </Table>
+      </DragDropContext>
       <br />
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>Työvaihe</th>
-          </tr>
-        </thead>
-        <tbody>
-          {steps.map((step) => (
-            <tr key={step.id}>
-              <td>
-                <input size="50" value={step.step} onChange={(event) => changeSteps(event, step.id)} />
-              </td>
-              <td>
-                <Button size="sm" onClick={(event) => deleteStep(step.id)}>
-                  Poista
-                </Button>
-              </td>
+      <DragDropContext onDragEnd={handleStepDrag}>
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th> </th>
+              <th>Työvaihe</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <Droppable droppableId="droppable-2">
+            {(provider) => (
+              <tbody ref={provider.innerRef} {...provider.droppableProps}>
+                {steps.map((step, index) => (
+                  <Draggable key={step.id} draggableId={String(step.id)} index={index}>
+                    {(provider) => (
+                      <tr key={step.id} {...provider.draggableProps} ref={provider.innerRef}>
+                        <td {...provider.dragHandleProps}> = </td>
+                        <td>
+                          <input size="50" value={step.step} onChange={(event) => changeSteps(event, step.id)} />
+                        </td>
+                        <td>
+                          <Button size="sm" onClick={(event) => deleteStep(step.id)}>
+                            Poista
+                          </Button>
+                        </td>
+                      </tr>
+                    )}
+                  </Draggable>
+                ))}
+                {(provider.placeholder)}
+              </tbody>
+            )}
+          </Droppable>
+        </Table>
+      </DragDropContext>
       <Button onClick={handleSave}>
         Tallenna muutokset
       </Button>
