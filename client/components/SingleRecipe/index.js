@@ -49,7 +49,7 @@ const SingleRecipe = () => {
 
   const loggedUser = JSON.parse(window.localStorage.getItem(localStorageName))
   if (isEditing) {
-    return <EditView recipeDetails={recipeDetails} setIsEditing={setIsEditing} />
+    return <EditView recipeDetails={recipeDetails} setIsEditing={setIsEditing} urlName={urlName} />
   }
 
   return (

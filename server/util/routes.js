@@ -25,6 +25,7 @@ router.delete('/ingredients/:id', ingredients.deleteIngredient)
 
 router.get('/recipes', recipes.getAll)
 router.get('/recipes/:urlName', recipes.getRecipeDetails)
+router.post('/recipes/:urlName', sessionValidator, recipes.editRecipe)
 router.post('/recipes', sessionValidator, recipes.addRecipe)
 router.post('/users', users.postUser)
 router.get('/users/isadmin', sessionValidator, users.isAdmin)

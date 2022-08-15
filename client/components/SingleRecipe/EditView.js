@@ -1,8 +1,12 @@
+/* eslint-disable no-unused-vars */
+// disabled only for the {event => } lines, don't know if necessary...
 import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Table from 'react-bootstrap/Table'
 
-const EditView = ({ recipeDetails, setIsEditing }) => {
+import { editRecipe } from 'Utilities/services/recipes'
+
+const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
   const [name, setName] = useState(recipeDetails.recipe.name)
   const [servings, setServings] = useState(recipeDetails.recipe.servings)
   const [time, setTime] = useState(recipeDetails.recipe.time)
@@ -41,6 +45,19 @@ const EditView = ({ recipeDetails, setIsEditing }) => {
     setSteps(filtered)
   }
 
+  const handleSave = async () => {
+    const toEdit = {
+      ...recipeDetails,
+      newName: name,
+      newServings: servings,
+      newTime: time,
+      newIngredients: ingredients,
+      newSteps: steps,
+    }
+    console.log('handleSave', toEdit, urlName)
+    await editRecipe(toEdit, urlName)
+  }
+
   return (
     <div>
       <Button variant="danger" onClick={(event) => setIsEditing(false)}>
@@ -71,7 +88,7 @@ const EditView = ({ recipeDetails, setIsEditing }) => {
           {ingredients.map((ingredient) => (
             <tr key={ingredient.id}>
               <td>
-                <input value={ingredient.amount} name="amount" onChange={(event) => changeIngredients(event, ingredient.id)} />
+                <input value={ingredient.amount ? ingredient.amount : ''} name="amount" onChange={(event) => changeIngredients(event, ingredient.id)} />
               </td>
               <td>
                 <input value={ingredient.unit ? ingredient.unit : ''} name="unit" onChange={(event) => changeIngredients(event, ingredient.id)} />
@@ -110,6 +127,9 @@ const EditView = ({ recipeDetails, setIsEditing }) => {
           ))}
         </tbody>
       </Table>
+      <Button onClick={handleSave}>
+        Tallenna muutokset
+      </Button>
     </div>
   )
 }

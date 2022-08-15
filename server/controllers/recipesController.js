@@ -100,9 +100,64 @@ const addRecipe = async (req, res) => {
   return res.status(200).end()
 }
 
+const editRecipe = async (req, res) => {
+  const {
+    recipe,
+    newName,
+    newServings,
+    newTime,
+    newIngredients,
+    newSteps,
+  } = req.body
+
+  if (!req.decodedToken.isAdmin && req.decodedToken.id !== recipe.user_id) {
+    return res.status(401).json({
+      error: 'Käyttöoikeutesi ei riitä tämän reseptin muokkaamiseen',
+    })
+  }
+
+  const ingredientBulkArray = newIngredients.map((i) => ({
+    recipeId: recipe.id,
+    ingredientId: i.ing_id,
+    amount: i.amount,
+    unit: i.unit,
+  }))
+
+  const stepsBulkArray = newSteps.map((s, index) => ({
+    recipeId: recipe.id,
+    step: s.step,
+    number: index + 1,
+  }))
+
+  await RecipeIngredient.destroy({
+    where: { recipeId: recipe.id },
+  })
+
+  await RecipeStep.destroy({
+    where: { recipeId: recipe.id },
+  })
+
+  await RecipeIngredient.bulkCreate(ingredientBulkArray)
+  await RecipeStep.bulkCreate(stepsBulkArray)
+
+  await Recipe.update(
+    {
+      name: newName,
+      servings: newServings,
+      time: newTime,
+    },
+    {
+      where: { id: recipe.id },
+    },
+  )
+
+  return res.status(200).end()
+}
+
 module.exports = {
   getAll,
   getRecipeDetails,
   addRecipe,
   getIngredientNames,
+  editRecipe,
 }

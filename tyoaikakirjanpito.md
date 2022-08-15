@@ -31,4 +31,6 @@
 | 12.8. | 4    | Päivityksiä ainesosaluettelon käyttöliittymään ja tietokantakyselyihin |
 | 12.8. | 3    | Päivän päivityksien päivittelyä, bugikorjauksia, kannan siistimistä, käyttötestausta |
 | 13.8. | 2    | Reseptien editointia frontendiin |
-| yht   | 71 | | 
+|       | 73   | 14.8. mennessä yhteensä |
+| 14.8. | 2    | Reseptien editoinnin laajennusta |
+| yht   | 73+14.8. | | 
