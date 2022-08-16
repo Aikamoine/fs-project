@@ -68,7 +68,7 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
       const smallerIndices = ingredients.filter((i, index) => index < e.destination.index && i.id !== dragged.id)
       const largerIndices = ingredients.filter((i, index) => index > e.destination.index && i.id !== dragged.id)
 
-      if (e.destination.index === 0) {
+      if (e.source.index > e.destination.index) {
         setIngredients([...smallerIndices, dragged, bumped, ...largerIndices])
       } else {
         setIngredients([...smallerIndices, bumped, dragged, ...largerIndices])
@@ -84,7 +84,7 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
       const smallerIndices = steps.filter((i, index) => index < e.destination.index && i.id !== dragged.id)
       const largerIndices = steps.filter((i, index) => index > e.destination.index && i.id !== dragged.id)
 
-      if (e.destination.index === 0) {
+      if (e.source.index > e.destination.index) {
         setSteps([...smallerIndices, dragged, bumped, ...largerIndices])
       } else {
         setSteps([...smallerIndices, bumped, dragged, ...largerIndices])
