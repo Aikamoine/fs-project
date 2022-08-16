@@ -83,19 +83,15 @@ const ManageIngredients = () => {
   }
 
   const handleDelete = async (event, ingredient) => {
-    console.log('deleting', ingredient)
     const deleted = await deleteIngredient(ingredient)
-    console.log('deleted', deleted)
     toast(deleted.message)
     handleGetIngredients()
   }
 
   const handleAddIngredient = async (event, ingredient) => {
     try {
-      console.log('adding', ingredient)
       toast(`Lisätään ainesosaa ${ingredient.name}`)
       const added = await addIngredient(ingredient)
-      console.log('added', added)
       toast(added.message)
       handleGetIngredients()
     } catch (error) {

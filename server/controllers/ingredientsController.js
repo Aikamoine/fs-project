@@ -36,7 +36,6 @@ const addIngredient = async (req, res) => {
     const added = await Ingredient.create({
       name: ingredient.name.toLowerCase(),
     })
-    console.log('ADDED', added)
     res.json({ message: `Lisätty ${added.name}` })
   } catch (error) {
     console.log(error)
@@ -46,7 +45,6 @@ const addIngredient = async (req, res) => {
 
 const getFineliIngredients = async (req, res) => {
   const { id } = req.params
-  console.log('server getting fineli', id)
   const url = `https://fineli.fi/fineli/api/v1/foods/${id}`
   https.get(url, (response) => {
     let body = ''

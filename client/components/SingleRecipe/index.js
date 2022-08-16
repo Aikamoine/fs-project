@@ -51,7 +51,7 @@ const SingleRecipe = () => {
   if (isEditing) {
     return <EditView recipeDetails={recipeDetails} setIsEditing={setIsEditing} urlName={urlName} />
   }
-  console.log(recipeDetails)
+
   return (
     <div>
       <RecipeHeader

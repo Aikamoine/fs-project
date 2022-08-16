@@ -50,26 +50,6 @@ const getRecipeDetails = async (req, res) => {
   res.json(details)
 }
 
-const postIngredient = async (ingredient, index, recipeId) => {
-  const dbIngredient = await Ingredient.findOrCreate({
-    where: { name: ingredient.name },
-  })
-  await RecipeIngredient.create({
-    recipeId,
-    ingredientId: dbIngredient[0].id,
-    amount: ingredient.amount,
-    unit: ingredient.unit,
-  })
-}
-
-const postStep = async (step, number, recipeId) => {
-  await RecipeStep.create({
-    recipeId,
-    step,
-    number: number + 1,
-  })
-}
-
 const addRecipe = async (req, res) => {
   if (!req.decodedToken.isAdmin) {
     return res.status(401).json({
@@ -78,24 +58,33 @@ const addRecipe = async (req, res) => {
   }
 
   const {
-    name, servings, time, urlName, ingredients, steps,
+    name, servings, time, info, urlName, ingredients, steps,
   } = req.body
 
   const recipe = await Recipe.create({
     name,
     servings,
     time,
+    info,
     urlName,
     userId: req.decodedToken.id,
   })
 
-  for (let index = 0; index < ingredients.length; index++) {
-    await postIngredient(ingredients[index], index, recipe.id)
-  }
+  const ingredientBulkArray = ingredients.map((ingredient) => ({
+    recipeId: recipe.id,
+    ingredientId: ingredient.ingredient.id,
+    amount: ingredient.amount,
+    unit: ingredient.unit,
+  }))
 
-  for (let index = 0; index < steps.length; index++) {
-    await postStep(steps[index], index, recipe.id)
-  }
+  const stepsBulkArray = steps.map((step, index) => ({
+    recipeId: recipe.id,
+    step,
+    number: index + 1,
+  }))
+
+  await RecipeIngredient.bulkCreate(ingredientBulkArray)
+  await RecipeStep.bulkCreate(stepsBulkArray)
 
   return res.status(200).end()
 }

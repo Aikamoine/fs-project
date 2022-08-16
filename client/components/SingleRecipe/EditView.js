@@ -1,6 +1,4 @@
 /* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable no-unused-vars */
-// disabled only for the {event => } lines, don't know if necessary...
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Button from 'react-bootstrap/Button'
@@ -61,7 +59,6 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
       number: steps[steps.length - 1].number + 1,
       step: '',
     }
-    console.log('addstep', newStep)
     setSteps([...steps, newStep])
   }
 
@@ -115,7 +112,6 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
 
   const handleIngredientChange = (selectedOptions) => {
     if (selectedOptions) {
-      const id = ingredients[0]
       const newIngredient = {
         id: newId,
         name: selectedOptions.label,
@@ -131,7 +127,7 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
 
   return (
     <div>
-      <Button variant="danger" onClick={(event) => setIsEditing(false)}>
+      <Button variant="danger" onClick={() => setIsEditing(false)}>
         Peru muutokset
       </Button>
       <br />
@@ -177,7 +173,7 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
                           {ingredient.name ? ingredient.name : ''}
                         </td>
                         <td>
-                          <Button size="sm" onClick={(event) => deleteIngredient(ingredient.id)}>
+                          <Button size="sm" onClick={() => deleteIngredient(ingredient.id)}>
                             Poista
                           </Button>
                         </td>
@@ -214,7 +210,7 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
                           <input size="50" value={step.step} onChange={(event) => changeSteps(event, step.id)} />
                         </td>
                         <td>
-                          <Button size="sm" onClick={(event) => deleteStep(step.id)}>
+                          <Button size="sm" onClick={() => deleteStep(step.id)}>
                             Poista
                           </Button>
                         </td>

@@ -4,10 +4,11 @@ import { Route, Routes } from 'react-router-dom'
 import FrontPage from 'Components/FrontPage'
 import RecipeView from 'Components/RecipeView'
 import SingleRecipe from 'Components/SingleRecipe'
+import AddRecipe from 'Components/AddRecipe'
 import CreateUser from './User/CreateUser'
 import LoginForm from './User/LoginForm'
 import Logout from './User/Logout'
-import AddRecipe from './AddRecipe/index'
+
 import Shoppinglist from './Shoppinglist/index'
 import ManageIngredients from './ManageIngredients/index'
 
