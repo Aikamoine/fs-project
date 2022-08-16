@@ -30,7 +30,7 @@ const getIngredientNames = async (req, res) => {
 const getRecipeDetails = async (req, res) => {
   const recipe = await Recipe.findOne({
     where: { urlName: req.params.urlName },
-    attributes: ['id', 'name', 'servings', 'time', 'user_id'],
+    attributes: ['id', 'name', 'servings', 'time', 'user_id', 'info'],
     include: [
       {
         model: RecipeStep,
@@ -106,6 +106,7 @@ const editRecipe = async (req, res) => {
     newName,
     newServings,
     newTime,
+    newInfo,
     newIngredients,
     newSteps,
   } = req.body
@@ -145,6 +146,7 @@ const editRecipe = async (req, res) => {
       name: newName,
       servings: newServings,
       time: newTime,
+      info: newInfo,
     },
     {
       where: { id: recipe.id },

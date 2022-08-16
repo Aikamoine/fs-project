@@ -9,6 +9,7 @@ const AddRecipe = () => {
   const [name, setName] = useState('')
   const [servings, setServings] = useState(0)
   const [time, setTime] = useState('')
+  const [info, setInfo] = useState('')
   const [ingredients, setIngredients] = useState('')
   const [steps, setSteps] = useState('')
   const [postCheck, setPostCheck] = useState(false)
@@ -38,6 +39,7 @@ const AddRecipe = () => {
   const nameChange = ({ target }) => setName(target.value)
   const servingsChange = ({ target }) => setServings(target.value)
   const timeChange = ({ target }) => setTime(target.value)
+  const infoChange = ({ target }) => setInfo(target.value)
   const ingredientsChange = ({ target }) => setIngredients(target.value)
   const stepsChange = ({ target }) => setSteps(target.value)
 
@@ -60,6 +62,10 @@ const AddRecipe = () => {
           <Form.Label>Työaika: </Form.Label>
           <Form.Control value={time} onChange={timeChange} />
         </Form.Group>
+        <Form.Group controlId="info">
+          <Form.Label>Lisätietoja, esim. alkuperäisen reseptin nettiosoite: </Form.Label>
+          <Form.Control value={info} onChange={infoChange} />
+        </Form.Group>
         <br />
         <Form.Group controlId="ingredients">
           <Form.Label>Ainesosat</Form.Label>
@@ -76,7 +82,19 @@ const AddRecipe = () => {
         </Button>
       </Form>
       <br />
-      {postCheck ? <CheckView recipeInfo={{ name, time, servings }} ingredients={ingredients} steps={steps} ingredientList={ingredientList} /> : <div /> }
+      {postCheck ? (
+        <CheckView
+          recipeInfo={{
+            name,
+            time,
+            servings,
+            info,
+          }}
+          ingredients={ingredients}
+          steps={steps}
+          ingredientList={ingredientList}
+        />
+      ) : <div />}
     </div>
   )
 }

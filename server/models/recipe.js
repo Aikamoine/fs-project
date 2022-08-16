@@ -29,6 +29,9 @@ Recipe.init({
     type: DataTypes.INTEGER,
     references: { model: 'users', key: 'id' },
   },
+  info: {
+    type: DataTypes.TEXT,
+  },
 }, {
   sequelize,
   underscored: true,

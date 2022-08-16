@@ -51,17 +51,15 @@ const SingleRecipe = () => {
   if (isEditing) {
     return <EditView recipeDetails={recipeDetails} setIsEditing={setIsEditing} urlName={urlName} />
   }
-
+  console.log(recipeDetails)
   return (
     <div>
-      <RecipeHeader name={recipeDetails.recipe.name} servings={recipeDetails.recipe.servings} time={recipeDetails.recipe.time} />
-      {(loggedUser && (loggedUser.id === recipeDetails.recipe.user_id || isAdmin))
-        && (
-          // eslint-disable-next-line no-unused-vars
-          <Button variant="link" onClick={(event) => setIsEditing(true)}>
-            Muokkaa reseptiä
-          </Button>
-        )}
+      <RecipeHeader
+        name={recipeDetails.recipe.name}
+        servings={recipeDetails.recipe.servings}
+        time={recipeDetails.recipe.time}
+        info={recipeDetails.recipe.info}
+      />
       <br />
       <IngredientView ingredients={recipeDetails.ingredients} />
       <br />
@@ -74,6 +72,13 @@ const SingleRecipe = () => {
           </Button>
         </p>
       )}
+      {(loggedUser && (loggedUser.id === recipeDetails.recipe.user_id || isAdmin))
+        && (
+          // eslint-disable-next-line no-unused-vars
+          <Button variant="link" onClick={(event) => setIsEditing(true)}>
+            Muokkaa reseptiä
+          </Button>
+        )}
       <p>
         <Link to="/recipes">
           Takaisin reseptilistaan

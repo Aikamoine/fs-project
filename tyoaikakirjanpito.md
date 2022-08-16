@@ -32,5 +32,7 @@
 | 12.8. | 3    | Päivän päivityksien päivittelyä, bugikorjauksia, kannan siistimistä, käyttötestausta |
 | 13.8. | 2    | Reseptien editointia frontendiin |
 |       | 73   | 14.8. mennessä yhteensä |
-| 14.8. | 4    | Reseptien editoinnin laajennusta |
-| yht   | 77 | | 
+| 15.8. | 4    | Reseptien editoinnin laajennusta |
+| 16.8. | 2,5  | Reseptien editoinnin laajennusta, bugimetsästystä |
+| 17.8. | 1    | Muutoksia ainesosien hallintaan |
+| yht   | 77+16.8 | | 

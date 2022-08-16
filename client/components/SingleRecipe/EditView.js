@@ -2,18 +2,26 @@
 /* eslint-disable no-unused-vars */
 // disabled only for the {event => } lines, don't know if necessary...
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Button from 'react-bootstrap/Button'
 import Table from 'react-bootstrap/Table'
+import Form from 'react-bootstrap/Form'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
+import { toast } from 'react-toastify'
 
 import { editRecipe } from 'Utilities/services/recipes'
+import IngredientSelector from 'Components/IngredientSelector'
 
 const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
   const [name, setName] = useState(recipeDetails.recipe.name)
   const [servings, setServings] = useState(recipeDetails.recipe.servings)
   const [time, setTime] = useState(recipeDetails.recipe.time)
+  const [info, setInfo] = useState(recipeDetails.recipe.info)
   const [ingredients, setIngredients] = useState(recipeDetails.ingredients)
   const [steps, setSteps] = useState(recipeDetails.recipe.recipe_steps)
+  const [newId, setNewId] = useState(0)
+
+  const navigate = useNavigate()
 
   const changeIngredients = (event, id) => {
     const { name, value } = event.target
@@ -47,17 +55,30 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
     setSteps(filtered)
   }
 
+  const addStep = () => {
+    const newStep = {
+      id: newId,
+      number: steps[steps.length - 1].number + 1,
+      step: '',
+    }
+    console.log('addstep', newStep)
+    setSteps([...steps, newStep])
+  }
+
   const handleSave = async () => {
     const toEdit = {
       ...recipeDetails,
       newName: name,
       newServings: servings,
       newTime: time,
+      newInfo: info,
       newIngredients: ingredients,
       newSteps: steps,
     }
+    toast('Tallennetaan muutoksia')
     console.log('handleSave', toEdit, urlName)
     await editRecipe(toEdit, urlName)
+    navigate('/recipes', { replace: false })
   }
 
   const handleIngredientDrag = (e) => {
@@ -92,6 +113,22 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
     }
   }
 
+  const handleIngredientChange = (selectedOptions) => {
+    if (selectedOptions) {
+      const id = ingredients[0]
+      const newIngredient = {
+        id: newId,
+        name: selectedOptions.label,
+        amount: null,
+        unit: '',
+        ing_id: selectedOptions.value,
+      }
+
+      setNewId(newId - 1)
+      setIngredients([...ingredients, newIngredient])
+    }
+  }
+
   return (
     <div>
       <Button variant="danger" onClick={(event) => setIsEditing(false)}>
@@ -99,15 +136,18 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
       </Button>
       <br />
       <br />
-      <div>
-        Nimi: <input value={name} onChange={({ target }) => setName(target.value)} />
-      </div>
-      <div>
-        Annoksia: <input type="number" value={servings} onChange={({ target }) => setServings(target.value)} />
-      </div>
-      <div>
-        Työaika: <input value={time} onChange={({ target }) => setTime(target.value)} />
-      </div>
+      <Form>
+        <Form.Group controlId="recipe-details">
+          <Form.Label>Reseptin nimi:</Form.Label>
+          <Form.Control value={name} onChange={({ target }) => setName(target.value)} />
+          <Form.Label>Annoksia:</Form.Label>
+          <Form.Control type="number" value={servings} onChange={({ target }) => setServings(target.value)} />
+          <Form.Label>Työaika:</Form.Label>
+          <Form.Control value={time} onChange={({ target }) => setTime(target.value)} />
+          <Form.Label>Lisätieto:</Form.Label>
+          <Form.Control value={info} onChange={({ target }) => setInfo(target.value)} />
+        </Form.Group>
+      </Form>
       <br />
       <DragDropContext onDragEnd={handleIngredientDrag}>
         <Table striped bordered hover>
@@ -134,7 +174,7 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
                           <input value={ingredient.unit ? ingredient.unit : ''} name="unit" onChange={(event) => changeIngredients(event, ingredient.id)} />
                         </td>
                         <td>
-                          <input value={ingredient.name ? ingredient.name : ''} name="name" onChange={(event) => changeIngredients(event, ingredient.id)} />
+                          {ingredient.name ? ingredient.name : ''}
                         </td>
                         <td>
                           <Button size="sm" onClick={(event) => deleteIngredient(ingredient.id)}>
@@ -151,13 +191,15 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
           </Droppable>
         </Table>
       </DragDropContext>
+      <div>Lisää ainesosa</div>
+      <IngredientSelector onChange={handleIngredientChange} />
       <br />
       <DragDropContext onDragEnd={handleStepDrag}>
         <Table striped bordered hover>
           <thead>
             <tr>
               <th> </th>
-              <th>Työvaihe</th>
+              <th>Työvaihe <Button size="sm" onClick={addStep}>Lisää työvaihe</Button></th>
             </tr>
           </thead>
           <Droppable droppableId="droppable-2">
