@@ -10,7 +10,7 @@ const getIngredients = async (req, res) => {
   // eslint-disable-next-line no-unused-vars
   const [ingredients, metadata] = await sequelize.query(
     // 'SELECT I.id, I.name, COUNT(RI.id), false as edited FROM ingredients I, recipe_ingredients RI WHERE I.id = RI.ingredient_id GROUP BY I.name, I.id ORDER BY name',
-    `SELECT I.id, I.name, COUNT(RI.id), false as edited
+    `SELECT I.id, I.name, COUNT(RI.id), I.kcal, I.fat, I.sat_fat, I.carbs, I.sugars, I.protein, I.unit_weight, I.volume_weight, false as edited, false as details
     FROM ingredients I
     LEFT JOIN recipe_ingredients RI on I.id=RI.ingredient_id
     GROUP BY I.name, I.id
@@ -33,9 +33,23 @@ const getIngredientNames = async (req, res) => {
 const addIngredient = async (req, res) => {
   try {
     const ingredient = req.body
+    const {
+      name, kcal, fat, carbs, sugars, protein,
+    } = req.body
+
+    console.log(ingredient)
     const added = await Ingredient.create({
-      name: ingredient.name.toLowerCase(),
+      name: name.toLowerCase(),
+      kcal,
+      fat,
+      satFat: req.body.sat_fat,
+      carbs,
+      sugars,
+      protein,
+      unitWeight: req.body.unit_weight,
+      volumeWeight: req.body.volume_weight,
     })
+
     res.json({ message: `Lisätty ${added.name}` })
   } catch (error) {
     console.log(error)

@@ -35,13 +35,13 @@ const ControlButton = ({
   if (Number(ingredient.count) === 0) {
     return (
       <>
-        <Button variant="warning" size="sm" onClick={(event) => handleReplace(event, ingredient)}>Korvaa nykyisellä tekstillä</Button>
+        <Button variant="warning" size="sm" onClick={(event) => handleReplace(event, ingredient)}>Päivitä</Button>
         <Button variant="danger" size="sm" onClick={(event) => handleDelete(event, ingredient)}>Poista kokonaan</Button>
       </>
     )
   }
   return (
-    <Button variant="warning" size="sm" onClick={(event) => handleReplace(event, ingredient)}>Korvaa nykyisellä tekstillä</Button>
+    <Button variant="warning" size="sm" onClick={(event) => handleReplace(event, ingredient)}>Päivitä</Button>
   )
 }
 

@@ -45,7 +45,7 @@ export const getFromFineliApi = async (id) => {
   }
 }
 
-export const replaceIngredientName = async (ingredient) => {
+export const replaceIngredient = async (ingredient) => {
   try {
     const config = setConfig()
     const response = await axios.put(`${basePath}/replace`, ingredient, config)
