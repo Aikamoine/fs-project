@@ -45,10 +45,10 @@ export const getFromFineliApi = async (id) => {
   }
 }
 
-export const replaceIngredient = async (ingredient) => {
+export const updateIngredient = async (ingredient) => {
   try {
     const config = setConfig()
-    const response = await axios.put(`${basePath}/replace`, ingredient, config)
+    const response = await axios.put(`${basePath}/update`, ingredient, config)
     return response.data
   } catch (error) {
     return new Error(error.response.data.error)

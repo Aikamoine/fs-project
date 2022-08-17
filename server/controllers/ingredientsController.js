@@ -9,8 +9,7 @@ const { sequelize } = require('../util/db')
 const getIngredients = async (req, res) => {
   // eslint-disable-next-line no-unused-vars
   const [ingredients, metadata] = await sequelize.query(
-    // 'SELECT I.id, I.name, COUNT(RI.id), false as edited FROM ingredients I, recipe_ingredients RI WHERE I.id = RI.ingredient_id GROUP BY I.name, I.id ORDER BY name',
-    `SELECT I.id, I.name, COUNT(RI.id), I.kcal, I.fat, I.sat_fat, I.carbs, I.sugars, I.protein, I.unit_weight, I.volume_weight, false as edited, false as details
+    `SELECT I.id, I.name, I.name as originalname, COUNT(RI.id), I.kcal, I.fat, I.satfat, I.carbs, I.sugars, I.protein, I.unitweight, I.volumeweight, false as edited, false as details
     FROM ingredients I
     LEFT JOIN recipe_ingredients RI on I.id=RI.ingredient_id
     GROUP BY I.name, I.id
@@ -32,22 +31,20 @@ const getIngredientNames = async (req, res) => {
 
 const addIngredient = async (req, res) => {
   try {
-    const ingredient = req.body
     const {
-      name, kcal, fat, carbs, sugars, protein,
+      name, kcal, fat, carbs, sugars, protein, satfat, unitweight, volumeweight,
     } = req.body
 
-    console.log(ingredient)
     const added = await Ingredient.create({
       name: name.toLowerCase(),
       kcal,
       fat,
-      satFat: req.body.sat_fat,
+      satfat,
       carbs,
       sugars,
       protein,
-      unitWeight: req.body.unit_weight,
-      volumeWeight: req.body.volume_weight,
+      unitweight,
+      volumeweight,
     })
 
     res.json({ message: `Lisätty ${added.name}` })
@@ -60,6 +57,7 @@ const addIngredient = async (req, res) => {
 const getFineliIngredients = async (req, res) => {
   const { id } = req.params
   const url = `https://fineli.fi/fineli/api/v1/foods/${id}`
+  console.log('getting', url)
   https.get(url, (response) => {
     let body = ''
 
@@ -80,17 +78,16 @@ const getFineliIngredients = async (req, res) => {
   })
 }
 
-const replaceIngredient = async (req, res) => {
+const updateIngredient = async (req, res) => {
   const ingredient = req.body
-  const originalName = await Ingredient.findOne({
-    where: { id: ingredient.id },
-    attributes: ['name'],
-  })
+
   const targetEntry = await Ingredient.findOne({
     where: { name: ingredient.name },
   })
 
-  if (targetEntry) {
+  console.log('ingredient', JSON.stringify(ingredient, null, 2))
+  console.log('targetEntry', JSON.stringify(targetEntry, null, 2))
+  if (targetEntry && targetEntry.name !== ingredient.originalname) {
     await Shoppinglist.update(
       { ingredientId: targetEntry.id },
       {
@@ -109,16 +106,34 @@ const replaceIngredient = async (req, res) => {
       where: { id: ingredient.id },
     })
 
-    res.json({ message: `Päivitetty kaikki ainesosat '${originalName.name}' nimen '${targetEntry.name}' alle` })
+    res.json({ message: `Päivitetty kaikki ainesosat '${ingredient.originalname}' nimen '${targetEntry.name}' alle` })
   } else {
+    const {
+      name, kcal, fat, carbs, sugars, protein, satfat, unitweight, volumeweight,
+    } = req.body
+
     const newIngredient = await Ingredient.update(
-      { name: ingredient.name.toLowerCase() },
+      {
+        name: name.toLowerCase(),
+        kcal,
+        fat,
+        satfat,
+        carbs,
+        sugars,
+        protein,
+        unitweight,
+        volumeweight,
+      },
       {
         where: { id: ingredient.id },
         returning: true,
       },
     )
-    res.json({ message: `Korvattu '${originalName.name}' ainesosalla '${newIngredient[1][0].name}'` })
+    if (ingredient.originalname === newIngredient[1][0].name) {
+      res.json({ message: `Päivitetty ainesosan ${ingredient.originalname} tiedot` })
+    } else {
+      res.json({ message: `Korvattu '${ingredient.originalname}' ainesosalla '${newIngredient[1][0].name}'` })
+    }
   }
 }
 
@@ -157,8 +172,7 @@ module.exports = {
   getIngredients,
   getIngredientNames,
   addIngredient,
-  // editIngredients,
   getFineliIngredients,
-  replaceIngredient,
+  updateIngredient,
   deleteIngredient,
 }

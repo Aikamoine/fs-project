@@ -19,7 +19,7 @@ Ingredient.init({
   fat: {
     type: DataTypes.DECIMAL(10, 2),
   },
-  satFat: {
+  satfat: {
     type: DataTypes.DECIMAL(10, 2),
   },
   carbs: {
@@ -31,10 +31,10 @@ Ingredient.init({
   protein: {
     type: DataTypes.DECIMAL(10, 2),
   },
-  unitWeight: {
+  unitweight: {
     type: DataTypes.DECIMAL(10, 2),
   },
-  volumeWeight: {
+  volumeweight: {
     type: DataTypes.DECIMAL(10, 2),
   },
 }, {

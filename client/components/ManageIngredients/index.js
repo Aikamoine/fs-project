@@ -10,7 +10,7 @@ import {
   // updateIngredients,
   addIngredient,
   getFromFineliApi,
-  replaceIngredient,
+  updateIngredient,
   deleteIngredient,
 } from 'Utilities/services/ingredients'
 import ControlButton from './ControlButton'
@@ -49,12 +49,12 @@ const ManageIngredients = () => {
       edited: true,
       kcal: 0,
       fat: 0,
-      sat_fat: 0,
+      satfat: 0,
       carbs: 0,
       sugars: 0,
       protein: 0,
-      unit_weight: 0,
-      volume_weight: 0,
+      unitweight: 0,
+      volumeweight: 0,
       details: true,
     }, ...ingredientList])
   }
@@ -77,10 +77,12 @@ const ManageIngredients = () => {
   }
 
   const handleReplace = async (event, ingredient) => {
+    console.log(ingredient.originalname, ingredient.name)
+    const replaceMessage = ingredient.originalname === ingredient.name ? '' : `Kaikki ${ingredient.originalname} -nimiset ainesosat korvataan ainesosan ${ingredient.name} tiedoilla.`
     // eslint-disable-next-line no-alert
-    if (window.confirm(`Hyväksymällä kaikki kannassa ID:llä ${ingredient.id} olevat ainesosat korvataan nimellä ${ingredient.name}`)) {
-      toast('Korvataan...')
-      const replaced = await replaceIngredient(ingredient)
+    if (window.confirm(`Haluatko päivittää tietoja ainesosalle ${ingredient.originalname}? ${replaceMessage}`)) {
+      toast('Päivitetään...')
+      const replaced = await updateIngredient(ingredient)
       toast(replaced.message)
       handleGetIngredients()
     }
@@ -96,12 +98,12 @@ const ManageIngredients = () => {
       edited: true,
       kcal: roundNumber(data.energyKcal),
       fat: roundNumber(data.fat),
-      sat_fat: roundNumber(data.saturatedFat),
+      satfat: roundNumber(data.saturatedFat),
       carbs: roundNumber(data.carbohydrate),
       sugars: roundNumber(data.sugar),
       protein: roundNumber(data.protein),
-      unit_weight: 0,
-      volume_weight: 0,
+      unitweight: 0,
+      volumeweight: 0,
       details: true,
     }, ...ingredientList])
   }
@@ -138,7 +140,7 @@ const ManageIngredients = () => {
   }
 
   const filtered = ingredientList.filter((i) => i.name.includes(filter.toLowerCase()) || i.edited)
-  console.log(filtered)
+
   return (
     <div>
       <div>
@@ -197,7 +199,7 @@ const ManageIngredients = () => {
                           <tr>
                             <td><input style={{ width: '100%' }} value={ingredient.kcal} name="kcal" onChange={(event) => handleChange(event, ingredient.id)} /></td>
                             <td><input style={{ width: '80%' }} value={ingredient.fat} name="fat" onChange={(event) => handleChange(event, ingredient.id)} /></td>
-                            <td><input style={{ width: '80%' }} value={ingredient.sat_fat} name="sat_fat" onChange={(event) => handleChange(event, ingredient.id)} /></td>
+                            <td><input style={{ width: '80%' }} value={ingredient.satfat} name="satfat" onChange={(event) => handleChange(event, ingredient.id)} /></td>
                             <td><input style={{ width: '80%' }} value={ingredient.carbs} name="carbs" onChange={(event) => handleChange(event, ingredient.id)} /></td>
                             <td><input style={{ width: '80%' }} value={ingredient.sugars} name="sugars" onChange={(event) => handleChange(event, ingredient.id)} /></td>
                             <td><input style={{ width: '80%' }} value={ingredient.protein} name="protein" onChange={(event) => handleChange(event, ingredient.id)} /></td>
@@ -213,8 +215,8 @@ const ManageIngredients = () => {
                         </thead>
                         <tbody>
                           <tr>
-                            <td><input style={{ width: '100%' }} value={ingredient.unit_weight} name="unit_weight" onChange={(event) => handleChange(event, ingredient.id)} /></td>
-                            <td><input style={{ width: '100%' }} value={ingredient.volume_weight} name="volume_weight" onChange={(event) => handleChange(event, ingredient.id)} /></td>
+                            <td><input style={{ width: '100%' }} value={ingredient.unitweight} name="unitweight" onChange={(event) => handleChange(event, ingredient.id)} /></td>
+                            <td><input style={{ width: '100%' }} value={ingredient.volumeweight} name="volumeweight" onChange={(event) => handleChange(event, ingredient.id)} /></td>
                           </tr>
                         </tbody>
                       </Table>
