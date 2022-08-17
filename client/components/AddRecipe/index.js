@@ -58,7 +58,7 @@ const AddRecipe = () => {
     const newIngredient = {
       ingredient,
       unit,
-      amount: !amount ? '' : Number(amount.replace(',', '.')),
+      amount: !amount ? '' : amount.replace(',', '.'),
     }
     setIngredients([...ingredients, newIngredient])
     setAmount('')

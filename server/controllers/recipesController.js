@@ -61,32 +61,40 @@ const addRecipe = async (req, res) => {
     name, servings, time, info, urlName, ingredients, steps,
   } = req.body
 
-  const recipe = await Recipe.create({
-    name,
-    servings,
-    time,
-    info,
-    urlName,
-    userId: req.decodedToken.id,
-  })
+  try {
+    const recipe = await Recipe.create({
+      name,
+      servings,
+      time,
+      info,
+      urlName,
+      userId: req.decodedToken.id,
+    })
 
-  const ingredientBulkArray = ingredients.map((ingredient) => ({
-    recipeId: recipe.id,
-    ingredientId: ingredient.ingredient.id,
-    amount: ingredient.amount,
-    unit: ingredient.unit,
-  }))
+    const ingredientBulkArray = ingredients.map((ingredient) => ({
+      recipeId: recipe.id,
+      ingredientId: ingredient.ingredient.id,
+      amount: ingredient.amount || null,
+      unit: ingredient.unit,
+    }))
 
-  const stepsBulkArray = steps.map((step, index) => ({
-    recipeId: recipe.id,
-    step,
-    number: index + 1,
-  }))
+    const stepsBulkArray = steps.map((step, index) => ({
+      recipeId: recipe.id,
+      step,
+      number: index + 1,
+    }))
 
-  await RecipeIngredient.bulkCreate(ingredientBulkArray)
-  await RecipeStep.bulkCreate(stepsBulkArray)
+    console.log('recipe', JSON.stringify(recipe, null, 2))
+    console.log('ingredients', ingredientBulkArray)
+    console.log('steps', stepsBulkArray)
+    await RecipeIngredient.bulkCreate(ingredientBulkArray)
+    await RecipeStep.bulkCreate(stepsBulkArray)
 
-  return res.status(200).end()
+    return res.status(200).end()
+  } catch (error) {
+    console.error(error)
+    return res.json({ message: 'Lisäyksessä tapahtui virhe. Tarkista reseptin tiedot selailusta.' })
+  }
 }
 
 const editRecipe = async (req, res) => {
@@ -109,7 +117,7 @@ const editRecipe = async (req, res) => {
   const ingredientBulkArray = newIngredients.map((i) => ({
     recipeId: recipe.id,
     ingredientId: i.ing_id,
-    amount: i.amount,
+    amount: i.amount || null,
     unit: i.unit,
   }))
 
