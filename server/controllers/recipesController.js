@@ -153,10 +153,41 @@ const editRecipe = async (req, res) => {
   return res.status(200).end()
 }
 
+const deleteRecipe = async (req, res) => {
+  const { id } = req.params
+
+  const toDelete = await Recipe.findByPk(id)
+
+  if (!req.decodedToken.isAdmin && toDelete.userId !== req.decodedToken.id) {
+    return res.status(401).json({
+      error: 'Käyttöoikeutesi ei riitä reseptien poistamiseen',
+    })
+  }
+
+  try {
+    await RecipeIngredient.destroy({
+      where: { recipeId: id },
+    })
+    await RecipeStep.destroy({
+      where: { recipeId: id },
+    })
+
+    await Recipe.destroy({
+      where: { id },
+    })
+    return res.status(200).end()
+  } catch (error) {
+    return res.status(500).json({
+      error: 'Poistossa tapahtui virhe',
+    })
+  }
+}
+
 module.exports = {
   getAll,
   getRecipeDetails,
   addRecipe,
   getIngredientNames,
   editRecipe,
+  deleteRecipe,
 }

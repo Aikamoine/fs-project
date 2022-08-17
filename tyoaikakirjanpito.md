@@ -34,5 +34,6 @@
 |       | 73   | 14.8. mennessä yhteensä |
 | 15.8. | 4    | Reseptien editoinnin laajennusta |
 | 16.8. | 2,5  | Reseptien editoinnin laajennusta, bugimetsästystä |
-| 17.8. | 4,5  | Muutoksia ainesosien hallintaan, reseptien lisäyksen refaktorointia (tai siis, kokonaan uuden logiikan tekemistä...)|
-| yht   | 84 | | 
+| 16.8. | 4,5  | Muutoksia ainesosien hallintaan, reseptien lisäyksen refaktorointia (tai siis, kokonaan uuden logiikan tekemistä...)|
+| 17.8. | 2    | Edellisen päivän bugien korjausta, reseptin poistotoiminnallisuus |
+| yht   | 84+17.8 | | 

@@ -7,7 +7,7 @@ import Form from 'react-bootstrap/Form'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { toast } from 'react-toastify'
 
-import { editRecipe } from 'Utilities/services/recipes'
+import { deleteRecipe, editRecipe } from 'Utilities/services/recipes'
 import IngredientSelector from 'Components/IngredientSelector'
 
 const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
@@ -76,6 +76,19 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
     console.log('handleSave', toEdit, urlName)
     await editRecipe(toEdit, urlName)
     navigate('/recipes', { replace: false })
+  }
+
+  const handleDelete = async () => {
+    // eslint-disable-next-line no-alert
+    if (window.confirm(`Haluatko varmasti poistaa ${recipeDetails.recipe.name} kokonaan? Tätä ei voi perua`)) {
+      toast('Poistetaan reseptiä')
+      try {
+        await deleteRecipe(recipeDetails.recipe.id)
+        navigate('/recipes', { replace: false })
+      } catch (error) {
+        console.log(error)
+      }
+    }
   }
 
   const handleIngredientDrag = (e) => {
@@ -224,9 +237,17 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
           </Droppable>
         </Table>
       </DragDropContext>
-      <Button onClick={handleSave}>
-        Tallenna muutokset
-      </Button>
+      <div>
+        <Button onClick={handleSave}>
+          Tallenna muutokset
+        </Button>
+      </div>
+      <br />
+      <div>
+        <Button variant="danger" onClick={handleDelete}>
+          Poista resepti kokonaan
+        </Button>
+      </div>
     </div>
   )
 }
