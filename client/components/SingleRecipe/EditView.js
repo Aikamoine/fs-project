@@ -73,7 +73,6 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
       newSteps: steps,
     }
     toast('Tallennetaan muutoksia')
-    console.log('handleSave', toEdit, urlName)
     await editRecipe(toEdit, urlName)
     navigate('/recipes', { replace: false })
   }

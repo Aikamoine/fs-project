@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import Button from 'react-bootstrap/Button'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 import { toast } from 'react-toastify'
 import { getRecipeDetails } from 'Utilities/services/recipes'
 import { addToList } from 'Utilities/services/shoppinglists'
@@ -11,6 +14,7 @@ import RecipeHeader from './RecipeHeader'
 import IngredientView from './IngredientView'
 import StepsView from './StepsView'
 import EditView from './EditView'
+import NutritionView from './NutritionView'
 
 const SingleRecipe = () => {
   const { urlName } = useParams()
@@ -61,7 +65,16 @@ const SingleRecipe = () => {
         info={recipeDetails.recipe.info}
       />
       <br />
-      <IngredientView ingredients={recipeDetails.ingredients} />
+      <Container>
+        <Row>
+          <Col>
+            <IngredientView ingredients={recipeDetails.ingredients} />
+          </Col>
+          <Col>
+            <NutritionView ingredients={recipeDetails.ingredients} servings={recipeDetails.recipe.servings} />
+          </Col>
+        </Row>
+      </Container>
       <br />
       <StepsView steps={recipeDetails.recipe.recipe_steps} />
       <br />
@@ -74,8 +87,7 @@ const SingleRecipe = () => {
       )}
       {(loggedUser && (loggedUser.id === recipeDetails.recipe.user_id || isAdmin))
         && (
-          // eslint-disable-next-line no-unused-vars
-          <Button variant="link" onClick={(event) => setIsEditing(true)}>
+          <Button variant="link" onClick={() => setIsEditing(true)}>
             Muokkaa reseptiä
           </Button>
         )}

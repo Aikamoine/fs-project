@@ -57,7 +57,6 @@ const addIngredient = async (req, res) => {
 const getFineliIngredients = async (req, res) => {
   const { id } = req.params
   const url = `https://fineli.fi/fineli/api/v1/foods/${id}`
-  console.log('getting', url)
   https.get(url, (response) => {
     let body = ''
 
@@ -85,8 +84,6 @@ const updateIngredient = async (req, res) => {
     where: { name: ingredient.name },
   })
 
-  console.log('ingredient', JSON.stringify(ingredient, null, 2))
-  console.log('targetEntry', JSON.stringify(targetEntry, null, 2))
   if (targetEntry && targetEntry.name !== ingredient.originalname) {
     await Shoppinglist.update(
       { ingredientId: targetEntry.id },

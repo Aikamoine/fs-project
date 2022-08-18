@@ -43,7 +43,8 @@ const getRecipeDetails = async (req, res) => {
 
   // eslint-disable-next-line no-unused-vars
   const [ingredients, metadata] = await sequelize.query(
-    `SELECT RI.id, RI.amount, RI.unit, I.name as name, I.id as ing_id FROM recipe_ingredients RI LEFT JOIN ingredients I on RI.ingredient_id=I.id WHERE RI.recipe_id=${recipe.id} ORDER BY RI.id`,
+    `SELECT RI.id, RI.amount, RI.unit, I.name as name, I.id as ing_id, I.kcal, I.fat, I.satfat, I.carbs, I.sugars, I.protein, I.unitweight, I.volumeweight 
+    FROM recipe_ingredients RI LEFT JOIN ingredients I on RI.ingredient_id=I.id WHERE RI.recipe_id=${recipe.id} ORDER BY RI.id`,
   )
 
   const details = { recipe, ingredients }
@@ -84,9 +85,6 @@ const addRecipe = async (req, res) => {
       number: index + 1,
     }))
 
-    console.log('recipe', JSON.stringify(recipe, null, 2))
-    console.log('ingredients', ingredientBulkArray)
-    console.log('steps', stepsBulkArray)
     await RecipeIngredient.bulkCreate(ingredientBulkArray)
     await RecipeStep.bulkCreate(stepsBulkArray)
 

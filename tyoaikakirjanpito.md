@@ -37,5 +37,6 @@
 | 16.8. | 4,5  | Muutoksia ainesosien hallintaan, reseptien lisäyksen refaktorointia (tai siis, kokonaan uuden logiikan tekemistä...)|
 | 17.8. | 2    | Edellisen päivän bugien korjausta, reseptin poistotoiminnallisuus |
 | 17.8. | 3    | Ravintosisällöt tietokantaan, uuden ainesosan lisääminen ravintosisällöllä |
-| 18.8. | 2    | Ainesosien editointi ja korvaaminen toimimaan ravintosisältöjen kanssa |
-| yht   | 91 | | 
+| 17.8. | 2    | Ainesosien editointi ja korvaaminen toimimaan ravintosisältöjen kanssa |
+| 18.8. | 2,5    | Ravintosisällön näyttö reseptinäkymään |
+| yht   | 91+18.8. | | 

@@ -77,7 +77,6 @@ const ManageIngredients = () => {
   }
 
   const handleReplace = async (event, ingredient) => {
-    console.log(ingredient.originalname, ingredient.name)
     const replaceMessage = ingredient.originalname === ingredient.name ? '' : `Kaikki ${ingredient.originalname} -nimiset ainesosat korvataan ainesosan ${ingredient.name} tiedoilla.`
     // eslint-disable-next-line no-alert
     if (window.confirm(`Haluatko päivittää tietoja ainesosalle ${ingredient.originalname}? ${replaceMessage}`)) {
