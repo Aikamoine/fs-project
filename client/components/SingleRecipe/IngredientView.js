@@ -43,7 +43,7 @@ const IngredientView = ({ ingredients }) => {
     <div>
       <h3>Ainesosat{'  '}
         <Button size="sm" onClick={() => setShowAsTable(!showAsTable)}>
-          {showAsTable ? <>Näytä yksinkertaisena listana</> : <>Näytä taulukkona</>}
+          {showAsTable ? <>Näytä listana</> : <>Näytä taulukkona</>}
         </Button>
       </h3>
       {showAsTable ? <IngredientTable ingredients={ingredients} /> : <IngredientList ingredients={ingredients} />}

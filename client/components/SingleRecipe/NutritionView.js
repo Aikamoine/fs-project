@@ -11,21 +11,27 @@ const addMultiplier = (ingredient) => {
       ingredient.multiplier = Number(ingredient.amount) / 100
       break
     case 'mm': // maustemitta, 1 ml
-      ingredient.multiplier = Number(ingredient.amount) / 1000
+      ingredient.multiplier = ingredient.volumeweight ? ((Number(ingredient.amount) * 0.01) * Number(ingredient.volumeweight)) / 100 : 0
       break
     case 'tl':
-      ingredient.multiplier = (Number(ingredient.amount) * 5) / 100
+      ingredient.multiplier = ingredient.volumeweight ? ((Number(ingredient.amount) * 0.05) * Number(ingredient.volumeweight)) / 100 : 0
       break
     case 'rkl':
-      ingredient.multiplier = (Number(ingredient.amount) * 15) / 100
+      ingredient.multiplier = ingredient.volumeweight ? ((Number(ingredient.amount) * 0.15) * Number(ingredient.volumeweight)) / 100 : 0
       break
     case 'dl':
-      ingredient.multiplier = Number(ingredient.amount)
+      ingredient.multiplier = ingredient.volumeweight ? (Number(ingredient.amount) * Number(ingredient.volumeweight)) / 100 : 0
+      break
+    case 'l':
+      ingredient.multiplier = ingredient.volumeweight ? (Number(ingredient.amount) * 10 * Number(ingredient.volumeweight)) / 100 : 0
       break
     case 'kpl':
       ingredient.multiplier = (Number(ingredient.amount) * ingredient.unitweight) / 100
       break
     case 'pkt':
+      ingredient.multiplier = (Number(ingredient.amount) * ingredient.unitweight) / 100
+      break
+    case 'prk':
       ingredient.multiplier = (Number(ingredient.amount) * ingredient.unitweight) / 100
       break
     default:
@@ -72,7 +78,7 @@ const NutritionView = ({ ingredients, servings }) => {
             <tr key={nutrient.fin}>
               <td><b>{nutrient.fin}</b></td>
               <td>{nutrient.value}</td>
-              <td>{Math.round((nutrient.value / servings) * 100) / 100}</td>
+              <td>{servings > 0 ? Math.round((nutrient.value / servings) * 100) / 100 : <>N/A</>}</td>
             </tr>
           ))}
         </tbody>

@@ -90,6 +90,10 @@ const ManageIngredients = () => {
   const handleFineliChange = async (selectedOptions) => {
     const data = await getFromFineliApi(selectedOptions.value)
     console.log('got from fineli', data)
+    const unitweight = data.units.find((u) => u.code === 'KPL_M')
+    const volumeweight = data.units.find((u) => u.code === 'DL')
+
+    console.log('unitweight', unitweight, 'volumeweight', volumeweight)
     setIngredientList([{
       id: ingredientList[0].id > 0 ? 0 : ingredientList[0].id - 1,
       name: data.name.fi.toLowerCase(),
@@ -101,8 +105,8 @@ const ManageIngredients = () => {
       carbs: roundNumber(data.carbohydrate),
       sugars: roundNumber(data.sugar),
       protein: roundNumber(data.protein),
-      unitweight: 0,
-      volumeweight: 0,
+      unitweight: unitweight ? unitweight.mass : 0,
+      volumeweight: volumeweight ? volumeweight.mass : 0,
       details: true,
     }, ...ingredientList])
   }
