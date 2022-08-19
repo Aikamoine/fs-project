@@ -8,7 +8,6 @@ import { localStorageName } from 'Utilities/common'
 import { userIsAdmin } from 'Utilities/services/users'
 import {
   getIngredients,
-  // updateIngredients,
   addIngredient,
   getFromFineliApi,
   updateIngredient,
@@ -42,11 +41,9 @@ const ManageIngredients = () => {
   useEffect(() => {
     if (window.localStorage.getItem(localStorageName)) {
       checkAdminStatus()
+      handleGetIngredients()
     } else {
       setIsAdmin(false)
-    }
-    if (isAdmin) {
-      handleGetIngredients()
     }
   }, [])
 
@@ -134,7 +131,11 @@ const ManageIngredients = () => {
       toast(added.message)
       handleGetIngredients()
     } catch (error) {
-      console.log('error', error)
+      if (error.response) {
+        toast(`${error.response.data.error}`)
+      } else {
+        toast(`Lisäys ei onnistunut, virhe: ${error}`)
+      }
     }
   }
 

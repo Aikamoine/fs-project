@@ -70,11 +70,7 @@ export const deleteIngredient = async (ingredient) => {
 }
 
 export const addIngredient = async (ingredient) => {
-  try {
-    const config = setConfig()
-    const response = await axios.put(basePath, ingredient, config)
-    return response.data
-  } catch (error) {
-    return new Error(error.response.data.error)
-  }
+  const config = setConfig()
+  const response = await axios.put(basePath, ingredient, config)
+  return response.data
 }

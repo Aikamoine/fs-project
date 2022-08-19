@@ -59,6 +59,7 @@ const login = async (req, res) => {
     username,
     id: user.id,
     validUntil,
+    isAdmin: user.isAdmin,
   }
 
   const token = jwt.sign(approvedUser, `${SECRET}`)

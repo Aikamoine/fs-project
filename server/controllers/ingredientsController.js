@@ -47,10 +47,12 @@ const addIngredient = async (req, res) => {
       volumeweight,
     })
 
-    res.json({ message: `Lisätty ${added.name}` })
+    return res.json({ message: `Lisätty ${added.name}` })
   } catch (error) {
     console.log(error)
-    res.json({ message: 'Lisäyksessä tapahtui virhe. Ainesosa on todennäköisesti jo olemassa.' })
+    return res.status(400).json({
+      error: 'Lisäyksessä tapahtui virhe. Ainesosa on todennäköisesti jo olemassa.',
+    })
   }
 }
 
