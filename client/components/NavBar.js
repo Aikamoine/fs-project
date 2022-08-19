@@ -81,6 +81,11 @@ const NavBar = () => {
                 Reseptit
               </Link>
             </Nav.Link>
+            <Nav.Link href="#" as="span">
+              <Link to="/ingredients">
+                Ainesosat
+              </Link>
+            </Nav.Link>
             <UserActions user={loggedUser} />
             {(loggedUser && isAdmin) ? <AdminActions /> : null}
           </Nav>

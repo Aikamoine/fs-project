@@ -42,4 +42,5 @@
 | 18.8. | 4,5  | Ravintosisältöjen toiminnan testausta, kantapäivityksiä, bugikorjauksia |
 | 19.8. | 2    | Virheidenkäsittelyn parannuksia |
 | 19.8. | 2,5  | React-version ja testien kanssa hajoamista |
-| yht   | 98+19.8. | | 
+| 19.8. | 1,5  | Accordion-menu ainesosien selailuun |
+| yht   | 104 | | 

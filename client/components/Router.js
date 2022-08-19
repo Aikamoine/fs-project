@@ -11,6 +11,7 @@ import Logout from './User/Logout'
 
 import Shoppinglist from './Shoppinglist/index'
 import ManageIngredients from './ManageIngredients/index'
+import IngredientView from './ManageIngredients/IngredientView'
 
 // <Route path="/addtoshoppinglist/:id" element={<RecipeView />} />
 export default () => (
@@ -25,6 +26,7 @@ export default () => (
       <Route path="/logout" element={<Logout />} />
       <Route path="/addrecipe" element={<AddRecipe />} />
       <Route path="/manageingredients" element={<ManageIngredients />} />
+      <Route path="/ingredients" element={<IngredientView />} />
     </Routes>
   </div>
 )
