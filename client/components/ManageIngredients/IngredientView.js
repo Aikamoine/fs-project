@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import Table from 'react-bootstrap/Table'
-import Button from 'react-bootstrap/Button'
 import Accordion from 'react-bootstrap/Accordion'
 
 import { getIngredients } from 'Utilities/services/ingredients'
@@ -17,12 +16,6 @@ const IngredientView = () => {
   useEffect(() => {
     handleGetIngredients()
   }, [])
-
-  const toggleDetails = (id) => {
-    const ingredient = ingredientList.filter((i) => i.id === id)[0]
-    ingredient.details = !ingredient.details
-    setIngredientList([...ingredientList])
-  }
 
   const filtered = ingredientList.filter((i) => i.name.includes(filter.toLowerCase()) || i.edited)
 
