@@ -28,6 +28,7 @@ const ManageIngredients = () => {
 
   const checkAdminStatus = async () => {
     const query = await userIsAdmin()
+    console.log('query', query)
     setIsAdmin(query.isAdmin)
   }
 
@@ -42,11 +43,9 @@ const ManageIngredients = () => {
   useEffect(() => {
     if (window.localStorage.getItem(localStorageName)) {
       checkAdminStatus()
+      handleGetIngredients()
     } else {
       setIsAdmin(false)
-    }
-    if (isAdmin) {
-      handleGetIngredients()
     }
   }, [])
 

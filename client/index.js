@@ -1,15 +1,17 @@
 import React from 'react'
-import { render } from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
+import { createRoot } from 'react-dom/client'
 
 import 'Assets/custom.scss'
 import App from 'Components/App'
 
-const refresh = () => render(
+const container = document.getElementById('root')
+const root = createRoot(container)
+
+const refresh = () => root.render(
   <BrowserRouter>
     <App />
   </BrowserRouter>,
-  document.getElementById('root'),
 )
 
 refresh()
