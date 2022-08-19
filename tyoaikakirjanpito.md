@@ -38,6 +38,7 @@
 | 17.8. | 2    | Edellisen päivän bugien korjausta, reseptin poistotoiminnallisuus |
 | 17.8. | 3    | Ravintosisällöt tietokantaan, uuden ainesosan lisääminen ravintosisällöllä |
 | 17.8. | 2    | Ainesosien editointi ja korvaaminen toimimaan ravintosisältöjen kanssa |
-| 18.8. | 2,5    | Ravintosisällön näyttö reseptinäkymään |
-| 19.8. | 4,5    | Ravintosisältöjen toiminnan testausta, kantapäivityksiä, bugikorjauksia |
-| yht   | 98 | | 
+| 18.8. | 2,5  | Ravintosisällön näyttö reseptinäkymään |
+| 18.8. | 4,5  | Ravintosisältöjen toiminnan testausta, kantapäivityksiä, bugikorjauksia |
+| 19.8. | 2    | Virheidenkäsittelyn parannuksia |
+| yht   | 98+19.8. | | 

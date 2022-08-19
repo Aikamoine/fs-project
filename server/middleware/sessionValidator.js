@@ -32,7 +32,7 @@ const sessionValidator = async (req, res, next) => {
     const decodedToken = jwt.verify(token, `${SECRET}`)
     if (!(await tokenIsValid(token, decodedToken))) {
       return res.status(401).json({
-        error: 'Palvelimen puolen sessio ei ole voimassa\nkoita kirjautua uudelleen',
+        error: 'Palvelimen puolen sessio ei ole voimassa. Koita kirjautua uudelleen.',
       })
     }
     req.decodedToken = decodedToken

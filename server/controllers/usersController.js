@@ -59,7 +59,6 @@ const login = async (req, res) => {
     username,
     id: user.id,
     validUntil,
-    isAdmin: user.isAdmin,
   }
 
   const token = jwt.sign(approvedUser, `${SECRET}`)
@@ -74,7 +73,6 @@ const login = async (req, res) => {
     token,
     username,
     id: user.id,
-    isAdmin: user.isAdmin,
   })
 }
 

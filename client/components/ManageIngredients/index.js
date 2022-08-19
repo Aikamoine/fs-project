@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button'
 import { toast } from 'react-toastify'
 import Select from 'react-select'
 
+import { localStorageName } from 'Utilities/common'
 import { userIsAdmin } from 'Utilities/services/users'
 import {
   getIngredients,
@@ -25,9 +26,12 @@ const ManageIngredients = () => {
   const [isAdmin, setIsAdmin] = useState(false)
   const [filter, setFilter] = useState('')
 
+  const checkAdminStatus = async () => {
+    const query = await userIsAdmin()
+    setIsAdmin(query.isAdmin)
+  }
+
   const handleGetIngredients = async () => {
-    const admin = await userIsAdmin()
-    setIsAdmin(admin)
     const allIngredients = await getIngredients()
     setIngredientList(allIngredients)
     const fineliNames = foodNames.map((food) => ({ value: food.FOODID, label: `${food.FOODNAME}, ${food.FOODTYPE}` }))
@@ -36,7 +40,14 @@ const ManageIngredients = () => {
   }
 
   useEffect(() => {
-    handleGetIngredients()
+    if (window.localStorage.getItem(localStorageName)) {
+      checkAdminStatus()
+    } else {
+      setIsAdmin(false)
+    }
+    if (isAdmin) {
+      handleGetIngredients()
+    }
   }, [])
 
   const handleNew = () => {
@@ -93,7 +104,6 @@ const ManageIngredients = () => {
     const unitweight = data.units.find((u) => u.code === 'KPL_M')
     const volumeweight = data.units.find((u) => u.code === 'DL')
 
-    console.log('unitweight', unitweight, 'volumeweight', volumeweight)
     setIngredientList([{
       id: ingredientList[0].id > 0 ? 0 : ingredientList[0].id - 1,
       name: data.name.fi.toLowerCase(),
@@ -134,7 +144,7 @@ const ManageIngredients = () => {
     setIngredientList([...ingredientList])
   }
 
-  if (!isAdmin.isAdmin) {
+  if (!isAdmin) {
     return (
       <div>
         Tämä sivu on vain pääkäyttäjille!

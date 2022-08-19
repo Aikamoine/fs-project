@@ -4,6 +4,7 @@ import Table from 'react-bootstrap/Table'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 
+import { localStorageName } from 'Utilities/common'
 import { userIsAdmin } from 'Utilities/services/users'
 import { addRecipe } from 'Utilities/services/recipes'
 import IngredientSelector from 'Components/IngredientSelector'
@@ -36,7 +37,11 @@ const AddRecipe = () => {
   }
 
   useEffect(() => {
-    checkAdminStatus()
+    if (window.localStorage.getItem(localStorageName)) {
+      checkAdminStatus()
+    } else {
+      setIsAdmin(false)
+    }
   }, [])
 
   const nameChange = ({ target }) => setName(target.value)

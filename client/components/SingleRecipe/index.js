@@ -26,11 +26,19 @@ const SingleRecipe = () => {
   const handleGetRecipeDetails = async () => {
     const details = await getRecipeDetails(urlName)
     setRecipeDetails(details)
-    const admin = await userIsAdmin()
-    setIsAdmin(admin.isAdmin)
+  }
+
+  const checkAdminStatus = async () => {
+    const query = await userIsAdmin()
+    setIsAdmin(query.isAdmin)
   }
 
   useEffect(() => {
+    if (window.localStorage.getItem(localStorageName)) {
+      checkAdminStatus()
+    } else {
+      setIsAdmin(false)
+    }
     handleGetRecipeDetails()
   }, [])
 

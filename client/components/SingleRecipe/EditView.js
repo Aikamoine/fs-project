@@ -6,6 +6,7 @@ import Table from 'react-bootstrap/Table'
 import Form from 'react-bootstrap/Form'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { toast } from 'react-toastify'
+import { useErrorHandler } from 'react-error-boundary'
 
 import { deleteRecipe, editRecipe } from 'Utilities/services/recipes'
 import IngredientSelector from 'Components/IngredientSelector'
@@ -20,6 +21,7 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
   const [newId, setNewId] = useState(0)
 
   const navigate = useNavigate()
+  const handleError = useErrorHandler()
 
   const changeIngredients = (event, id) => {
     const { name, value } = event.target
@@ -72,9 +74,13 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
       newIngredients: ingredients,
       newSteps: steps,
     }
-    toast('Tallennetaan muutoksia')
-    await editRecipe(toEdit, urlName)
-    navigate('/recipes', { replace: false })
+    try {
+      toast('Tallennetaan muutoksia')
+      await editRecipe(toEdit, urlName)
+      navigate('/recipes', { replace: false })
+    } catch (error) {
+      handleError(error)
+    }
   }
 
   const handleDelete = async () => {
@@ -85,7 +91,7 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
         await deleteRecipe(recipeDetails.recipe.id)
         navigate('/recipes', { replace: false })
       } catch (error) {
-        console.log(error)
+        handleError(error)
       }
     }
   }

@@ -17,13 +17,9 @@ export const addRecipe = async (recipe) => {
 export const deleteRecipe = async (id) => {
   console.log('deleting', id)
   const config = setConfig()
-  try {
-    const response = await axios.delete(`${basePath}/${id}`, config)
-    return response.data
-  } catch (error) {
-    console.log(error)
-    throw new Error(error.response.data.error)
-  }
+
+  const response = await axios.delete(`${basePath}/${id}`, config)
+  return response.data
 }
 
 export const getRecipeDetails = async (urlName) => {

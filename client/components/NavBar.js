@@ -61,7 +61,11 @@ const NavBar = () => {
   }
 
   useEffect(() => {
-    checkAdminStatus()
+    if (window.localStorage.getItem(localStorageName)) {
+      checkAdminStatus()
+    } else {
+      setIsAdmin(false)
+    }
   }, [])
 
   const loggedUser = JSON.parse(window.localStorage.getItem(localStorageName))
