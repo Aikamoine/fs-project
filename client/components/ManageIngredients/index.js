@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react'
 import Table from 'react-bootstrap/Table'
 import Button from 'react-bootstrap/Button'
 import Accordion from 'react-bootstrap/Accordion'
+import Card from 'react-bootstrap/Card'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 import { toast } from 'react-toastify'
 import Select from 'react-select'
 
@@ -140,12 +143,6 @@ const ManageIngredients = () => {
     }
   }
 
-  const toggleDetails = (id) => {
-    const ingredient = ingredientList.filter((i) => i.id === id)[0]
-    ingredient.details = !ingredient.details
-    setIngredientList([...ingredientList])
-  }
-
   if (!isAdmin) {
     return (
       <div>
@@ -154,7 +151,7 @@ const ManageIngredients = () => {
     )
   }
 
-  const filtered = ingredientList.filter((i) => i.name.includes(filter.toLowerCase()) || i.edited)
+  const filtered = ingredientList.filter((i) => i.originalname.includes(filter.toLowerCase()) || i.edited)
 
   return (
     <div>
@@ -186,12 +183,21 @@ const ManageIngredients = () => {
                 <td>
                   <Accordion.Item eventKey={index + 1}>
                     <Accordion.Header>
-                      <div>
-                        <input value={ingredient.name} name="name" onChange={(event) => handleChange(event, ingredient.id)} />
-                        {` käytössä ${ingredient.count} reseptissä `}
-                      </div>
+                      <Row>
+                        <Col>
+                          <Card style={{ width: '15em' }}>
+                            <Card.Body>{ingredient.originalname}</Card.Body>
+                          </Card>
+                        </Col>
+                        <Col>
+                          <Card style={{ width: '13em' }}>
+                            <Card.Body>{` käytössä ${ingredient.count} reseptissä `}</Card.Body>
+                          </Card>
+                        </Col>
+                      </Row>
                     </Accordion.Header>
                     <Accordion.Body>
+                      <input value={ingredient.name} name="name" onChange={(event) => handleChange(event, ingredient.id)} />
                       <Table>
                         <thead>
                           <tr>
