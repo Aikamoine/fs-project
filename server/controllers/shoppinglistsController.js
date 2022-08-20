@@ -4,6 +4,8 @@ const { Op } = require('sequelize')
 const {
   Ingredient,
   Shoppinglist,
+  ShoppinglistRecipe,
+  Recipe,
 } = require('../models')
 
 const getList = async (req, res) => {
@@ -21,8 +23,24 @@ const getList = async (req, res) => {
   return res.json(list)
 }
 
+const getListRecipes = async (req, res) => {
+  const recipes = await ShoppinglistRecipe.findAll({
+    include: {
+      model: Recipe,
+      attributes: ['name', 'servings'],
+    },
+    where: { userId: req.decodedToken.id },
+  })
+  console.log(JSON.stringify(recipes, null, 2))
+  return res.json(recipes)
+}
+
 const deleteList = async (req, res) => {
   await Shoppinglist.destroy({
+    where: { userId: req.decodedToken.id },
+  })
+
+  await ShoppinglistRecipe.destroy({
     where: { userId: req.decodedToken.id },
   })
 
@@ -85,16 +103,24 @@ const addItemToList = async (item, userId) => {
 }
 
 const addToList = async (req, res) => {
-  const { ingredients } = req.body
+  console.log('addToList', req.body)
+  const { ingredients, id } = req.body
 
   for (let index = 0; index < ingredients.length; index++) {
     await addItemToList(ingredients[index], req.decodedToken.id)
   }
+
+  await ShoppinglistRecipe.create({
+    userId: req.decodedToken.id,
+    recipeId: id,
+  })
+
   return res.status(200).end()
 }
 
 module.exports = {
   getList,
+  getListRecipes,
   addToList,
   deleteList,
   deleteSelected,

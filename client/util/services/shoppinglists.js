@@ -4,13 +4,15 @@ import { setConfig } from 'Utilities/common'
 const basePath = '/api/shoppinglist'
 
 export const getShoppinglist = async () => {
-  try {
-    const config = setConfig()
-    const response = await axios.get(basePath, config)
-    return response.data
-  } catch (error) {
-    return new Error(error.response.data.error)
-  }
+  const config = setConfig()
+  const response = await axios.get(basePath, config)
+  return response.data
+}
+
+export const getShoppinglistRecipes = async () => {
+  const config = setConfig()
+  const response = await axios.get(`${basePath}/recipes`, config)
+  return response.data
 }
 
 export const addToList = async (recipe) => {

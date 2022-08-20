@@ -2,15 +2,21 @@
 import React, { useState, useEffect } from 'react'
 import { useChecklist } from 'react-checklist'
 import Button from 'react-bootstrap/Button'
-import { getShoppinglist, deleteList, removeFromList } from 'Utilities/services/shoppinglists'
 import ErrorView from 'Components/ErrorView'
+import {
+  getShoppinglist, deleteList, removeFromList, getShoppinglistRecipes,
+} from 'Utilities/services/shoppinglists'
 
 const Shoppinglist = () => {
-  const [shoppingList, setShoppingList] = useState()
+  const [shoppingList, setShoppingList] = useState([])
+  const [recipes, setRecipes] = useState([])
 
   const handleGetShoppingList = async () => {
     const list = await getShoppinglist()
     setShoppingList(list)
+    const recipeList = await getShoppinglistRecipes()
+    console.log('recipeList', recipeList)
+    setRecipes(recipeList)
   }
 
   const { handleCheck, checkedItems } = useChecklist(shoppingList, {
@@ -48,6 +54,7 @@ const Shoppinglist = () => {
     return <ErrorView error={shoppingList.message} />
   }
 
+  console.log('recipes', recipes)
   return (
     <div>
       <h2>Ostoslista</h2>

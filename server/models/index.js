@@ -6,6 +6,7 @@ const RecipeStep = require('./recipe_step')
 const User = require('./user')
 const Session = require('./session')
 const Shoppinglist = require('./shoppinglist')
+const ShoppinglistRecipe = require('./shoppinglist_recipe')
 
 Recipe.belongsToMany(Ingredient, { through: RecipeIngredient })
 Ingredient.belongsToMany(Recipe, { through: RecipeIngredient })
@@ -25,6 +26,12 @@ Shoppinglist.belongsTo(User)
 Ingredient.hasMany(Shoppinglist)
 Shoppinglist.belongsTo(Ingredient)
 
+User.hasMany(ShoppinglistRecipe)
+ShoppinglistRecipe.belongsTo(User)
+
+Recipe.hasMany(ShoppinglistRecipe)
+ShoppinglistRecipe.belongsTo(Recipe)
+
 module.exports = {
   Recipe,
   Ingredient,
@@ -34,4 +41,5 @@ module.exports = {
   User,
   Session,
   Shoppinglist,
+  ShoppinglistRecipe,
 }

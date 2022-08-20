@@ -9,6 +9,7 @@ const router = Router()
 
 router.use('/shoppinglist', sessionValidator)
 router.get('/shoppinglist', shoppinglists.getList)
+router.get('/shoppinglist/recipes', shoppinglists.getListRecipes)
 router.post('/shoppinglist', shoppinglists.addToList)
 router.delete('/shoppinglist', shoppinglists.deleteList)
 
