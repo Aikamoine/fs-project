@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Table from 'react-bootstrap/Table'
 import Button from 'react-bootstrap/Button'
+import Accordion from 'react-bootstrap/Accordion'
 import { toast } from 'react-toastify'
 import Select from 'react-select'
 
@@ -162,49 +163,42 @@ const ManageIngredients = () => {
         <Select options={fineliIngredients} onChange={handleFineliChange} />
       </div>
       <br />
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>
-              {'Nimi    '}
-              <Button size="sm" onClick={handleNew}>
-                Lisää ainesosa
-              </Button>
-            </th>
-            <th>Käyttökertoja</th>
-          </tr>
-          <tr>
-            <td>
-              suodatus: <input value={filter} onChange={({ target }) => setFilter(target.value)} />
-            </td>
-            <td />
-          </tr>
-        </thead>
-        <tbody>
-          {filtered.map((ingredient) => (
-            <tr key={ingredient.id}>
+      <Accordion defaultActiveKey="0">
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>
+                {'Nimi   '}
+                <Button size="sm" onClick={handleNew}>
+                  Lisää ainesosa
+                </Button>
+              </th>
+            </tr>
+            <tr>
               <td>
-                <div>
-                  <input value={ingredient.name} name="name" onChange={(event) => handleChange(event, ingredient.id)} />
-                  <ControlButton
-                    ingredient={ingredient}
-                    handleRemove={handleRemove}
-                    handleReplace={handleReplace}
-                    handleDelete={handleDelete}
-                    handleAddIngredient={handleAddIngredient}
-                  />
-                </div>
-                {
-                  ingredient.details
-                  && (
-                    <>
+                suodatus: <input value={filter} onChange={({ target }) => setFilter(target.value)} />
+              </td>
+            </tr>
+          </thead>
+          <tbody>
+            {filtered.map((ingredient, index) => (
+              <tr key={ingredient.id}>
+                <td>
+                  <Accordion.Item eventKey={index + 1}>
+                    <Accordion.Header>
+                      <div>
+                        <input value={ingredient.name} name="name" onChange={(event) => handleChange(event, ingredient.id)} />
+                        {` käytössä ${ingredient.count} reseptissä `}
+                      </div>
+                    </Accordion.Header>
+                    <Accordion.Body>
                       <Table>
                         <thead>
                           <tr>
                             <th>kcal</th>
                             <th>rasva</th>
-                            <th>t. rasva</th>
-                            <th>hii.hyd.</th>
+                            <th>Tyydyt. rasva</th>
+                            <th>hiilihydraatti</th>
                             <th>sokeri</th>
                             <th>proteiini</th>
                           </tr>
@@ -234,20 +228,21 @@ const ManageIngredients = () => {
                           </tr>
                         </tbody>
                       </Table>
-                    </>
-                  )
-                }
-              </td>
-              <td>
-                {ingredient.count}
-                <Button size="sm" onClick={() => toggleDetails(ingredient.id)}>
-                  {ingredient.details ? <>Piilota</> : <>Näytä</>}
-                </Button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
+                      <ControlButton
+                        ingredient={ingredient}
+                        handleRemove={handleRemove}
+                        handleReplace={handleReplace}
+                        handleDelete={handleDelete}
+                        handleAddIngredient={handleAddIngredient}
+                      />
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </Accordion>
     </div>
   )
 }
