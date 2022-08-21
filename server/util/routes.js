@@ -12,6 +12,7 @@ router.get('/shoppinglist', shoppinglists.getList)
 router.get('/shoppinglist/recipes', shoppinglists.getListRecipes)
 router.post('/shoppinglist', shoppinglists.addToList)
 router.delete('/shoppinglist', shoppinglists.deleteList)
+router.post('/shoppinglist/removerecipe', shoppinglists.removeRecipe)
 
 router.use('/deletefromshoppinglist', sessionValidator)
 router.post('/deletefromshoppinglist', shoppinglists.deleteSelected)

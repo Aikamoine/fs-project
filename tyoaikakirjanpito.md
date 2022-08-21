@@ -44,4 +44,6 @@
 | 19.8. | 2,5  | React-version ja testien kanssa hajoamista |
 | 19.8. | 1,5  | Accordion-menu ainesosien selailuun |
 | 20.8. | 2    | Accordion-menu ainesosien editointiin, ostoslistojen reseptiseuraus backendiin |
-| yht   | 104+20.8. | | 
+| 20.8. | 2    | Reseptien näyttö ostoslistan oheen, niiden poiston duunaamista |
+| 21.8. | 2    | Reseptin ostoslistalta poiston jatkamista, tää olikin yllättävän paha |
+| yht   | 108+21.8. | | 

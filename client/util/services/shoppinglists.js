@@ -33,3 +33,9 @@ export const deleteList = async () => {
 
   return response.data
 }
+
+export const removeRecipe = async (recipe) => {
+  const config = setConfig()
+  const response = await axios.post(`${basePath}/removerecipe`, recipe, config)
+  return response.data
+}
