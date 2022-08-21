@@ -63,7 +63,7 @@ const Shoppinglist = () => {
   if (shoppingList.message) {
     return <ErrorView error={shoppingList.message} />
   }
-
+  console.log('recipes', recipes)
   return (
     <div>
       <Row>
@@ -79,7 +79,7 @@ const Shoppinglist = () => {
                 onChange={handleCheck}
                 checked={checkedItems.has(item.id)}
               />
-              <label>{Number(item.amount) > 0 ? Number(item.amount) : ''} {item.unit} {item.ingredient.name}</label>
+              <label>{Number(item.amount) > 0 ? Number(item.amount) : ''} {item.unit} {item.name}</label>
             </div>
           ))}
           <br />

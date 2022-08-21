@@ -32,6 +32,9 @@ ShoppinglistRecipe.belongsTo(User)
 Recipe.hasMany(ShoppinglistRecipe)
 ShoppinglistRecipe.belongsTo(Recipe)
 
+ShoppinglistRecipe.hasMany(Shoppinglist)
+Shoppinglist.belongsTo(ShoppinglistRecipe)
+
 module.exports = {
   Recipe,
   Ingredient,

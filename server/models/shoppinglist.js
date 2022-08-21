@@ -28,6 +28,11 @@ Shoppinglist.init({
     type: DataTypes.TEXT,
     allowNull: true,
   },
+  shoppinglistRecipeId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: { model: 'shoppinglist_recipes', key: 'id' },
+  },
 }, {
   sequelize,
   underscored: true,

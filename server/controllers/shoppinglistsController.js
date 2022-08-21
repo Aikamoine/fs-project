@@ -1,27 +1,22 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-await-in-loop */
 const { Op } = require('sequelize')
+const { sequelize } = require('../util/db')
 
 const {
-  Ingredient,
   Shoppinglist,
   ShoppinglistRecipe,
   Recipe,
-  RecipeIngredient,
 } = require('../models')
 
 const getList = async (req, res) => {
-  const list = await Shoppinglist.findAll({
-    attributes: ['id', 'amount', 'unit'],
-    include: [
-      {
-        model: Ingredient,
-        attributes: ['name'],
-      },
-    ],
-    where: { userId: req.decodedToken.id },
-  })
-
+  const list = await sequelize.query(
+    `SELECT I.name, I.id, SUM(S.amount) as amount, S.unit
+    FROM shoppinglists S
+    LEFT JOIN ingredients I on I.id=S.ingredient_id
+    WHERE S.user_id=${req.decodedToken.id}
+    GROUP BY I.name, I.id, S.unit`,
+    { type: sequelize.QueryTypes.SELECT },
+  )
+  console.log('got list', list)
   return res.json(list)
 }
 
@@ -64,7 +59,7 @@ const deleteSelected = async (req, res) => {
 
   return res.status(200).end()
 }
-
+/*
 const deConstructVolumes = (amount, unit) => {
   let checkedAmount = amount
   let checkedUnit = unit
@@ -102,25 +97,36 @@ const addItemToList = async (item, userId) => {
   existingItem.amount = Number(existingItem.amount) + Number(amount)
   await existingItem.save()
 }
-
+*/
 const addToList = async (req, res) => {
   const { ingredients, id } = req.body
+  console.log('addtoList', req.body)
 
-  for (let index = 0; index < ingredients.length; index++) {
-    await addItemToList(ingredients[index], req.decodedToken.id)
-  }
-
-  await ShoppinglistRecipe.create({
+  const shoppinglistRecipe = await ShoppinglistRecipe.create({
     userId: req.decodedToken.id,
     recipeId: id,
   })
+
+  console.log('shoppinglistrecipe', JSON.stringify(shoppinglistRecipe, null, 2))
+  const bulkArray = ingredients.map((ingredient) => (
+    {
+      userId: req.decodedToken.id,
+      ingredientId: ingredient.ing_id,
+      amount: ingredient.amount,
+      unit: ingredient.unit,
+      shoppinglistRecipeId: shoppinglistRecipe.id,
+    }
+  ))
+
+  console.log(bulkArray)
+  await Shoppinglist.bulkCreate(bulkArray)
 
   return res.status(200).end()
 }
 
 const removeRecipe = async (req, res) => {
-  console.log('remove recipe', req.body)
-  const { userId, recipeId } = req.body
+  const { userId } = req.body
+  const shoppinglistRecipeId = req.body.id
 
   if (req.decodedToken.id !== userId) {
     return res.status(401).json({
@@ -128,58 +134,16 @@ const removeRecipe = async (req, res) => {
     })
   }
 
-  const currentList = await Shoppinglist.findAll({
-    where: { userId },
-  })
-
-  const recipeIngredients = await RecipeIngredient.findAll({
-    where: { recipeId },
-  })
-
-  currentList.forEach((ingredient) => {
-    const listItems = recipeIngredients.filter((i) => i.ingredientId === ingredient.ingredientId)
-    listItems.forEach((listItem) => {
-      const deconstructed = deConstructVolumes(listItem.amount, listItem.unit)
-      console.log('deconstructed', listItem.ingredientId, deconstructed)
-      if (ingredient.unit === deconstructed.unit) {
-        console.log('yksikkö täsmää')
-        if (Number(ingredient.amount) > deconstructed.amount) {
-          console.log('vähennetään')
-          ingredient.amount = Number(ingredient.amount) - Number(deconstructed.amount)
-        } else {
-          console.log('nollataan')
-          ingredient.amount = 0
-        }
-      }
-    })
-  })
-
-  const updatedList = []
-  currentList.forEach((ingredient) => {
-    if (ingredient.amount !== 0 || !ingredient.unit) {
-      updatedList.push({
-        userId,
-        ingredientId: ingredient.ingredientId,
-        amount: ingredient.amount,
-        unit: ingredient.unit,
-      })
-    }
-  })
-  console.log('updatedList', updatedList)
-
   await Shoppinglist.destroy({
-    where: { userId },
-  })
-  console.log('DESTROYED')
-  await Shoppinglist.bulkCreate(updatedList)
-  console.log('CREATED')
-  const shoppingListRecipe = await ShoppinglistRecipe.findOne({
-    where: { userId, recipeId },
+    where: { shoppinglistRecipeId },
   })
 
-  if (shoppingListRecipe) {
-    await shoppingListRecipe.destroy()
-  }
+  await ShoppinglistRecipe.destroy({
+    where: {
+      id: shoppinglistRecipeId,
+    },
+  })
+
   return res.status(200).end()
 }
 
