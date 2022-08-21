@@ -7,15 +7,14 @@ const {
 const { sequelize } = require('../util/db')
 
 const getIngredients = async (req, res) => {
-  // eslint-disable-next-line no-unused-vars
-  const [ingredients, metadata] = await sequelize.query(
+  const ingredients = await sequelize.query(
     `SELECT I.id, I.name, I.name as originalname, COUNT(RI.id), I.kcal, I.fat, I.satfat, I.carbs, I.sugars, I.protein, I.unitweight, I.volumeweight, false as edited, false as details
     FROM ingredients I
     LEFT JOIN recipe_ingredients RI on I.id=RI.ingredient_id
     GROUP BY I.name, I.id
     ORDER BY I.name`,
+    { type: sequelize.QueryTypes.SELECT },
   )
-
   res.json(ingredients)
 }
 

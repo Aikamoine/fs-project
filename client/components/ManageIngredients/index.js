@@ -68,6 +68,7 @@ const ManageIngredients = () => {
       unitweight: 0,
       volumeweight: 0,
       details: true,
+      originalname: '',
     }, ...ingredientList])
   }
 
@@ -119,6 +120,7 @@ const ManageIngredients = () => {
       unitweight: unitweight ? unitweight.mass : 0,
       volumeweight: volumeweight ? volumeweight.mass : 0,
       details: true,
+      originalname: data.name.fi.toLowerCase(),
     }, ...ingredientList])
   }
 
