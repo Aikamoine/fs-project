@@ -51,12 +51,12 @@ const SingleRecipe = () => {
   const addToShoppinglist = async (event) => {
     event.preventDefault()
     navigate('/recipes', { replace: true })
-    toast(`Lisätään ${recipeDetails.recipe.name} ostoslistalle. Kaikkien tuotteiden näkymisessä saattaa mennä pieni hetki`)
     await addToList({
       ingredients: recipeDetails.ingredients,
       id: recipeDetails.recipe.id,
       servings: recipeDetails.recipe.servings,
     })
+    toast(`Lisätty ${recipeDetails.recipe.name} ostoslistalle.`)
   }
 
   const loggedUser = JSON.parse(window.localStorage.getItem(localStorageName))

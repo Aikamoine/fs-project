@@ -13,10 +13,10 @@ const getList = async (req, res) => {
     FROM shoppinglists S
     LEFT JOIN ingredients I on I.id=S.ingredient_id
     WHERE S.user_id=${req.decodedToken.id}
-    GROUP BY I.name, I.id, S.unit`,
+    GROUP BY I.name, I.id, S.unit
+    ORDER BY I.name`,
     { type: sequelize.QueryTypes.SELECT },
   )
-  console.log('got list', list)
   return res.json(list)
 }
 
@@ -59,7 +59,7 @@ const deleteSelected = async (req, res) => {
 
   return res.status(200).end()
 }
-/*
+
 const deConstructVolumes = (amount, unit) => {
   let checkedAmount = amount
   let checkedUnit = unit
@@ -79,46 +79,26 @@ const deConstructVolumes = (amount, unit) => {
   return { amount: checkedAmount, unit: checkedUnit }
 }
 
-const addItemToList = async (item, userId) => {
-  const ingredientId = item.ing_id
-  const { amount, unit } = deConstructVolumes(item.amount, item.unit)
-  // eslint-disable-next-line no-unused-vars
-  const [existingItem, created] = await Shoppinglist.findOrCreate({
-    where: {
-      unit,
-      ingredientId,
-      userId,
-    },
-    defaults: {
-      amount: 0,
-    },
-  })
-
-  existingItem.amount = Number(existingItem.amount) + Number(amount)
-  await existingItem.save()
-}
-*/
 const addToList = async (req, res) => {
   const { ingredients, id } = req.body
-  console.log('addtoList', req.body)
 
   const shoppinglistRecipe = await ShoppinglistRecipe.create({
     userId: req.decodedToken.id,
     recipeId: id,
   })
 
-  console.log('shoppinglistrecipe', JSON.stringify(shoppinglistRecipe, null, 2))
-  const bulkArray = ingredients.map((ingredient) => (
-    {
+  const bulkArray = []
+  ingredients.forEach((ingredient) => {
+    const deconstructedVolumes = deConstructVolumes(ingredient.amount, ingredient.unit)
+    bulkArray.push({
       userId: req.decodedToken.id,
       ingredientId: ingredient.ing_id,
-      amount: ingredient.amount,
-      unit: ingredient.unit,
+      amount: deconstructedVolumes.amount,
+      unit: deconstructedVolumes.unit,
       shoppinglistRecipeId: shoppinglistRecipe.id,
-    }
-  ))
+    })
+  })
 
-  console.log(bulkArray)
   await Shoppinglist.bulkCreate(bulkArray)
 
   return res.status(200).end()

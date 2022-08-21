@@ -1,4 +1,3 @@
-/* eslint-disable no-await-in-loop */
 const { sequelize } = require('../util/db')
 
 const {
