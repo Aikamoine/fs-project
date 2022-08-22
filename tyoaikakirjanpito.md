@@ -47,4 +47,5 @@
 | 20.8. | 2    | Reseptien näyttö ostoslistan oheen, niiden poiston duunaamista |
 | 21.8. | 6    | Reseptin poisto ostoslistalta, ostoslistaan liittyvien kyselyiden päivitys, refaktorointia |
 | 22.8. | 3    | Käyttötestausta, kirjautumistoimintojen parannuksia |
-| yht   | 114+22.8. | | 
+| 22.8. | 3    | Refaktorointia, ongelmien tutkimista ja ratkaisua: selainten salasanan muistaminen ja webpack-ongelma, jossa ohjelma kaatui reseptisivun päivityksessä |
+| yht   | 120 | | 

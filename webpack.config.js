@@ -64,6 +64,9 @@ module.exports = (env, argv) => {
         },
       ],
     },
+    output: {
+      publicPath: '/',
+    },
     plugins: [
       new webpack.DefinePlugin({
         'process.env.BUILT_AT': JSON.stringify(new Date().toISOString()),
