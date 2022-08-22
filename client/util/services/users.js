@@ -24,11 +24,12 @@ export const postUser = async (user) => {
 }
 
 export const login = async (user) => {
-  const response = await axios.post('api/login', user)
+  const response = await axios.post('/api/login', user)
   return response.data
 }
 
-export const logout = async (user) => {
-  const response = await axios.post('api/logout', user)
+export const logout = async () => {
+  const config = setConfig()
+  const response = await axios.delete('/api/logout', config)
   return response.data
 }

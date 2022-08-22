@@ -46,4 +46,5 @@
 | 20.8. | 2    | Accordion-menu ainesosien editointiin, ostoslistojen reseptiseuraus backendiin |
 | 20.8. | 2    | Reseptien näyttö ostoslistan oheen, niiden poiston duunaamista |
 | 21.8. | 6    | Reseptin poisto ostoslistalta, ostoslistaan liittyvien kyselyiden päivitys, refaktorointia |
-| yht   | 114 | | 
+| 22.8. | 3    | Käyttötestausta, kirjautumistoimintojen parannuksia |
+| yht   | 114+22.8. | | 

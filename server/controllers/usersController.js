@@ -78,8 +78,11 @@ const login = async (req, res) => {
 }
 
 const logout = async (req, res) => {
-  const { id, token } = req.body
-  await Session.destroy({
+  const auth = req.get('authorization')
+  const { id } = req.decodedToken
+  const token = auth.substring(7)
+
+  const destroyed = await Session.destroy({
     where: {
       [Op.and]: [
         {
@@ -89,7 +92,8 @@ const logout = async (req, res) => {
       ],
     },
   })
-  return res.status(200).end()
+
+  return res.status(200).send({ destroyed })
 }
 
 module.exports = {

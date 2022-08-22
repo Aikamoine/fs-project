@@ -34,6 +34,6 @@ router.delete('/recipes/:id', sessionValidator, recipes.deleteRecipe)
 router.post('/users', users.postUser)
 router.get('/users/isadmin', sessionValidator, users.isAdmin)
 router.post('/login', users.login)
-router.post('/logout', users.logout)
+router.delete('/logout', sessionValidator, users.logout)
 
 module.exports = router
