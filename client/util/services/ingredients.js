@@ -1,19 +1,7 @@
 import axios from 'axios'
-import { localStorageName } from 'Utilities/common'
+import { setConfig } from 'Utilities/common'
 
 const basePath = '/api/ingredients'
-
-const setConfig = () => {
-  const user = JSON.parse(window.localStorage.getItem(localStorageName))
-
-  if (!user) {
-    return { headers: null }
-  }
-
-  return {
-    headers: { authorization: `bearer ${user.token}` },
-  }
-}
 
 export const getIngredients = async () => {
   try {
@@ -36,23 +24,15 @@ export const getIngredientNames = async () => {
 }
 
 export const getFromFineliApi = async (id) => {
-  try {
-    const config = setConfig()
-    const response = await axios.get(`${basePath}/fineli/${id}`, config)
-    return response.data
-  } catch (error) {
-    return new Error(error.response.data.error)
-  }
+  const config = setConfig()
+  const response = await axios.get(`${basePath}/fineli/${id}`, config)
+  return response.data
 }
 
 export const updateIngredient = async (ingredient) => {
-  try {
-    const config = setConfig()
-    const response = await axios.put(`${basePath}/update`, ingredient, config)
-    return response.data
-  } catch (error) {
-    return new Error(error.response.data.error)
-  }
+  const config = setConfig()
+  const response = await axios.put(`${basePath}/update`, ingredient, config)
+  return response.data
 }
 
 export const deleteIngredient = async (ingredient) => {
@@ -60,13 +40,9 @@ export const deleteIngredient = async (ingredient) => {
     return new Error('Ainesosalla on reseptiriippuvuuksia')
   }
 
-  try {
-    const config = setConfig()
-    const response = await axios.delete(`${basePath}/${ingredient.id}`, config)
-    return response.data
-  } catch (error) {
-    return new Error(error.response.data.error)
-  }
+  const config = setConfig()
+  const response = await axios.delete(`${basePath}/${ingredient.id}`, config)
+  return response.data
 }
 
 export const addIngredient = async (ingredient) => {

@@ -17,7 +17,6 @@ router.post('/shoppinglist/removerecipe', shoppinglists.removeRecipe)
 router.use('/deletefromshoppinglist', sessionValidator)
 router.post('/deletefromshoppinglist', shoppinglists.deleteSelected)
 
-// router.use('/ingredients', sessionValidator)
 router.get('/ingredients', ingredients.getIngredients)
 router.put('/ingredients', sessionValidator, ingredients.addIngredient)
 router.put('/ingredients/update', sessionValidator, ingredients.updateIngredient)

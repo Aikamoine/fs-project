@@ -4,7 +4,7 @@ import Accordion from 'react-bootstrap/Accordion'
 
 import { getIngredients } from 'Utilities/services/ingredients'
 
-const IngredientView = () => {
+const ViewIngredients = () => {
   const [ingredientList, setIngredientList] = useState([])
   const [filter, setFilter] = useState('')
 
@@ -90,4 +90,4 @@ const IngredientView = () => {
   )
 }
 
-export default IngredientView
+export default ViewIngredients

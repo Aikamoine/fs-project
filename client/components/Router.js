@@ -5,15 +5,14 @@ import FrontPage from 'Components/FrontPage'
 import RecipeView from 'Components/RecipeView'
 import SingleRecipe from 'Components/SingleRecipe'
 import AddRecipe from 'Components/AddRecipe'
+import ViewIngredients from 'Components/ViewIngredients/'
 import CreateUser from './User/CreateUser'
 import LoginForm from './User/LoginForm'
 import Logout from './User/Logout'
 
 import Shoppinglist from './Shoppinglist/index'
 import ManageIngredients from './ManageIngredients/index'
-import IngredientView from './ManageIngredients/IngredientView'
 
-// <Route path="/addtoshoppinglist/:id" element={<RecipeView />} />
 export default () => (
   <div className="content">
     <Routes>
@@ -26,7 +25,7 @@ export default () => (
       <Route path="/logout" element={<Logout />} />
       <Route path="/addrecipe" element={<AddRecipe />} />
       <Route path="/manageingredients" element={<ManageIngredients />} />
-      <Route path="/ingredients" element={<IngredientView />} />
+      <Route path="/ingredients" element={<ViewIngredients />} />
     </Routes>
   </div>
 )

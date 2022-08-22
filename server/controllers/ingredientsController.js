@@ -48,7 +48,6 @@ const addIngredient = async (req, res) => {
 
     return res.json({ message: `Lisätty ${added.name}` })
   } catch (error) {
-    console.log(error)
     return res.status(400).json({
       error: 'Lisäyksessä tapahtui virhe. Ainesosa on todennäköisesti jo olemassa.',
     })
@@ -71,6 +70,9 @@ const getFineliIngredients = async (req, res) => {
         res.json(json)
       } catch (error) {
         console.error(error.message)
+        res.status(400).json({
+          error: 'Finelistä ei löytynyt ainesosaa',
+        })
       }
     })
   }).on('error', (error) => {
@@ -81,57 +83,63 @@ const getFineliIngredients = async (req, res) => {
 const updateIngredient = async (req, res) => {
   const ingredient = req.body
 
-  const targetEntry = await Ingredient.findOne({
-    where: { name: ingredient.name },
-  })
-
-  if (targetEntry && targetEntry.name !== ingredient.originalname) {
-    await Shoppinglist.update(
-      { ingredientId: targetEntry.id },
-      {
-        where: { ingredientId: ingredient.id },
-      },
-    )
-
-    await RecipeIngredient.update(
-      { ingredientId: targetEntry.id },
-      {
-        where: { ingredientId: ingredient.id },
-      },
-    )
-
-    await Ingredient.destroy({
-      where: { id: ingredient.id },
+  try {
+    const targetEntry = await Ingredient.findOne({
+      where: { name: ingredient.name },
     })
 
-    res.json({ message: `Päivitetty kaikki ainesosat '${ingredient.originalname}' nimen '${targetEntry.name}' alle` })
-  } else {
-    const {
-      name, kcal, fat, carbs, sugars, protein, satfat, unitweight, volumeweight,
-    } = req.body
+    if (targetEntry && targetEntry.name !== ingredient.originalname) {
+      await Shoppinglist.update(
+        { ingredientId: targetEntry.id },
+        {
+          where: { ingredientId: ingredient.id },
+        },
+      )
 
-    const newIngredient = await Ingredient.update(
-      {
-        name: name.toLowerCase(),
-        kcal,
-        fat,
-        satfat,
-        carbs,
-        sugars,
-        protein,
-        unitweight,
-        volumeweight,
-      },
-      {
+      await RecipeIngredient.update(
+        { ingredientId: targetEntry.id },
+        {
+          where: { ingredientId: ingredient.id },
+        },
+      )
+
+      await Ingredient.destroy({
         where: { id: ingredient.id },
-        returning: true,
-      },
-    )
-    if (ingredient.originalname === newIngredient[1][0].name) {
-      res.json({ message: `Päivitetty ainesosan ${ingredient.originalname} tiedot` })
+      })
+
+      res.json({ message: `Päivitetty kaikki ainesosat '${ingredient.originalname}' nimen '${targetEntry.name}' alle` })
     } else {
-      res.json({ message: `Korvattu '${ingredient.originalname}' ainesosalla '${newIngredient[1][0].name}'` })
+      const {
+        name, kcal, fat, carbs, sugars, protein, satfat, unitweight, volumeweight,
+      } = req.body
+
+      const newIngredient = await Ingredient.update(
+        {
+          name: name.toLowerCase(),
+          kcal,
+          fat,
+          satfat,
+          carbs,
+          sugars,
+          protein,
+          unitweight,
+          volumeweight,
+        },
+        {
+          where: { id: ingredient.id },
+          returning: true,
+        },
+      )
+      if (ingredient.originalname === newIngredient[1][0].name) {
+        res.json({ message: `Päivitetty ainesosan ${ingredient.originalname} tiedot` })
+      } else {
+        res.json({ message: `Korvattu '${ingredient.originalname}' ainesosalla '${newIngredient[1][0].name}'` })
+      }
     }
+  } catch (error) {
+    res.status(400).json({
+      error,
+    })
   }
 }
 

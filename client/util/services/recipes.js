@@ -15,7 +15,6 @@ export const addRecipe = async (recipe) => {
 }
 
 export const deleteRecipe = async (id) => {
-  console.log('deleting', id)
   const config = setConfig()
 
   const response = await axios.delete(`${basePath}/${id}`, config)
@@ -24,7 +23,6 @@ export const deleteRecipe = async (id) => {
 
 export const getRecipeDetails = async (urlName) => {
   const response = await axios.get(`${basePath}/${urlName}`)
-
   return response.data
 }
 

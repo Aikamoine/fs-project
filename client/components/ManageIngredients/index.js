@@ -94,40 +94,61 @@ const ManageIngredients = () => {
     // eslint-disable-next-line no-alert
     if (window.confirm(`Haluatko päivittää tietoja ainesosalle ${ingredient.originalname}? ${replaceMessage}`)) {
       toast('Päivitetään...')
-      const replaced = await updateIngredient(ingredient)
-      toast(replaced.message)
-      handleGetIngredients()
+      try {
+        const replaced = await updateIngredient(ingredient)
+        toast(replaced.message)
+        handleGetIngredients()
+      } catch (error) {
+        toast(`Tapahtui virhe: ${error}`)
+      }
     }
   }
 
   const handleFineliChange = async (selectedOptions) => {
-    const data = await getFromFineliApi(selectedOptions.value)
-    console.log('got from fineli', data)
-    const unitweight = data.units.find((u) => u.code === 'KPL_M')
-    const volumeweight = data.units.find((u) => u.code === 'DL')
+    console.log('selected', selectedOptions)
+    try {
+      const data = await getFromFineliApi(selectedOptions.value)
+      console.log('got from fineli', data)
+      const unitweight = data.units.find((u) => u.code === 'KPL_M')
+      const volumeweight = data.units.find((u) => u.code === 'DL')
 
-    setIngredientList([{
-      id: ingredientList[0].id > 0 ? 0 : ingredientList[0].id - 1,
-      name: data.name.fi.toLowerCase(),
-      count: 0,
-      edited: true,
-      kcal: roundNumber(data.energyKcal),
-      fat: roundNumber(data.fat),
-      satfat: roundNumber(data.saturatedFat),
-      carbs: roundNumber(data.carbohydrate),
-      sugars: roundNumber(data.sugar),
-      protein: roundNumber(data.protein),
-      unitweight: unitweight ? unitweight.mass : 0,
-      volumeweight: volumeweight ? volumeweight.mass : 0,
-      details: true,
-      originalname: data.name.fi.toLowerCase(),
-    }, ...ingredientList])
+      setIngredientList([{
+        id: ingredientList[0].id > 0 ? 0 : ingredientList[0].id - 1,
+        name: data.name.fi.toLowerCase(),
+        count: 0,
+        edited: true,
+        kcal: roundNumber(data.energyKcal),
+        fat: roundNumber(data.fat),
+        satfat: roundNumber(data.saturatedFat),
+        carbs: roundNumber(data.carbohydrate),
+        sugars: roundNumber(data.sugar),
+        protein: roundNumber(data.protein),
+        unitweight: unitweight ? unitweight.mass : 0,
+        volumeweight: volumeweight ? volumeweight.mass : 0,
+        details: true,
+        originalname: data.name.fi.toLowerCase(),
+      }, ...ingredientList])
+    } catch (error) {
+      if (error.response) {
+        toast(`${error.response.data.error}`)
+      } else {
+        toast(`Haku ei onnistunut, virhe: ${error}`)
+      }
+    }
   }
 
   const handleDelete = async (event, ingredient) => {
-    const deleted = await deleteIngredient(ingredient)
-    toast(deleted.message)
-    handleGetIngredients()
+    try {
+      const deleted = await deleteIngredient(ingredient)
+      toast(deleted.message)
+      handleGetIngredients()
+    } catch (error) {
+      if (error.response) {
+        toast(`${error.response.data.error}`)
+      } else {
+        toast(`Poisto ei onnistunut, virhe: ${error}`)
+      }
+    }
   }
 
   const handleAddIngredient = async (event, ingredient) => {
