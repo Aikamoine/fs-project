@@ -33,8 +33,10 @@ const SingleRecipe = () => {
     setIsAdmin(query.isAdmin)
   }
 
+  const loggedUser = JSON.parse(window.localStorage.getItem(localStorageName))
+
   useEffect(() => {
-    if (window.localStorage.getItem(localStorageName)) {
+    if (loggedUser) {
       checkAdminStatus()
     } else {
       setIsAdmin(false)
@@ -59,11 +61,11 @@ const SingleRecipe = () => {
     toast(`Lisätty ${recipeDetails.recipe.name} ostoslistalle.`)
   }
 
-  const loggedUser = JSON.parse(window.localStorage.getItem(localStorageName))
   if (isEditing) {
     return <EditView recipeDetails={recipeDetails} setIsEditing={setIsEditing} urlName={urlName} />
   }
 
+  console.log('recipedetails', recipeDetails)
   return (
     <div>
       <RecipeHeader

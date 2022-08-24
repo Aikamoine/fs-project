@@ -99,7 +99,8 @@ const Shoppinglist = () => {
             <thead>
               <tr>
                 <td>Resepti</td>
-                <td>Annoksia</td>
+                <td>Ruoka-annoksia</td>
+                <td>Muita annoksia</td>
                 <td />
               </tr>
             </thead>
@@ -108,13 +109,16 @@ const Shoppinglist = () => {
                 // eslint-disable-next-line react/no-array-index-key
                 <tr key={`${recipe.recipe.name}${index}`}>
                   <td>{recipe.recipe.name}</td>
-                  <td>{recipe.recipe.servings}</td>
+                  {recipe.recipe.tags.some((tag) => !tag.countServings)
+                    ? <><td /><td>{recipe.recipe.servings}</td></>
+                    : <><td>{recipe.recipe.servings}</td><td /></>}
                   <td><Button size="sm" onClick={() => handleRemoveRecipe(recipe)}>Poista</Button></td>
                 </tr>
               ))}
               <tr>
                 <td>Yhteensä</td>
-                <td>{recipes.reduce((total, current) => total + current.recipe.servings, 0)}</td>
+                <td>{recipes.reduce((total, current) => total + (current.recipe.tags.some((tag) => !tag.countServings) ? 0 : current.recipe.servings), 0)}</td>
+                <td>{recipes.reduce((total, current) => total + (current.recipe.tags.some((tag) => !tag.countServings) ? current.recipe.servings : 0), 0)}</td>
               </tr>
             </tbody>
           </Table>

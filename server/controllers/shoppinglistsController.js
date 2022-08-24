@@ -5,6 +5,7 @@ const {
   Shoppinglist,
   ShoppinglistRecipe,
   Recipe,
+  Tag,
 } = require('../models')
 
 const getList = async (req, res) => {
@@ -25,6 +26,12 @@ const getListRecipes = async (req, res) => {
     include: {
       model: Recipe,
       attributes: ['name', 'servings'],
+      include: {
+        model: Tag,
+        through: {
+          attributes: [],
+        },
+      },
     },
     where: { userId: req.decodedToken.id },
   })
