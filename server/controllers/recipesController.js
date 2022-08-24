@@ -5,10 +5,18 @@ const {
   Ingredient,
   RecipeStep,
   RecipeIngredient,
+  Tag,
 } = require('../models')
 
 const getAll = async (req, res) => {
   const recipes = await Recipe.findAll({
+    include: [{
+      model: Tag,
+      attributes: ['name'],
+      through: {
+        attributes: [],
+      },
+    }],
     order: [
       ['name', 'ASC'],
     ],
