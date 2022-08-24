@@ -12,7 +12,7 @@ const getAll = async (req, res) => {
   const recipes = await Recipe.findAll({
     include: [{
       model: Tag,
-      attributes: ['name'],
+      attributes: ['name', 'count_servings'],
       through: {
         attributes: [],
       },
