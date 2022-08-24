@@ -6,6 +6,7 @@ const {
   RecipeStep,
   RecipeIngredient,
   Tag,
+  RecipeTag,
 } = require('../models')
 
 const getAll = async (req, res) => {
@@ -68,7 +69,7 @@ const addRecipe = async (req, res) => {
   }
 
   const {
-    name, servings, time, info, urlName, ingredients, steps,
+    name, servings, time, info, urlName, ingredients, steps, tags,
   } = req.body
 
   try {
@@ -94,8 +95,14 @@ const addRecipe = async (req, res) => {
       number: index + 1,
     }))
 
+    const tagBulkArray = tags.map((tag) => ({
+      recipeId: recipe.id,
+      tagId: tag,
+    }))
+
     await RecipeIngredient.bulkCreate(ingredientBulkArray)
     await RecipeStep.bulkCreate(stepsBulkArray)
+    await RecipeTag.bulkCreate(tagBulkArray)
 
     return res.status(200).end()
   } catch (error) {
@@ -190,6 +197,13 @@ const deleteRecipe = async (req, res) => {
   }
 }
 
+const getTags = async (req, res) => {
+  const tags = await Tag.findAll({
+    order: ['name'],
+  })
+  res.json(tags)
+}
+
 module.exports = {
   getAll,
   getRecipeDetails,
@@ -197,4 +211,5 @@ module.exports = {
   getIngredientNames,
   editRecipe,
   deleteRecipe,
+  getTags,
 }

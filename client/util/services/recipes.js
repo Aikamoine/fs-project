@@ -31,3 +31,9 @@ export const editRecipe = async (editedRecipe, urlName) => {
   const response = await axios.post(`${basePath}/${urlName}`, editedRecipe, config)
   return response.data
 }
+
+export const getTags = async () => {
+  const config = setConfig()
+  const response = await axios.get('/api/tags', config)
+  return response.data
+}

@@ -49,5 +49,5 @@
 | 22.8. | 3    | Käyttötestausta, kirjautumistoimintojen parannuksia |
 | 22.8. | 3    | Refaktorointia, ongelmien tutkimista ja ratkaisua: selainten salasanan muistaminen ja webpack-ongelma, jossa ohjelma kaatui reseptisivun päivityksessä |
 |       | 120   | 23.8. mennessä yhteensä |
-| 24.8. | 2    | Tunnisteet resepteihin |
-| yht   | 120+24.8. | | 
+| 24.8. | 5     | Tunnisteet resepteihin, tunnisteiden näkyvyys selailussa, tunnisteiden lisäys uuden reseptin yhteydessä |
+| yht   | 125   | | 
