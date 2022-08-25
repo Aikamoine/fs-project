@@ -79,7 +79,6 @@ const addRecipe = async (req, res) => {
     name, servings, time, info, urlName, ingredients, steps, tags,
   } = req.body
 
-  console.log('tags', JSON.stringify(tags, null, 2))
   try {
     const recipe = await Recipe.create({
       name,

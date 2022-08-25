@@ -30,7 +30,6 @@ const RecipeList = ({ recipes }) => {
       })
     })
     tags.sort()
-    console.log('tags', tags)
     setTagOptions(tags.map((tag) => ({ value: tag, label: tag })))
   }
 
@@ -76,7 +75,6 @@ const RecipeList = ({ recipes }) => {
     filteredRecipes = filteredRecipes.filter((r) => r.tags.some((tag) => tagFilter.findIndex((t) => t.label === tag.name) >= 0))
   }
 
-  console.log('filteredrecipes', filteredRecipes)
   return (
     <Table striped bordered hover>
       <thead>

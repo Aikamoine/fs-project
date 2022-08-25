@@ -9,8 +9,8 @@ import { toast } from 'react-toastify'
 import { useErrorHandler } from 'react-error-boundary'
 
 import { deleteRecipe, editRecipe } from 'Utilities/services/recipes'
-import IngredientSelector from 'Components/IngredientSelector'
-import TagSelector from 'Components/TagSelector'
+import IngredientSelector from 'Components/selectors/IngredientSelector'
+import TagSelector from 'Components/selectors/TagSelector'
 
 const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
   const [name, setName] = useState(recipeDetails.recipe.name)
@@ -170,7 +170,7 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
           <Form.Label>Lisätieto:</Form.Label>
           <Form.Control value={info} onChange={({ target }) => setInfo(target.value)} />
           <Form.Label>Tunnisteet</Form.Label>
-          <TagSelector onChange={handleTagsChange}/>
+          <TagSelector onChange={handleTagsChange} />
         </Form.Group>
       </Form>
       <br />

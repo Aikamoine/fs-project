@@ -6,9 +6,9 @@ import { useNavigate } from 'react-router-dom'
 
 import { localStorageName } from 'Utilities/common'
 import { userIsAdmin } from 'Utilities/services/users'
-import { addRecipe, getTags } from 'Utilities/services/recipes'
-import IngredientSelector from 'Components/IngredientSelector'
-import TagSelector from 'Components/TagSelector'
+import { addRecipe } from 'Utilities/services/recipes'
+import IngredientSelector from 'Components/selectors/IngredientSelector'
+import TagSelector from 'Components/selectors/TagSelector'
 
 const formatUrlName = (name) => {
   const spacesToUnderScore = name.replace(' ', '_').toLowerCase()
@@ -126,7 +126,6 @@ const AddRecipe = () => {
     return <div>Tämä sivu on vain pääkäyttäjille!</div>
   }
 
-  console.log('choices', tagChoices)
   return (
     <div>
       <h3>Perustiedot</h3>

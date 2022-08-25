@@ -48,7 +48,6 @@ const Shoppinglist = () => {
   }
 
   const handleRemoveRecipe = async (recipe) => {
-    console.log('removing', recipe, recipes)
     await removeRecipe(recipe)
     // setRecipes(recipes.filter((r) => r.recipeId !== recipe.id))
     handleGetShoppingList()
@@ -63,7 +62,7 @@ const Shoppinglist = () => {
   if (shoppingList.message) {
     return <ErrorView error={shoppingList.message} />
   }
-  console.log('recipes', recipes)
+
   return (
     <div>
       <Row>

@@ -105,7 +105,6 @@ const ManageIngredients = () => {
   }
 
   const handleFineliChange = async (selectedOptions) => {
-    console.log('selected', selectedOptions)
     try {
       const data = await getFromFineliApi(selectedOptions.value)
       console.log('got from fineli', data)

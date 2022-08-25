@@ -8,7 +8,6 @@ const TagSelector = ({ onChange }) => {
 
   const handleGetTags = async () => {
     const tags = await getTags()
-    console.log('tags', tags)
     setTagOptions(tags.map((tag) => ({ value: tag.id, label: tag.name })))
   }
 
