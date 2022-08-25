@@ -8,6 +8,7 @@ import { localStorageName } from 'Utilities/common'
 import { userIsAdmin } from 'Utilities/services/users'
 import { addRecipe, getTags } from 'Utilities/services/recipes'
 import IngredientSelector from 'Components/IngredientSelector'
+import TagSelector from 'Components/TagSelector'
 
 const formatUrlName = (name) => {
   const spacesToUnderScore = name.replace(' ', '_').toLowerCase()
@@ -22,7 +23,6 @@ const AddRecipe = () => {
   const [servings, setServings] = useState(0)
   const [time, setTime] = useState('')
   const [info, setInfo] = useState('')
-  const [tagOptions, setTagOptions] = useState([])
   const [tagChoices, setTagChoices] = useState([])
   const [amount, setAmount] = useState('')
   const [unit, setUnit] = useState('')
@@ -38,19 +38,12 @@ const AddRecipe = () => {
     setIsAdmin(query.isAdmin)
   }
 
-  const handleGetTags = async () => {
-    const tags = await getTags()
-    console.log('tags', tags)
-    setTagOptions(tags)
-  }
-
   useEffect(() => {
     if (window.localStorage.getItem(localStorageName)) {
       checkAdminStatus()
     } else {
       setIsAdmin(false)
     }
-    handleGetTags()
   }, [])
 
   const nameChange = ({ target }) => setName(target.value)
@@ -65,6 +58,12 @@ const AddRecipe = () => {
         id: selectedOptions.value,
         name: selectedOptions.label,
       })
+    }
+  }
+
+  const handleTagsChange = (selectedOptions) => {
+    if (selectedOptions) {
+      setTagChoices(selectedOptions)
     }
   }
 
@@ -83,14 +82,6 @@ const AddRecipe = () => {
 
   const deleteIngredient = (index) => {
     setIngredients(ingredients.filter((ing, ind) => ind !== index))
-  }
-
-  const tagsChange = (selection) => {
-    if (tagChoices.includes(selection)) {
-      setTagChoices(tagChoices.filter((tag) => tag !== selection))
-    } else {
-      setTagChoices([...tagChoices, selection])
-    }
   }
 
   const handleSend = async () => {
@@ -158,16 +149,7 @@ const AddRecipe = () => {
         </Form.Group>
         <Form.Group controlId="tags">
           <Form.Label>Tunnisteet</Form.Label>
-          <Form.Control
-            as="select"
-            value={tagChoices}
-            onChange={(choice) => tagsChange(choice.target.value)}
-            multiple
-          >
-            {tagOptions.map((option) => (
-              <option key={option.name} value={option.id}>{option.name}</option>
-            ))}
-          </Form.Control>
+          <TagSelector onChange={handleTagsChange} />
         </Form.Group>
       </Form>
       <br />

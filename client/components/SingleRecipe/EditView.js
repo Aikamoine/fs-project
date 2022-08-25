@@ -10,6 +10,7 @@ import { useErrorHandler } from 'react-error-boundary'
 
 import { deleteRecipe, editRecipe } from 'Utilities/services/recipes'
 import IngredientSelector from 'Components/IngredientSelector'
+import TagSelector from 'Components/TagSelector'
 
 const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
   const [name, setName] = useState(recipeDetails.recipe.name)
@@ -19,6 +20,7 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
   const [ingredients, setIngredients] = useState(recipeDetails.ingredients)
   const [steps, setSteps] = useState(recipeDetails.recipe.recipe_steps)
   const [newId, setNewId] = useState(0)
+  const [tagChoices, setTagChoices] = useState(recipeDetails.recipe.tags)
 
   const navigate = useNavigate()
   const handleError = useErrorHandler()
@@ -73,6 +75,7 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
       newInfo: info,
       newIngredients: ingredients,
       newSteps: steps,
+      newTags: tagChoices,
     }
     try {
       toast('Tallennetaan muutoksia')
@@ -143,6 +146,12 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
     }
   }
 
+  const handleTagsChange = (selectedOptions) => {
+    if (selectedOptions) {
+      setTagChoices(selectedOptions)
+    }
+  }
+
   return (
     <div>
       <Button variant="danger" onClick={() => setIsEditing(false)}>
@@ -160,6 +169,8 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
           <Form.Control value={time} onChange={({ target }) => setTime(target.value)} />
           <Form.Label>Lisätieto:</Form.Label>
           <Form.Control value={info} onChange={({ target }) => setInfo(target.value)} />
+          <Form.Label>Tunnisteet</Form.Label>
+          <TagSelector onChange={handleTagsChange}/>
         </Form.Group>
       </Form>
       <br />

@@ -43,6 +43,13 @@ const getRecipeDetails = async (req, res) => {
       {
         model: RecipeStep,
       },
+      {
+        model: Tag,
+        attributes: ['name', 'id'],
+        through: {
+          attributes: [],
+        },
+      },
     ],
     order: [
       [RecipeStep, 'number', 'ASC'],
@@ -72,6 +79,7 @@ const addRecipe = async (req, res) => {
     name, servings, time, info, urlName, ingredients, steps, tags,
   } = req.body
 
+  console.log('tags', JSON.stringify(tags, null, 2))
   try {
     const recipe = await Recipe.create({
       name,
@@ -97,7 +105,7 @@ const addRecipe = async (req, res) => {
 
     const tagBulkArray = tags.map((tag) => ({
       recipeId: recipe.id,
-      tagId: tag,
+      tagId: tag.value,
     }))
 
     await RecipeIngredient.bulkCreate(ingredientBulkArray)
@@ -120,6 +128,7 @@ const editRecipe = async (req, res) => {
     newInfo,
     newIngredients,
     newSteps,
+    newTags,
   } = req.body
 
   if (!req.decodedToken.isAdmin && req.decodedToken.id !== recipe.user_id) {
@@ -141,6 +150,11 @@ const editRecipe = async (req, res) => {
     number: index + 1,
   }))
 
+  const tagBulkArray = newTags.map((tag) => ({
+    recipeId: recipe.id,
+    tagId: tag.value,
+  }))
+
   await RecipeIngredient.destroy({
     where: { recipeId: recipe.id },
   })
@@ -149,8 +163,13 @@ const editRecipe = async (req, res) => {
     where: { recipeId: recipe.id },
   })
 
+  await RecipeTag.destroy({
+    where: { recipeId: recipe.id },
+  })
+
   await RecipeIngredient.bulkCreate(ingredientBulkArray)
   await RecipeStep.bulkCreate(stepsBulkArray)
+  await RecipeTag.bulkCreate(tagBulkArray)
 
   await Recipe.update(
     {
@@ -183,6 +202,9 @@ const deleteRecipe = async (req, res) => {
       where: { recipeId: id },
     })
     await RecipeStep.destroy({
+      where: { recipeId: id },
+    })
+    await RecipeTag.destroy({
       where: { recipeId: id },
     })
 

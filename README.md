@@ -14,6 +14,7 @@ Pääkäyttäjä voi lisätä reseptejä käyttöliittymän kautta ja hallita ai
 
 ### Backlog
 - resepteille aihetunnisteet
+- reseptin poisto huomioimaan, jos resepti on jonkun ostoslistalla
 - reseptille lisukkeen, esim. riisi tai peruna, valinta ja sen huomiointi ravintoarvoissa
 - selkeämpi ilmoitus käyttäjälle siitä, että palvelimen puolen sessio on loppunut/puuttuu
 
