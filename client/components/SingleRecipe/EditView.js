@@ -148,10 +148,12 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
 
   const handleTagsChange = (selectedOptions) => {
     if (selectedOptions) {
+      console.log(selectedOptions)
       setTagChoices(selectedOptions)
     }
   }
 
+  console.log('details', recipeDetails)
   return (
     <div>
       <Button variant="danger" onClick={() => setIsEditing(false)}>
@@ -170,7 +172,10 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
           <Form.Label>Lisätieto:</Form.Label>
           <Form.Control value={info} onChange={({ target }) => setInfo(target.value)} />
           <Form.Label>Tunnisteet</Form.Label>
-          <TagSelector onChange={handleTagsChange} />
+          <TagSelector
+            onChange={handleTagsChange}
+            defaultValue={recipeDetails.recipe.tags.map((tag) => ({ value: tag.id, label: tag.name }))}
+          />
         </Form.Group>
       </Form>
       <br />

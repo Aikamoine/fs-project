@@ -1,23 +1,29 @@
 import React from 'react'
+import Button from 'react-bootstrap/Button'
 
 const RecipeHeader = ({
-  name,
-  servings,
-  time,
-  info,
+  recipe,
+  isAdmin,
+  loggedUser,
+  setIsEditing,
 }) => (
   <div>
-    <h2>{name}</h2>
+    <h2>
+      {recipe.name}
+      {(loggedUser && (loggedUser.id === recipe.user_id || isAdmin))
+        && (
+          <Button variant="link" onClick={() => setIsEditing(true)}>
+            Muokkaa reseptiä
+          </Button>
+        )}
+    </h2>
     <div>
-      {servings}
-      {' annosta - työaika noin: '}
-      {time}
+      {`${recipe.servings} annosta - työaika noin: ${recipe.time}`}
     </div>
     <br />
     <div>
-      {info}
+      {recipe.info}
     </div>
   </div>
 )
-
 export default RecipeHeader

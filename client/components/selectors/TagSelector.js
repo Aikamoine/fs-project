@@ -3,7 +3,7 @@ import Select from 'react-select'
 
 import { getTags } from 'Utilities/services/recipes'
 
-const TagSelector = ({ onChange }) => {
+const TagSelector = ({ onChange, defaultValue }) => {
   const [tagOptions, setTagOptions] = useState([])
 
   const handleGetTags = async () => {
@@ -15,7 +15,7 @@ const TagSelector = ({ onChange }) => {
     handleGetTags()
   }, [])
 
-  return <Select options={tagOptions} onChange={onChange} isMulti />
+  return <Select defaultValue={defaultValue} options={tagOptions} onChange={onChange} isMulti />
 }
 
 export default TagSelector

@@ -65,14 +65,13 @@ const SingleRecipe = () => {
     return <EditView recipeDetails={recipeDetails} setIsEditing={setIsEditing} urlName={urlName} />
   }
 
-  console.log('recipedetails', recipeDetails)
   return (
     <div>
       <RecipeHeader
-        name={recipeDetails.recipe.name}
-        servings={recipeDetails.recipe.servings}
-        time={recipeDetails.recipe.time}
-        info={recipeDetails.recipe.info}
+        recipe={recipeDetails.recipe}
+        isAdmin={isAdmin}
+        loggedUser={loggedUser}
+        setIsEditing={setIsEditing}
       />
       <br />
       <Container>
@@ -95,12 +94,6 @@ const SingleRecipe = () => {
           </Button>
         </p>
       )}
-      {(loggedUser && (loggedUser.id === recipeDetails.recipe.user_id || isAdmin))
-        && (
-          <Button variant="link" onClick={() => setIsEditing(true)}>
-            Muokkaa reseptiä
-          </Button>
-        )}
       <p>
         <Link to="/recipes">
           Takaisin reseptilistaan
