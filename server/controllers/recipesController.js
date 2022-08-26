@@ -7,6 +7,8 @@ const {
   RecipeIngredient,
   Tag,
   RecipeTag,
+  ShoppinglistRecipe,
+  Shoppinglist,
 } = require('../models')
 
 const getAll = async (req, res) => {
@@ -197,6 +199,21 @@ const deleteRecipe = async (req, res) => {
   }
 
   try {
+    const shoppinglistRecipes = await ShoppinglistRecipe.findAll({
+      where: { recipeId: id },
+    })
+    console.log('shoppinglistrecipes', JSON.stringify(shoppinglistRecipes, null, 2), shoppinglistRecipes.map((i) => i.id))
+    if (shoppinglistRecipes) {
+      await Shoppinglist.destroy({
+        where: {
+          shoppinglistRecipeId: shoppinglistRecipes.map((i) => i.id),
+        },
+      })
+      await ShoppinglistRecipe.destroy({
+        where: { recipeId: id },
+      })
+    }
+
     await RecipeIngredient.destroy({
       where: { recipeId: id },
     })

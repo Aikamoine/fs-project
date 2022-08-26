@@ -13,8 +13,8 @@ Kirjautunut käyttäjä voi lisätä reseptin ainesosat omalle ostoslistalleen, 
 Pääkäyttäjä voi lisätä reseptejä käyttöliittymän kautta ja hallita ainesosien ravintosisältöä.
 
 ### Backlog
-- resepteille aihetunnisteet
-- reseptin poisto huomioimaan, jos resepti on jonkun ostoslistalla
+- käyttöohjeita
+- reseptin poisto ja editointi huomioimaan, jos resepti on jonkun ostoslistalla
 - reseptille lisukkeen, esim. riisi tai peruna, valinta ja sen huomiointi ravintoarvoissa
 - selkeämpi ilmoitus käyttäjälle siitä, että palvelimen puolen sessio on loppunut/puuttuu
 
