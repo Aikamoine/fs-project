@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Select from 'react-select'
 
-import { getTags } from 'Utilities/services/recipes'
+import { getTags } from 'Utilities/services/tags'
 
 const TagSelector = ({ onChange, defaultValue }) => {
   const [tagOptions, setTagOptions] = useState([])

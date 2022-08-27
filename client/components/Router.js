@@ -6,6 +6,7 @@ import RecipeView from 'Components/RecipeView'
 import SingleRecipe from 'Components/SingleRecipe'
 import AddRecipe from 'Components/AddRecipe'
 import ViewIngredients from 'Components/ViewIngredients/'
+import ManageTags from 'Components/ManageTags'
 import CreateUser from './User/CreateUser'
 import LoginForm from './User/LoginForm'
 import Logout from './User/Logout'
@@ -26,6 +27,7 @@ export default () => (
       <Route path="/addrecipe" element={<AddRecipe />} />
       <Route path="/manageingredients" element={<ManageIngredients />} />
       <Route path="/ingredients" element={<ViewIngredients />} />
+      <Route path="/tags/manage" element={<ManageTags />} />
     </Routes>
   </div>
 )

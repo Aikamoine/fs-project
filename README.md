@@ -15,6 +15,7 @@ Pääkäyttäjä voi lisätä reseptejä käyttöliittymän kautta ja hallita ai
 ### Backlog
 - käyttöohjeita
 - reseptin poisto ja editointi huomioimaan, jos resepti on jonkun ostoslistalla
+  - nykyisin vain poistaa koko editoidun/poistetun reseptin listoilta
 - reseptille lisukkeen, esim. riisi tai peruna, valinta ja sen huomiointi ravintoarvoissa
 - selkeämpi ilmoitus käyttäjälle siitä, että palvelimen puolen sessio on loppunut/puuttuu
 

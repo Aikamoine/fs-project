@@ -15,6 +15,9 @@ const AdminActions = () => (
     <NavDropdown.Item href="/manageingredients">
       Ainesosien hallinta
     </NavDropdown.Item>
+    <NavDropdown.Item href="/tags/manage">
+      Tunnisteiden hallinta
+    </NavDropdown.Item>
   </NavDropdown>
 )
 

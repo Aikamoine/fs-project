@@ -3,6 +3,7 @@ const recipes = require('@controllers/recipesController')
 const users = require('@controllers/usersController')
 const shoppinglists = require('@controllers/shoppinglistsController')
 const ingredients = require('@controllers/ingredientsController')
+const tags = require('@controllers/tagsController')
 const sessionValidator = require('@middleware/sessionValidator')
 
 const router = Router()
@@ -29,7 +30,8 @@ router.get('/recipes/:urlName', recipes.getRecipeDetails)
 router.post('/recipes/:urlName', sessionValidator, recipes.editRecipe)
 router.post('/recipes', sessionValidator, recipes.addRecipe)
 router.delete('/recipes/:id', sessionValidator, recipes.deleteRecipe)
-router.get('/tags', sessionValidator, recipes.getTags)
+
+router.get('/tags', sessionValidator, tags.getTags)
 
 router.post('/users', users.postUser)
 router.get('/users/isadmin', sessionValidator, users.isAdmin)

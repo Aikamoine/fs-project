@@ -52,4 +52,5 @@
 | 24.8. | 5     | Tunnisteet resepteihin, tunnisteiden näkyvyys selailussa, tunnisteiden lisäys uuden reseptin yhteydessä |
 | 25.8. | 2     | Tunnisteiden editointi, tunnisteille oma komponentti, refaktorointia |
 | 26.8. | 2     | Tunnisteiden toiminnan parannusta, reseptien poistoon ja editointiin liittyvien bugien korjausta ja kartoitusta |
-| yht   | 129   | | 
+| 27.8. | 2     | Reseptien poistoon ja editointiin liittyvien bugien korjausta, tunnisteiden muokkausnäkymää frontendiin |
+| yht   | 131   | | 
