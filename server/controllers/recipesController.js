@@ -11,6 +11,23 @@ const {
   Shoppinglist,
 } = require('../models')
 
+const deleteRecipesShoppinglists = async (recipeId) => {
+  const shoppinglistRecipes = await ShoppinglistRecipe.findAll({
+    where: { recipeId },
+  })
+
+  if (shoppinglistRecipes) {
+    await Shoppinglist.destroy({
+      where: {
+        shoppinglistRecipeId: shoppinglistRecipes.map((i) => i.id),
+      },
+    })
+    await ShoppinglistRecipe.destroy({
+      where: { recipeId },
+    })
+  }
+}
+
 const getAll = async (req, res) => {
   const recipes = await Recipe.findAll({
     include: [{
@@ -156,6 +173,8 @@ const editRecipe = async (req, res) => {
     tagId: tag.value,
   }))
 
+  deleteRecipesShoppinglists(recipe.id)
+
   await RecipeIngredient.destroy({
     where: { recipeId: recipe.id },
   })
@@ -199,20 +218,7 @@ const deleteRecipe = async (req, res) => {
   }
 
   try {
-    const shoppinglistRecipes = await ShoppinglistRecipe.findAll({
-      where: { recipeId: id },
-    })
-    console.log('shoppinglistrecipes', JSON.stringify(shoppinglistRecipes, null, 2), shoppinglistRecipes.map((i) => i.id))
-    if (shoppinglistRecipes) {
-      await Shoppinglist.destroy({
-        where: {
-          shoppinglistRecipeId: shoppinglistRecipes.map((i) => i.id),
-        },
-      })
-      await ShoppinglistRecipe.destroy({
-        where: { recipeId: id },
-      })
-    }
+    deleteRecipesShoppinglists(id)
 
     await RecipeIngredient.destroy({
       where: { recipeId: id },
