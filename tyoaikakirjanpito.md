@@ -53,4 +53,6 @@
 | 25.8. | 2     | Tunnisteiden editointi, tunnisteille oma komponentti, refaktorointia |
 | 26.8. | 2     | Tunnisteiden toiminnan parannusta, reseptien poistoon ja editointiin liittyvien bugien korjausta ja kartoitusta |
 | 27.8. | 2     | Reseptien poistoon ja editointiin liittyvien bugien korjausta, tunnisteiden muokkausnäkymää frontendiin |
-| yht   | 131   | | 
+| 28.8. | 2     | Tunnisteiden muokkaustoiminnallisuus |
+|       | 133   | 28.8. mennessä yhteensä |
+| yht   | 133   | | 

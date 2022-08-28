@@ -9,6 +9,16 @@ export const getTags = async () => {
   return response.data
 }
 
-export const deleteTag = async () => {
-  console.log('delete tag')
+export const saveTag = async (tag) => {
+  const config = setConfig()
+  console.log('savetag', tag)
+  const response = await axios.post(basePath, tag, config)
+  return response.data
+}
+
+export const deleteTag = async (id) => {
+  const config = setConfig()
+  console.log('delete tag', id)
+  const response = await axios.delete(`${basePath}/${id}`, config)
+  return response.data
 }

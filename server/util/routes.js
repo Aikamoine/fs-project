@@ -32,6 +32,8 @@ router.post('/recipes', sessionValidator, recipes.addRecipe)
 router.delete('/recipes/:id', sessionValidator, recipes.deleteRecipe)
 
 router.get('/tags', sessionValidator, tags.getTags)
+router.post('/tags', sessionValidator, tags.saveTag)
+router.delete('/tags/:id', sessionValidator, tags.deleteTag)
 
 router.post('/users', users.postUser)
 router.get('/users/isadmin', sessionValidator, users.isAdmin)
