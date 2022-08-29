@@ -13,6 +13,12 @@ export const userIsAdmin = async () => {
   }
 }
 
+export const getAdminLevel = async () => {
+  const config = setConfig()
+  const response = await axios.get(`${basePath}/adminlevel`, config)
+  return response.data
+}
+
 export const getUsers = async () => {
   const response = await axios.get(basePath)
   return response.data

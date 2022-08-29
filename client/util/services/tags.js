@@ -4,8 +4,7 @@ import { setConfig } from 'Utilities/common'
 const basePath = '/api/tags'
 
 export const getTags = async () => {
-  const config = setConfig()
-  const response = await axios.get(basePath, config)
+  const response = await axios.get(basePath)
   return response.data
 }
 

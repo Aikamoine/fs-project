@@ -3,19 +3,19 @@ import Table from 'react-bootstrap/Table'
 import ToggleButton from 'react-bootstrap/ToggleButton'
 import Button from 'react-bootstrap/Button'
 
-import { localStorageName } from 'Utilities/common'
+import { localStorageName, adminLevels } from 'Utilities/common'
 import { getTags, saveTag, deleteTag } from 'Utilities/services/tags'
-import { userIsAdmin } from 'Utilities/services/users'
+import { getAdminLevel } from 'Utilities/services/users'
 import Instructions from './Instructions'
 
 const ManageTags = () => {
   const [tags, setTags] = useState([])
-  const [isAdmin, setIsAdmin] = useState(false)
+  const [adminLevel, setAdminLevel] = useState(0)
   const [instructions, setInstructions] = useState(false)
 
   const checkAdminStatus = async () => {
-    const query = await userIsAdmin()
-    setIsAdmin(query.isAdmin)
+    const level = await getAdminLevel()
+    setAdminLevel(level.adminLevel)
   }
 
   const handleGetTags = async () => {
@@ -28,7 +28,7 @@ const ManageTags = () => {
       checkAdminStatus()
       handleGetTags()
     } else {
-      setIsAdmin(false)
+      setAdminLevel(0)
     }
   }, [])
 
@@ -50,11 +50,12 @@ const ManageTags = () => {
   }
 
   const handleSave = (index) => {
-    console.log('saving', tags[index])
     saveTag(tags[index])
     const tagList = [...tags]
     const tag = tagList[index]
-    tag.name = tag.newName
+    if (tag.newName) {
+      tag.name = tag.newName
+    }
     tag.newName = ''
     tag.edited = false
     setTags(tagList)
@@ -63,7 +64,6 @@ const ManageTags = () => {
   const handleDelete = (index) => {
     // eslint-disable-next-line no-alert
     if (window.confirm(`Haluatko varmasti poistaa tunnisteen ${tags[index].name}? Tätä ei voi perua`)) {
-      console.log('deleting', index, tags[index])
       if (index > 0) {
         deleteTag(tags[index].id)
       }
@@ -83,7 +83,7 @@ const ManageTags = () => {
     setTags([newTag, ...tags])
   }
 
-  if (!isAdmin) {
+  if (adminLevel < adminLevels('editor')) {
     return (
       <div>
         Tämä sivu on vain pääkäyttäjille!
@@ -108,8 +108,8 @@ const ManageTags = () => {
             </th>
             <th>Uusi nimi</th>
             <th>Ruoka-annos</th>
-            <th>Poisto</th>
             <th>Tallennus</th>
+            {adminLevel >= adminLevels('admin') && <th>Poisto</th>}
           </tr>
         </thead>
         <tbody>
@@ -131,11 +131,13 @@ const ManageTags = () => {
                 </ToggleButton>
               </td>
               <td>
-                <Button size="sm" variant="danger" onClick={() => handleDelete(index)}>Poista</Button>
-              </td>
-              <td>
                 <Button size="sm" disabled={!tag.edited} onClick={() => handleSave(index)}>Tallenna</Button>
               </td>
+              {adminLevel >= adminLevels('admin') && (
+                <td>
+                  <Button size="sm" variant="danger" onClick={() => handleDelete(index)}>Poista</Button>
+                </td>
+              )}
             </tr>
           ))}
         </tbody>

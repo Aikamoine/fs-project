@@ -14,6 +14,10 @@ const isAdmin = async (req, res) => (
   res.json({ isAdmin: req.decodedToken.isAdmin })
 )
 
+const getAdminLevel = async (req, res) => {
+  res.json({ adminLevel: req.decodedToken.adminLevel })
+}
+
 const postUser = async (req, res) => {
   const { username, password } = req.body
   const hashedPassword = await bcrypt.hash(password, saltRounds)
@@ -54,12 +58,14 @@ const login = async (req, res) => {
     })
   }
 
+  console.log('user', JSON.stringify(user, null, 2))
   const validUntil = sessionLength()
   const approvedUser = {
     username,
     id: user.id,
     validUntil,
     isAdmin: user.isAdmin,
+    adminLevel: user.adminLevel,
   }
 
   const token = jwt.sign(approvedUser, `${SECRET}`)
@@ -102,4 +108,5 @@ module.exports = {
   login,
   logout,
   isAdmin,
+  getAdminLevel,
 }

@@ -11,6 +11,7 @@ Recipe.init({
   },
   name: {
     type: DataTypes.TEXT,
+    allowNull: false,
     unique: true,
   },
   servings: {
@@ -24,9 +25,12 @@ Recipe.init({
   },
   urlName: {
     type: DataTypes.TEXT,
+    allowNull: false,
+    unique: true,
   },
   userId: {
     type: DataTypes.INTEGER,
+    allowNull: false,
     references: { model: 'users', key: 'id' },
   },
   info: {

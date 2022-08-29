@@ -29,6 +29,10 @@ User.init({
     allowNull: false,
     defaultValue: false,
   },
+  adminLevel: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
 }, {
   sequelize,
   underscored: true,
