@@ -1,16 +1,17 @@
 import React from 'react'
 import Button from 'react-bootstrap/Button'
+import { adminLevels } from 'Utilities/common'
 
 const RecipeHeader = ({
   recipe,
-  isAdmin,
+  adminLevel,
   loggedUser,
   setIsEditing,
 }) => (
   <div>
     <h2>
       {recipe.name}
-      {(loggedUser && (loggedUser.id === recipe.user_id || isAdmin))
+      {(loggedUser && (loggedUser.id === recipe.user_id || adminLevel >= adminLevels('admin')))
         && (
           <Button variant="link" onClick={() => setIsEditing(true)}>
             Muokkaa reseptiä

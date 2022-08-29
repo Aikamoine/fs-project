@@ -1,8 +1,8 @@
+const { adminLevels } = require('@util/common')
 const { sequelize } = require('../util/db')
 
 const {
   Recipe,
-  Ingredient,
   RecipeStep,
   RecipeIngredient,
   Tag,
@@ -44,16 +44,6 @@ const getAll = async (req, res) => {
   res.json(recipes)
 }
 
-const getIngredientNames = async (req, res) => {
-  const ingredients = await Ingredient.findAll({
-    attributes: ['name'],
-    order: [
-      ['name', 'ASC'],
-    ],
-  })
-  res.json(ingredients)
-}
-
 const getRecipeDetails = async (req, res) => {
   const recipe = await Recipe.findOne({
     where: { urlName: req.params.urlName },
@@ -88,8 +78,8 @@ const getRecipeDetails = async (req, res) => {
 }
 
 const addRecipe = async (req, res) => {
-  if (!req.decodedToken.isAdmin) {
-    return res.status(401).json({
+  if (req.decodedToken.adminLevel < adminLevels('editor')) {
+    return res.status(403).json({
       error: 'Käyttöoikeutesi ei riitä reseptien lisäämiseen',
     })
   }
@@ -149,8 +139,8 @@ const editRecipe = async (req, res) => {
     newTags,
   } = req.body
 
-  if (!req.decodedToken.isAdmin && req.decodedToken.id !== recipe.user_id) {
-    return res.status(401).json({
+  if (req.decodedToken.adminLevel < adminLevels('admin') && req.decodedToken.id !== recipe.user_id) {
+    return res.status(403).json({
       error: 'Käyttöoikeutesi ei riitä tämän reseptin muokkaamiseen',
     })
   }
@@ -209,10 +199,8 @@ const editRecipe = async (req, res) => {
 const deleteRecipe = async (req, res) => {
   const { id } = req.params
 
-  const toDelete = await Recipe.findByPk(id)
-
-  if (!req.decodedToken.isAdmin && toDelete.userId !== req.decodedToken.id) {
-    return res.status(401).json({
+  if (req.decodedToken.adminLevel < adminLevels('admin')) {
+    return res.status(403).json({
       error: 'Käyttöoikeutesi ei riitä reseptien poistamiseen',
     })
   }
@@ -252,7 +240,6 @@ module.exports = {
   getAll,
   getRecipeDetails,
   addRecipe,
-  getIngredientNames,
   editRecipe,
   deleteRecipe,
   getTags,

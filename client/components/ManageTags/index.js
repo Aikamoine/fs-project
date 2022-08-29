@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Table from 'react-bootstrap/Table'
 import ToggleButton from 'react-bootstrap/ToggleButton'
 import Button from 'react-bootstrap/Button'
-
+import { useErrorHandler } from 'react-error-boundary'
 import { localStorageName, adminLevels } from 'Utilities/common'
 import { getTags, saveTag, deleteTag } from 'Utilities/services/tags'
 import { getAdminLevel } from 'Utilities/services/users'
@@ -12,6 +12,7 @@ const ManageTags = () => {
   const [tags, setTags] = useState([])
   const [adminLevel, setAdminLevel] = useState(0)
   const [instructions, setInstructions] = useState(false)
+  const handleError = useErrorHandler()
 
   const checkAdminStatus = async () => {
     const level = await getAdminLevel()
@@ -50,25 +51,33 @@ const ManageTags = () => {
   }
 
   const handleSave = (index) => {
-    saveTag(tags[index])
-    const tagList = [...tags]
-    const tag = tagList[index]
-    if (tag.newName) {
-      tag.name = tag.newName
+    try {
+      saveTag(tags[index])
+      const tagList = [...tags]
+      const tag = tagList[index]
+      if (tag.newName) {
+        tag.name = tag.newName
+      }
+      tag.newName = ''
+      tag.edited = false
+      setTags(tagList)
+    } catch (error) {
+      handleError(error)
     }
-    tag.newName = ''
-    tag.edited = false
-    setTags(tagList)
   }
 
-  const handleDelete = (index) => {
+  const handleDelete = async (index) => {
     // eslint-disable-next-line no-alert
     if (window.confirm(`Haluatko varmasti poistaa tunnisteen ${tags[index].name}? Tätä ei voi perua`)) {
-      if (index > 0) {
-        deleteTag(tags[index].id)
+      try {
+        if (index > 0) {
+          await deleteTag(tags[index].id)
+        }
+        const tagList = tags.filter((tag) => tag.id !== tags[index].id)
+        setTags(tagList)
+      } catch (error) {
+        handleError(error)
       }
-      const tagList = tags.filter((tag) => tag.id !== tags[index].id)
-      setTags(tagList)
     }
   }
 

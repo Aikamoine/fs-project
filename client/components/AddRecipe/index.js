@@ -4,8 +4,8 @@ import Table from 'react-bootstrap/Table'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 
-import { localStorageName } from 'Utilities/common'
-import { userIsAdmin } from 'Utilities/services/users'
+import { localStorageName, adminLevels } from 'Utilities/common'
+import { getAdminLevel } from 'Utilities/services/users'
 import { addRecipe } from 'Utilities/services/recipes'
 import IngredientSelector from 'Components/selectors/IngredientSelector'
 import TagSelector from 'Components/selectors/TagSelector'
@@ -30,21 +30,21 @@ const AddRecipe = () => {
   const [ingredient, setIngredient] = useState('')
   const [ingredients, setIngredients] = useState('')
   const [steps, setSteps] = useState('')
-  const [isAdmin, setIsAdmin] = useState(false)
+  const [adminLevel, setAdminLevel] = useState(0)
   const [instructions, setInstructions] = useState(false)
   const navigate = useNavigate()
   const ref = useRef(null)
 
   const checkAdminStatus = async () => {
-    const query = await userIsAdmin()
-    setIsAdmin(query.isAdmin)
+    const level = await getAdminLevel()
+    setAdminLevel(level.adminLevel)
   }
 
   useEffect(() => {
     if (window.localStorage.getItem(localStorageName)) {
       checkAdminStatus()
     } else {
-      setIsAdmin(false)
+      setAdminLevel(0)
     }
   }, [])
 
@@ -124,8 +124,12 @@ const AddRecipe = () => {
     navigate('/recipes', { replace: false })
   }
 
-  if (!isAdmin) {
-    return <div>Tämä sivu on vain pääkäyttäjille!</div>
+  if (adminLevel < adminLevels('editor')) {
+    return (
+      <div>
+        Tämä sivu on vain pääkäyttäjille!
+      </div>
+    )
   }
 
   return (

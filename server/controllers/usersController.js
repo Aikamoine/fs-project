@@ -10,12 +10,11 @@ const getAll = async (req, res) => {
   res.json(users)
 }
 
-const isAdmin = async (req, res) => (
-  res.json({ isAdmin: req.decodedToken.isAdmin })
-)
-
 const getAdminLevel = async (req, res) => {
-  res.json({ adminLevel: req.decodedToken.adminLevel })
+  if (req.decodedToken) {
+    return res.json({ adminLevel: req.decodedToken.adminLevel })
+  }
+  return res.json({ adminLevel: 0 })
 }
 
 const postUser = async (req, res) => {
@@ -64,7 +63,6 @@ const login = async (req, res) => {
     username,
     id: user.id,
     validUntil,
-    isAdmin: user.isAdmin,
     adminLevel: user.adminLevel,
   }
 
@@ -107,6 +105,5 @@ module.exports = {
   postUser,
   login,
   logout,
-  isAdmin,
   getAdminLevel,
 }

@@ -5,14 +5,13 @@ import FrontPage from 'Components/FrontPage'
 import RecipeView from 'Components/RecipeView'
 import SingleRecipe from 'Components/SingleRecipe'
 import AddRecipe from 'Components/AddRecipe'
-import ViewIngredients from 'Components/ViewIngredients/'
+import ViewIngredients from 'Components/ViewIngredients'
 import ManageTags from 'Components/ManageTags'
+import Shoppinglist from 'Components/Shoppinglist'
+import ManageIngredients from 'Components/ManageIngredients'
 import CreateUser from './User/CreateUser'
 import LoginForm from './User/LoginForm'
 import Logout from './User/Logout'
-
-import Shoppinglist from './Shoppinglist/index'
-import ManageIngredients from './ManageIngredients/index'
 
 export default () => (
   <div className="content">

@@ -55,7 +55,6 @@ const Shoppinglist = () => {
 
   const handleRemoveRecipe = async (recipe) => {
     await removeRecipe(recipe)
-    // setRecipes(recipes.filter((r) => r.recipeId !== recipe.id))
     handleGetShoppingList()
   }
 

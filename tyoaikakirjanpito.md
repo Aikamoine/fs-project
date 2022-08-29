@@ -56,4 +56,5 @@
 | 28.8. | 2     | Tunnisteiden muokkaustoiminnallisuus |
 |       | 133   | 28.8. mennessä yhteensä |
 | 29.8. | 2     | Käyttäjäohjeita muokkausnäkymiin |
-| yht   | 133 +29.8.  | | 
+| 29.8. | 4     | Muutoksia käyttäjähallintaan, tietoturvaparannuksia, refaktorointia |
+| yht   | 139  | | 

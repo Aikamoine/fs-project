@@ -1,3 +1,4 @@
+const { adminLevels } = require('@util/common')
 const {
   Tag,
 } = require('../models')
@@ -14,8 +15,8 @@ const saveTag = async (req, res) => {
     id, name, newName, countServings,
   } = req.body
 
-  if (!req.decodedToken.isAdmin) {
-    return res.status(401).json({
+  if (req.decodedToken.adminLevel < adminLevels('editor')) {
+    return res.status(403).json({
       error: 'Käyttöoikeutesi ei riitä tunnisteiden lisäämiseen',
     })
   }
@@ -47,8 +48,9 @@ const saveTag = async (req, res) => {
 
 const deleteTag = async (req, res) => {
   const { id } = req.params
-
-  if (!req.decodedToken.isAdmin) {
+  console.log('req', req.decodedToken)
+  console.log('admin', adminLevels('admin'))
+  if (req.decodedToken.adminLevel < adminLevels('admin')) {
     return res.status(401).json({
       error: 'Käyttöoikeutesi ei riitä tunnisteiden poistamiseen',
     })

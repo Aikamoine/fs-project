@@ -4,22 +4,27 @@ import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 import NavDropdown from 'react-bootstrap/NavDropdown'
-import { localStorageName } from 'Utilities/common'
-import { userIsAdmin } from 'Utilities/services/users'
+import { localStorageName, adminLevels } from 'Utilities/common'
+import { getAdminLevel } from 'Utilities/services/users'
 
-const AdminActions = () => (
-  <NavDropdown title="Admin" id="navbarScrollingDropdown">
-    <NavDropdown.Item href="/addrecipe">
-      Reseptin lisäys
-    </NavDropdown.Item>
-    <NavDropdown.Item href="/manageingredients">
-      Ainesosien hallinta
-    </NavDropdown.Item>
-    <NavDropdown.Item href="/tags/manage">
-      Tunnisteiden hallinta
-    </NavDropdown.Item>
-  </NavDropdown>
-)
+const AdminActions = ({ adminLevel }) => {
+  if (adminLevel >= adminLevels('editor')) {
+    return (
+      <NavDropdown title="Admin" id="navbarScrollingDropdown">
+        <NavDropdown.Item href="/addrecipe">
+          Reseptin lisäys
+        </NavDropdown.Item>
+        <NavDropdown.Item href="/manageingredients">
+          Ainesosien hallinta
+        </NavDropdown.Item>
+        <NavDropdown.Item href="/tags/manage">
+          Tunnisteiden hallinta
+        </NavDropdown.Item>
+      </NavDropdown>
+    )
+  }
+  return null
+}
 
 const UserActions = ({ user }) => {
   if (user) {
@@ -56,22 +61,19 @@ const UserActions = ({ user }) => {
 }
 
 const NavBar = () => {
-  const [isAdmin, setIsAdmin] = useState(false)
+  const [adminLevel, setAdminLevel] = useState(0)
 
   const checkAdminStatus = async () => {
-    const query = await userIsAdmin()
-    setIsAdmin(query.isAdmin)
+    const level = await getAdminLevel()
+    setAdminLevel(level.adminLevel)
   }
 
+  const loggedUser = JSON.parse(window.localStorage.getItem(localStorageName))
   useEffect(() => {
-    if (window.localStorage.getItem(localStorageName)) {
+    if (loggedUser) {
       checkAdminStatus()
-    } else {
-      setIsAdmin(false)
     }
   }, [])
-
-  const loggedUser = JSON.parse(window.localStorage.getItem(localStorageName))
 
   return (
     <Navbar bg="light" expand="sm" variant="light">
@@ -90,7 +92,7 @@ const NavBar = () => {
               </Link>
             </Nav.Link>
             <UserActions user={loggedUser} />
-            {(loggedUser && isAdmin) ? <AdminActions /> : null}
+            <AdminActions adminLevel={adminLevel} />
           </Nav>
         </Navbar.Collapse>
       </Container>

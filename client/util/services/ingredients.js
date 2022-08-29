@@ -13,16 +13,6 @@ export const getIngredients = async () => {
   }
 }
 
-export const getIngredientNames = async () => {
-  try {
-    const config = setConfig()
-    const response = await axios.get(`${basePath}/names`, config)
-    return response.data
-  } catch (error) {
-    return new Error(error.response.data.error)
-  }
-}
-
 export const getFromFineliApi = async (id) => {
   const config = setConfig()
   const response = await axios.get(`${basePath}/fineli/${id}`, config)

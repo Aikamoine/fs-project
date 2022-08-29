@@ -9,7 +9,7 @@ import { getRecipeDetails } from 'Utilities/services/recipes'
 import { addToList } from 'Utilities/services/shoppinglists'
 import { localStorageName } from 'Utilities/common'
 
-import { userIsAdmin } from 'Utilities/services/users'
+import { getAdminLevel } from 'Utilities/services/users'
 import RecipeHeader from './RecipeHeader'
 import IngredientView from './IngredientView'
 import StepsView from './StepsView'
@@ -19,7 +19,7 @@ import NutritionView from './NutritionView'
 const SingleRecipe = () => {
   const { urlName } = useParams()
   const [recipeDetails, setRecipeDetails] = useState()
-  const [isAdmin, setIsAdmin] = useState()
+  const [adminLevel, setAdminLevel] = useState(0)
   const [isEditing, setIsEditing] = useState(false)
   const navigate = useNavigate()
 
@@ -29,8 +29,8 @@ const SingleRecipe = () => {
   }
 
   const checkAdminStatus = async () => {
-    const query = await userIsAdmin()
-    setIsAdmin(query.isAdmin)
+    const level = await getAdminLevel()
+    setAdminLevel(level.adminLevel)
   }
 
   const loggedUser = JSON.parse(window.localStorage.getItem(localStorageName))
@@ -38,8 +38,6 @@ const SingleRecipe = () => {
   useEffect(() => {
     if (loggedUser) {
       checkAdminStatus()
-    } else {
-      setIsAdmin(false)
     }
     handleGetRecipeDetails()
   }, [])
@@ -69,7 +67,7 @@ const SingleRecipe = () => {
     <div>
       <RecipeHeader
         recipe={recipeDetails.recipe}
-        isAdmin={isAdmin}
+        adminLevel={adminLevel}
         loggedUser={loggedUser}
         setIsEditing={setIsEditing}
       />

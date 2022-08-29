@@ -1,4 +1,5 @@
 const https = require('https')
+const { adminLevels } = require('@util/common')
 const {
   Ingredient,
   RecipeIngredient,
@@ -18,17 +19,13 @@ const getIngredients = async (req, res) => {
   res.json(ingredients)
 }
 
-const getIngredientNames = async (req, res) => {
-  const ingredients = await Ingredient.findAll({
-    attributes: ['name'],
-    order: [
-      ['name', 'ASC'],
-    ],
-  })
-  res.json(ingredients)
-}
-
 const addIngredient = async (req, res) => {
+  if (req.decodedToken.adminLevel < adminLevels('editor')) {
+    return res.status(403).json({
+      error: 'Käyttöoikeutesi ei riitä ainesosien lisäämiseen',
+    })
+  }
+
   try {
     const {
       name, kcal, fat, carbs, sugars, protein, satfat, unitweight, volumeweight,
@@ -81,6 +78,12 @@ const getFineliIngredients = async (req, res) => {
 }
 
 const updateIngredient = async (req, res) => {
+  if (req.decodedToken.adminLevel < adminLevels('editor')) {
+    return res.status(403).json({
+      error: 'Käyttöoikeutesi ei riitä ainesosien muokkaamiseen',
+    })
+  }
+
   const ingredient = req.body
 
   try {
@@ -107,43 +110,47 @@ const updateIngredient = async (req, res) => {
         where: { id: ingredient.id },
       })
 
-      res.json({ message: `Päivitetty kaikki ainesosat '${ingredient.originalname}' nimen '${targetEntry.name}' alle` })
-    } else {
-      const {
-        name, kcal, fat, carbs, sugars, protein, satfat, unitweight, volumeweight,
-      } = req.body
-
-      const newIngredient = await Ingredient.update(
-        {
-          name: name.toLowerCase(),
-          kcal,
-          fat,
-          satfat,
-          carbs,
-          sugars,
-          protein,
-          unitweight,
-          volumeweight,
-        },
-        {
-          where: { id: ingredient.id },
-          returning: true,
-        },
-      )
-      if (ingredient.originalname === newIngredient[1][0].name) {
-        res.json({ message: `Päivitetty ainesosan ${ingredient.originalname} tiedot` })
-      } else {
-        res.json({ message: `Korvattu '${ingredient.originalname}' ainesosalla '${newIngredient[1][0].name}'` })
-      }
+      return res.json({ message: `Päivitetty kaikki ainesosat '${ingredient.originalname}' nimen '${targetEntry.name}' alle` })
     }
+
+    const {
+      name, kcal, fat, carbs, sugars, protein, satfat, unitweight, volumeweight,
+    } = req.body
+
+    const newIngredient = await Ingredient.update(
+      {
+        name: name.toLowerCase(),
+        kcal,
+        fat,
+        satfat,
+        carbs,
+        sugars,
+        protein,
+        unitweight,
+        volumeweight,
+      },
+      {
+        where: { id: ingredient.id },
+        returning: true,
+      },
+    )
+    if (ingredient.originalname === newIngredient[1][0].name) {
+      return res.json({ message: `Päivitetty ainesosan ${ingredient.originalname} tiedot` })
+    }
+    return res.json({ message: `Korvattu '${ingredient.originalname}' ainesosalla '${newIngredient[1][0].name}'` })
   } catch (error) {
-    res.status(400).json({
+    return res.status(400).json({
       error,
     })
   }
 }
 
 const deleteIngredient = async (req, res) => {
+  if (req.decodedToken.adminLevel < adminLevels('editor')) {
+    return res.status(403).json({
+      error: 'Käyttöoikeutesi ei riitä ainesosien poistamiseen',
+    })
+  }
   const id = Number(req.params.id)
   const destroyQuery = await sequelize.query(
     `SELECT I.id, I.name, COUNT(RI.id)
@@ -176,7 +183,6 @@ const deleteIngredient = async (req, res) => {
 
 module.exports = {
   getIngredients,
-  getIngredientNames,
   addIngredient,
   getFineliIngredients,
   updateIngredient,

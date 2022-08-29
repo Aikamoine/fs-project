@@ -8,8 +8,8 @@ import Col from 'react-bootstrap/Col'
 import { toast } from 'react-toastify'
 import Select from 'react-select'
 
-import { localStorageName } from 'Utilities/common'
-import { userIsAdmin } from 'Utilities/services/users'
+import { localStorageName, adminLevels } from 'Utilities/common'
+import { getAdminLevel } from 'Utilities/services/users'
 import {
   getIngredients,
   addIngredient,
@@ -27,13 +27,13 @@ const roundNumber = (value) => Math.round(Number(value) * 100) / 100
 const ManageIngredients = () => {
   const [ingredientList, setIngredientList] = useState([])
   const [fineliIngredients, setFineliIngredients] = useState()
-  const [isAdmin, setIsAdmin] = useState(false)
+  const [adminLevel, setAdminLevel] = useState(0)
   const [filter, setFilter] = useState('')
   const [instructions, setInstructions] = useState(false)
 
   const checkAdminStatus = async () => {
-    const query = await userIsAdmin()
-    setIsAdmin(query.isAdmin)
+    const level = await getAdminLevel()
+    setAdminLevel(level.adminLevel)
   }
 
   const handleGetIngredients = async () => {
@@ -49,7 +49,7 @@ const ManageIngredients = () => {
       checkAdminStatus()
       handleGetIngredients()
     } else {
-      setIsAdmin(false)
+      setAdminLevel(0)
     }
   }, [])
 
@@ -167,7 +167,7 @@ const ManageIngredients = () => {
     }
   }
 
-  if (!isAdmin) {
+  if (adminLevel < adminLevels('editor')) {
     return (
       <div>
         Tämä sivu on vain pääkäyttäjille!
