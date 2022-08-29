@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Table from 'react-bootstrap/Table'
+import { useErrorHandler } from 'react-error-boundary'
 import ErrorView from 'Components/ErrorView'
 import {
   getShoppinglist, deleteList, removeFromList, getShoppinglistRecipes, removeRecipe,
@@ -13,12 +14,17 @@ import {
 const Shoppinglist = () => {
   const [shoppingList, setShoppingList] = useState([])
   const [recipes, setRecipes] = useState([])
+  const handleError = useErrorHandler()
 
   const handleGetShoppingList = async () => {
-    const list = await getShoppinglist()
-    setShoppingList(list)
-    const recipeList = await getShoppinglistRecipes()
-    setRecipes(recipeList)
+    try {
+      const list = await getShoppinglist()
+      setShoppingList(list)
+      const recipeList = await getShoppinglistRecipes()
+      setRecipes(recipeList)
+    } catch (error) {
+      handleError(error)
+    }
   }
 
   const { handleCheck, checkedItems } = useChecklist(shoppingList, {
