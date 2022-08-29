@@ -30,7 +30,7 @@ const Instructions = () => (
     Desipainon kenttään laitetaan ainesosasta riippuen toinen kahdesta vaihtoehdosta:
     <ul>
       <li>Ainesosan ravintosisältö on per 100 grammaa - kuinka paljon yksi desi ainesosaa painaa (esim. sokeri, makaroni)</li>
-      <li>Ainesosan ravintosisätlö on per 100 millilitraa - laitetaan aina 100</li>
+      <li>Ainesosan ravintosisältö on per 100 millilitraa - laitetaan aina 100, esim. kerma</li>
     </ul>
 
   </div>
