@@ -55,4 +55,5 @@
 | 27.8. | 2     | Reseptien poistoon ja editointiin liittyvien bugien korjausta, tunnisteiden muokkausnäkymää frontendiin |
 | 28.8. | 2     | Tunnisteiden muokkaustoiminnallisuus |
 |       | 133   | 28.8. mennessä yhteensä |
-| yht   | 133   | | 
+| 29.8. | 2     | Käyttäjäohjeita muokkausnäkymiin |
+| yht   | 133 +29.8.  | | 

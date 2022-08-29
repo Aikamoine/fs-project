@@ -9,6 +9,7 @@ import { userIsAdmin } from 'Utilities/services/users'
 import { addRecipe } from 'Utilities/services/recipes'
 import IngredientSelector from 'Components/selectors/IngredientSelector'
 import TagSelector from 'Components/selectors/TagSelector'
+import Instructions from './Instructions'
 
 const formatUrlName = (name) => {
   const spacesToUnderScore = name.replace(' ', '_').toLowerCase()
@@ -30,6 +31,7 @@ const AddRecipe = () => {
   const [ingredients, setIngredients] = useState('')
   const [steps, setSteps] = useState('')
   const [isAdmin, setIsAdmin] = useState(false)
+  const [instructions, setInstructions] = useState(false)
   const navigate = useNavigate()
   const ref = useRef(null)
 
@@ -128,6 +130,9 @@ const AddRecipe = () => {
 
   return (
     <div>
+      <Button onClick={() => setInstructions(!instructions)}>{instructions ? 'Piilota ohjeet' : 'Näytä ohjeet'}</Button>
+      {instructions && <Instructions />}
+      <br />
       <h3>Perustiedot</h3>
       <Form>
         <Form.Group controlId="recipe-name">

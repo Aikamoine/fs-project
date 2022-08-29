@@ -20,6 +20,7 @@ import {
 import ControlButton from './ControlButton'
 
 import foodNames from '../../assets/foodNames.json'
+import Instructions from './Instructions'
 
 const roundNumber = (value) => Math.round(Number(value) * 100) / 100
 
@@ -28,6 +29,7 @@ const ManageIngredients = () => {
   const [fineliIngredients, setFineliIngredients] = useState()
   const [isAdmin, setIsAdmin] = useState(false)
   const [filter, setFilter] = useState('')
+  const [instructions, setInstructions] = useState(false)
 
   const checkAdminStatus = async () => {
     const query = await userIsAdmin()
@@ -178,6 +180,11 @@ const ManageIngredients = () => {
   return (
     <div>
       <div>
+        <Button onClick={() => setInstructions(!instructions)}>{instructions ? 'Piilota ohjeet' : 'Näytä ohjeet'}</Button>
+        {instructions && <Instructions />}
+        <br />
+      </div>
+      <div>
         Hae ainesosa Finelistä
         <Select options={fineliIngredients} onChange={handleFineliChange} />
       </div>
@@ -245,7 +252,7 @@ const ManageIngredients = () => {
                       <Table>
                         <thead>
                           <tr>
-                            <th>Kappale painaa (grammaa)</th>
+                            <th>Kpl/pkt/prk painaa (grammaa)</th>
                             <th>Desi painaa (grammaa)</th>
                           </tr>
                         </thead>

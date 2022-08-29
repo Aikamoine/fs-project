@@ -6,10 +6,12 @@ import Button from 'react-bootstrap/Button'
 import { localStorageName } from 'Utilities/common'
 import { getTags, saveTag, deleteTag } from 'Utilities/services/tags'
 import { userIsAdmin } from 'Utilities/services/users'
+import Instructions from './Instructions'
 
 const ManageTags = () => {
   const [tags, setTags] = useState([])
   const [isAdmin, setIsAdmin] = useState(false)
+  const [instructions, setInstructions] = useState(false)
 
   const checkAdminStatus = async () => {
     const query = await userIsAdmin()
@@ -82,11 +84,21 @@ const ManageTags = () => {
   }
 
   if (!isAdmin) {
-    return <>Tämä sivu on vain pääkäyttäjille</>
+    return (
+      <div>
+        Tämä sivu on vain pääkäyttäjille!
+      </div>
+    )
   }
 
   return (
     <div>
+      <div>
+        <Button onClick={() => setInstructions(!instructions)}>{instructions ? 'Piilota ohjeet' : 'Näytä ohjeet'}</Button>
+        {instructions && <Instructions />}
+        <br />
+        <br />
+      </div>
       <Button onClick={handleAdd}>+</Button>
       <Table>
         <thead>
