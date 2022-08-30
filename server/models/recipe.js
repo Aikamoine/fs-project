@@ -36,6 +36,9 @@ Recipe.init({
   info: {
     type: DataTypes.TEXT,
   },
+  usesSideDish: {
+    type: DataTypes.BOOLEAN,
+  },
 }, {
   sequelize,
   underscored: true,

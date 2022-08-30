@@ -37,6 +37,12 @@ Ingredient.init({
   volumeweight: {
     type: DataTypes.DECIMAL(10, 2),
   },
+  sideDish: {
+    type: DataTypes.BOOLEAN,
+  },
+  servingSize: {
+    type: DataTypes.INTEGER,
+  },
 }, {
   sequelize,
   underscored: true,

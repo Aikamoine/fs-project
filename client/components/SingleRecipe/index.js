@@ -15,12 +15,14 @@ import IngredientView from './IngredientView'
 import StepsView from './StepsView'
 import EditView from './EditView'
 import NutritionView from './NutritionView'
+import SideDishSelector from './SideDishSelector'
 
 const SingleRecipe = () => {
   const { urlName } = useParams()
   const [recipeDetails, setRecipeDetails] = useState()
   const [adminLevel, setAdminLevel] = useState(0)
   const [isEditing, setIsEditing] = useState(false)
+  const [sideDish, setSideDish] = useState()
   const navigate = useNavigate()
 
   const handleGetRecipeDetails = async () => {
@@ -52,7 +54,7 @@ const SingleRecipe = () => {
     event.preventDefault()
     navigate('/recipes', { replace: true })
     await addToList({
-      ingredients: recipeDetails.ingredients,
+      ingredients: sideDish ? [...recipeDetails.ingredients, sideDish] : recipeDetails.ingredients,
       id: recipeDetails.recipe.id,
       servings: recipeDetails.recipe.servings,
     })
@@ -63,6 +65,8 @@ const SingleRecipe = () => {
     return <EditView recipeDetails={recipeDetails} setIsEditing={setIsEditing} urlName={urlName} />
   }
 
+  console.log('details', recipeDetails)
+  console.log('sidedish', sideDish)
   return (
     <div>
       <RecipeHeader
@@ -75,10 +79,11 @@ const SingleRecipe = () => {
       <Container>
         <Row>
           <Col>
-            <IngredientView ingredients={recipeDetails.ingredients} />
+            {recipeDetails.recipe.usesSideDish && <SideDishSelector sideDishes={recipeDetails.sideDishes} setSideDish={setSideDish} servings={recipeDetails.recipe.servings} />}
+            <IngredientView ingredients={sideDish ? [...recipeDetails.ingredients, sideDish] : recipeDetails.ingredients} />
           </Col>
           <Col>
-            <NutritionView ingredients={recipeDetails.ingredients} servings={recipeDetails.recipe.servings} />
+            <NutritionView ingredients={sideDish ? [...recipeDetails.ingredients, sideDish] : recipeDetails.ingredients} servings={recipeDetails.recipe.servings} />
           </Col>
         </Row>
       </Container>

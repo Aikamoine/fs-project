@@ -9,7 +9,9 @@ const { sequelize } = require('../util/db')
 
 const getIngredients = async (req, res) => {
   const ingredients = await sequelize.query(
-    `SELECT I.id, I.name, I.name as originalname, COUNT(RI.id), I.kcal, I.fat, I.satfat, I.carbs, I.sugars, I.protein, I.unitweight, I.volumeweight, false as edited, false as details
+    `SELECT I.id, I.name, I.name as originalname, COUNT(RI.id),
+    I.kcal, I.fat, I.satfat, I.carbs, I.sugars, I.protein,
+    I.unitweight, I.volumeweight, I.side_dish as sidedish, I.serving_size as servingsize, false as edited, false as details
     FROM ingredients I
     LEFT JOIN recipe_ingredients RI on I.id=RI.ingredient_id
     GROUP BY I.name, I.id
@@ -28,7 +30,7 @@ const addIngredient = async (req, res) => {
 
   try {
     const {
-      name, kcal, fat, carbs, sugars, protein, satfat, unitweight, volumeweight,
+      name, kcal, fat, carbs, sugars, protein, satfat, unitweight, volumeweight, sidedish, servingsize,
     } = req.body
 
     const added = await Ingredient.create({
@@ -41,6 +43,8 @@ const addIngredient = async (req, res) => {
       protein,
       unitweight,
       volumeweight,
+      sideDish: sidedish,
+      servingSize: servingsize,
     })
 
     return res.json({ message: `Lisätty ${added.name}` })
@@ -114,7 +118,7 @@ const updateIngredient = async (req, res) => {
     }
 
     const {
-      name, kcal, fat, carbs, sugars, protein, satfat, unitweight, volumeweight,
+      name, kcal, fat, carbs, sugars, protein, satfat, unitweight, volumeweight, sidedish, servingsize,
     } = req.body
 
     const newIngredient = await Ingredient.update(
@@ -128,6 +132,8 @@ const updateIngredient = async (req, res) => {
         protein,
         unitweight,
         volumeweight,
+        sideDish: sidedish,
+        servingSize: servingsize,
       },
       {
         where: { id: ingredient.id },

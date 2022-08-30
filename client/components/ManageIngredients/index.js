@@ -71,6 +71,8 @@ const ManageIngredients = () => {
       volumeweight: 0,
       details: true,
       originalname: '',
+      sidedish: false,
+      servingsize: 0,
     }, ...ingredientList])
   }
 
@@ -91,6 +93,15 @@ const ManageIngredients = () => {
     setIngredientList(filteredArray)
   }
 
+  const handleSideDishChange = (id) => {
+    const item = ingredientList.filter((i) => i.id === id)[0]
+    if (item.sidedish) {
+      item.servingsize = 0
+    }
+    item.sidedish = !item.sidedish
+    item.edited = true
+    setIngredientList([...ingredientList])
+  }
   const handleReplace = async (event, ingredient) => {
     const replaceMessage = ingredient.originalname === ingredient.name ? '' : `Kaikki ${ingredient.originalname} -nimiset ainesosat korvataan ainesosan ${ingredient.name} tiedoilla.`
     // eslint-disable-next-line no-alert
@@ -128,6 +139,8 @@ const ManageIngredients = () => {
         volumeweight: volumeweight ? volumeweight.mass : 0,
         details: true,
         originalname: data.name.fi.toLowerCase(),
+        sidedish: false,
+        servingsize: 0,
       }, ...ingredientList])
     } catch (error) {
       if (error.response) {
@@ -227,6 +240,14 @@ const ManageIngredients = () => {
                     </Accordion.Header>
                     <Accordion.Body>
                       <input value={ingredient.name} name="name" onChange={(event) => handleChange(event, ingredient.id)} />
+                      {'     '}
+                      <Button size="sm" onClick={() => handleSideDishChange(ingredient.id)}>{ingredient.sidedish ? 'on lisuke' : 'ei ole lisuke'}</Button>
+                      {'     '}
+                      {ingredient.sidedish && (
+                        <div>
+                          Lisukkeen annoskoko: <input value={ingredient.servingsize} type="number" name="servingsize" onChange={(event) => handleChange(event, ingredient.id)} />
+                        </div>
+                      )}
                       <Table>
                         <thead>
                           <tr>

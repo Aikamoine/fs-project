@@ -9,6 +9,7 @@ const {
   RecipeTag,
   ShoppinglistRecipe,
   Shoppinglist,
+  Ingredient,
 } = require('../models')
 
 const deleteRecipesShoppinglists = async (recipeId) => {
@@ -47,7 +48,7 @@ const getAll = async (req, res) => {
 const getRecipeDetails = async (req, res) => {
   const recipe = await Recipe.findOne({
     where: { urlName: req.params.urlName },
-    attributes: ['id', 'name', 'servings', 'time', 'user_id', 'info'],
+    attributes: ['id', 'name', 'servings', 'time', 'userId', 'info', 'usesSideDish'],
     include: [
       {
         model: RecipeStep,
@@ -73,7 +74,16 @@ const getRecipeDetails = async (req, res) => {
     ORDER BY RI.id`,
     { type: sequelize.QueryTypes.SELECT },
   )
-  const details = { recipe, ingredients }
+
+  console.log('recipe uses sidedish', recipe.usesSideDish)
+  let sideDishes
+  if (recipe.usesSideDish) {
+    sideDishes = await Ingredient.findAll({
+      where: { sideDish: true },
+    })
+    console.log('sidedishes', JSON.stringify(sideDishes, null, 2))
+  }
+  const details = { recipe, ingredients, sideDishes }
   res.json(details)
 }
 
@@ -139,7 +149,7 @@ const editRecipe = async (req, res) => {
     newTags,
   } = req.body
 
-  if (req.decodedToken.adminLevel < adminLevels('admin') && req.decodedToken.id !== recipe.user_id) {
+  if (req.decodedToken.adminLevel < adminLevels('admin') && req.decodedToken.id !== recipe.userId) {
     return res.status(403).json({
       error: 'Käyttöoikeutesi ei riitä tämän reseptin muokkaamiseen',
     })

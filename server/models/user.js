@@ -24,11 +24,6 @@ User.init({
     allowNull: false,
     defaultValue: true,
   },
-  isAdmin: {
-    type: DataTypes.BOOLEAN,
-    allowNull: false,
-    defaultValue: false,
-  },
   adminLevel: {
     type: DataTypes.INTEGER,
     allowNull: false,
