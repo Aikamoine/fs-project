@@ -229,18 +229,10 @@ const deleteRecipe = async (req, res) => {
   }
 }
 
-const getTags = async (req, res) => {
-  const tags = await Tag.findAll({
-    order: ['name'],
-  })
-  res.json(tags)
-}
-
 module.exports = {
   getAll,
   getRecipeDetails,
   addRecipe,
   editRecipe,
   deleteRecipe,
-  getTags,
 }
