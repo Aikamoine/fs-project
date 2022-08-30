@@ -57,5 +57,5 @@
 |       | 133   | 28.8. mennessä yhteensä |
 | 29.8. | 2     | Käyttäjäohjeita muokkausnäkymiin |
 | 29.8. | 4     | Muutoksia käyttäjähallintaan, tietoturvaparannuksia, refaktorointia |
-| 30.8. | 6     | Lisukevalikko resepteihin, muutokset tietokantaan, UI-muutokset yms |
-| yht   | 139+30.8.  | | 
+| 30.8. | 7     | Lisukevalikko resepteihin: muutokset tietokantaan, UI-muutokset yms., refaktorointia, ohjeiden parannuksia |
+| yht   | 146  | | 
