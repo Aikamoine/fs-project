@@ -17,6 +17,7 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
   const [servings, setServings] = useState(recipeDetails.recipe.servings)
   const [time, setTime] = useState(recipeDetails.recipe.time)
   const [info, setInfo] = useState(recipeDetails.recipe.info)
+  const [sideDish, setSideDish] = useState(!recipeDetails.recipe.usesSideDish)
   const [ingredients, setIngredients] = useState(recipeDetails.ingredients)
   const [steps, setSteps] = useState(recipeDetails.recipe.recipe_steps)
   const [newId, setNewId] = useState(0)
@@ -73,6 +74,7 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
       newServings: servings,
       newTime: time,
       newInfo: info,
+      usesSideDish: !sideDish,
       newIngredients: ingredients,
       newSteps: steps,
       newTags: tagChoices,
@@ -153,6 +155,7 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
     }
   }
 
+  console.log('tagchoices', tagChoices)
   return (
     <div>
       <Button variant="danger" onClick={() => setIsEditing(false)}>
@@ -175,6 +178,11 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
             onChange={handleTagsChange}
             defaultValue={recipeDetails.recipe.tags.map((tag) => ({ value: tag.id, label: tag.name }))}
           />
+        </Form.Group>
+        <br />
+        <Form.Group>
+          <Form.Label>Sisältääkö resepti lisukkeen</Form.Label>
+          <Button onClick={() => setSideDish(!sideDish)}>{sideDish ? 'kyllä' : 'ei'}</Button>
         </Form.Group>
       </Form>
       <br />

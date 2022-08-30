@@ -24,6 +24,7 @@ const AddRecipe = () => {
   const [servings, setServings] = useState(0)
   const [time, setTime] = useState('')
   const [info, setInfo] = useState('')
+  const [sideDish, setSideDish] = useState(false)
   const [tagChoices, setTagChoices] = useState([])
   const [amount, setAmount] = useState('')
   const [unit, setUnit] = useState('')
@@ -114,6 +115,7 @@ const AddRecipe = () => {
         servings,
         time,
         info,
+        usesSideDish: !sideDish, // recipe includes a side dish, so it doesn't use one
         urlName: formatUrlName(name),
         ingredients,
         tags: tagChoices,
@@ -158,6 +160,10 @@ const AddRecipe = () => {
         <Form.Group controlId="tags">
           <Form.Label>Tunnisteet</Form.Label>
           <TagSelector onChange={handleTagsChange} />
+        </Form.Group>
+        <Form.Group controlId="side-dish">
+          <Form.Label>Sisältääkö resepti lisukkeen</Form.Label>
+          <Button onClick={() => setSideDish(!sideDish)}>{sideDish ? 'kyllä' : 'ei'}</Button>
         </Form.Group>
       </Form>
       <br />

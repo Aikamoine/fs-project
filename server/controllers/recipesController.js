@@ -75,13 +75,11 @@ const getRecipeDetails = async (req, res) => {
     { type: sequelize.QueryTypes.SELECT },
   )
 
-  console.log('recipe uses sidedish', recipe.usesSideDish)
   let sideDishes
   if (recipe.usesSideDish) {
     sideDishes = await Ingredient.findAll({
       where: { sideDish: true },
     })
-    console.log('sidedishes', JSON.stringify(sideDishes, null, 2))
   }
   const details = { recipe, ingredients, sideDishes }
   res.json(details)
@@ -95,7 +93,7 @@ const addRecipe = async (req, res) => {
   }
 
   const {
-    name, servings, time, info, urlName, ingredients, steps, tags,
+    name, servings, time, info, usesSideDish, urlName, ingredients, steps, tags,
   } = req.body
 
   try {
@@ -104,6 +102,7 @@ const addRecipe = async (req, res) => {
       servings,
       time,
       info,
+      usesSideDish,
       urlName,
       userId: req.decodedToken.id,
     })
@@ -144,6 +143,7 @@ const editRecipe = async (req, res) => {
     newServings,
     newTime,
     newInfo,
+    usesSideDish,
     newIngredients,
     newSteps,
     newTags,
@@ -168,10 +168,12 @@ const editRecipe = async (req, res) => {
     number: index + 1,
   }))
 
+  console.log('newtags', newTags)
   const tagBulkArray = newTags.map((tag) => ({
     recipeId: recipe.id,
     tagId: tag.value,
   }))
+  console.log('tagarray', tagBulkArray)
 
   deleteRecipesShoppinglists(recipe.id)
 
@@ -197,6 +199,7 @@ const editRecipe = async (req, res) => {
       servings: newServings,
       time: newTime,
       info: newInfo,
+      usesSideDish,
     },
     {
       where: { id: recipe.id },

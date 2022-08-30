@@ -11,7 +11,7 @@ const RecipeHeader = ({
   <div>
     <h2>
       {recipe.name}
-      {(loggedUser && (loggedUser.id === recipe.user_id || adminLevel >= adminLevels('admin')))
+      {(loggedUser && (loggedUser.id === recipe.userId || adminLevel >= adminLevels('admin')))
         && (
           <Button variant="link" onClick={() => setIsEditing(true)}>
             Muokkaa reseptiä

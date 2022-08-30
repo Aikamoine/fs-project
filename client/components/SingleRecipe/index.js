@@ -65,8 +65,6 @@ const SingleRecipe = () => {
     return <EditView recipeDetails={recipeDetails} setIsEditing={setIsEditing} urlName={urlName} />
   }
 
-  console.log('details', recipeDetails)
-  console.log('sidedish', sideDish)
   return (
     <div>
       <RecipeHeader
