@@ -99,7 +99,7 @@ const addToList = async (req, res) => {
     const deconstructedVolumes = deConstructVolumes(ingredient.amount, ingredient.unit)
     bulkArray.push({
       userId: req.decodedToken.id,
-      ingredientId: ingredient.ing_id,
+      ingredientId: ingredient.id,
       amount: deconstructedVolumes.amount,
       unit: deconstructedVolumes.unit,
       shoppinglistRecipeId: shoppinglistRecipe.id,

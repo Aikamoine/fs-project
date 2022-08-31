@@ -29,6 +29,30 @@ const deleteRecipesShoppinglists = async (recipeId) => {
   }
 }
 
+const createRecipeData = async (recipeId, ingredients, steps, tags) => {
+  const ingredientBulkArray = ingredients.map((ingredient) => ({
+    recipeId,
+    ingredientId: ingredient.id,
+    amount: ingredient.amount || null,
+    unit: ingredient.unit,
+  }))
+
+  const stepsBulkArray = steps.map((step, index) => ({
+    recipeId,
+    step,
+    number: index + 1,
+  }))
+
+  const tagBulkArray = tags.map((tag) => ({
+    recipeId,
+    tagId: tag.value,
+  }))
+
+  await RecipeIngredient.bulkCreate(ingredientBulkArray)
+  await RecipeStep.bulkCreate(stepsBulkArray)
+  await RecipeTag.bulkCreate(tagBulkArray)
+}
+
 const getAll = async (req, res) => {
   const recipes = await Recipe.findAll({
     include: [{
@@ -55,7 +79,7 @@ const getRecipeDetails = async (req, res) => {
       },
       {
         model: Tag,
-        attributes: ['name', 'id'],
+        attributes: [['name', 'label'], ['id', 'value']],
         through: {
           attributes: [],
         },
@@ -67,7 +91,7 @@ const getRecipeDetails = async (req, res) => {
   })
 
   const ingredients = await sequelize.query(
-    `SELECT RI.id, RI.amount, RI.unit, I.name as name, I.id as ing_id, I.kcal, I.fat, I.satfat, I.carbs, I.sugars, I.protein, I.unitweight, I.volumeweight 
+    `SELECT RI.amount, RI.unit, I.name as name, I.id as id, I.kcal, I.fat, I.satfat, I.carbs, I.sugars, I.protein, I.unitweight, I.volumeweight 
     FROM recipe_ingredients RI
     LEFT JOIN ingredients I on RI.ingredient_id=I.id
     WHERE RI.recipe_id=${recipe.id} 
@@ -107,27 +131,7 @@ const addRecipe = async (req, res) => {
       userId: req.decodedToken.id,
     })
 
-    const ingredientBulkArray = ingredients.map((ingredient) => ({
-      recipeId: recipe.id,
-      ingredientId: ingredient.ingredient.id,
-      amount: ingredient.amount || null,
-      unit: ingredient.unit,
-    }))
-
-    const stepsBulkArray = steps.map((step, index) => ({
-      recipeId: recipe.id,
-      step,
-      number: index + 1,
-    }))
-
-    const tagBulkArray = tags.map((tag) => ({
-      recipeId: recipe.id,
-      tagId: tag.value,
-    }))
-
-    await RecipeIngredient.bulkCreate(ingredientBulkArray)
-    await RecipeStep.bulkCreate(stepsBulkArray)
-    await RecipeTag.bulkCreate(tagBulkArray)
+    await createRecipeData(recipe.id, ingredients, steps, tags)
 
     return res.status(200).end()
   } catch (error) {
@@ -155,26 +159,6 @@ const editRecipe = async (req, res) => {
     })
   }
 
-  const ingredientBulkArray = newIngredients.map((i) => ({
-    recipeId: recipe.id,
-    ingredientId: i.ing_id,
-    amount: i.amount || null,
-    unit: i.unit,
-  }))
-
-  const stepsBulkArray = newSteps.map((s, index) => ({
-    recipeId: recipe.id,
-    step: s.step,
-    number: index + 1,
-  }))
-
-  console.log('newtags', newTags)
-  const tagBulkArray = newTags.map((tag) => ({
-    recipeId: recipe.id,
-    tagId: tag.value,
-  }))
-  console.log('tagarray', tagBulkArray)
-
   deleteRecipesShoppinglists(recipe.id)
 
   await RecipeIngredient.destroy({
@@ -189,9 +173,7 @@ const editRecipe = async (req, res) => {
     where: { recipeId: recipe.id },
   })
 
-  await RecipeIngredient.bulkCreate(ingredientBulkArray)
-  await RecipeStep.bulkCreate(stepsBulkArray)
-  await RecipeTag.bulkCreate(tagBulkArray)
+  await createRecipeData(recipe.id, newIngredients, newSteps, newTags)
 
   await Recipe.update(
     {

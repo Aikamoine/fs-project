@@ -72,7 +72,8 @@ const AddRecipe = () => {
 
   const addIngredient = () => {
     const newIngredient = {
-      ingredient,
+      id: ingredient.id,
+      name: ingredient.name,
       unit,
       amount: !amount ? '' : amount.replace(',', '.'),
     }
@@ -210,10 +211,10 @@ const AddRecipe = () => {
           </thead>
           <tbody>
             {ingredients.map((i, index) => (
-              <tr key={`${i.ingredient.id} + ${i.amount}`}>
+              <tr key={`${i.id} + ${i.amount}`}>
                 <td>{i.amount}</td>
                 <td>{i.unit}</td>
-                <td>{i.ingredient.name}</td>
+                <td>{i.name}</td>
                 <td>
                   <Button size="sm" onClick={() => deleteIngredient(index)}>
                     Poista

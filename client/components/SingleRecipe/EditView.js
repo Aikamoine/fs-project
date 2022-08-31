@@ -61,9 +61,10 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
   const addStep = () => {
     const newStep = {
       id: newId,
-      number: steps[steps.length - 1].number + 1,
+      number: steps.length > 0 ? steps[steps.length - 1].number + 1 : 0,
       step: '',
     }
+    setNewId(newId - 1)
     setSteps([...steps, newStep])
   }
 
@@ -76,7 +77,7 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
       newInfo: info,
       usesSideDish: !sideDish,
       newIngredients: ingredients,
-      newSteps: steps,
+      newSteps: steps.map((step) => step.step),
       newTags: tagChoices,
     }
     try {
@@ -136,7 +137,7 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
   const handleIngredientChange = (selectedOptions) => {
     if (selectedOptions) {
       const newIngredient = {
-        id: newId,
+        id: selectedOptions.value,
         name: selectedOptions.label,
         amount: null,
         unit: '',
@@ -150,12 +151,11 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
 
   const handleTagsChange = (selectedOptions) => {
     if (selectedOptions) {
-      console.log(selectedOptions)
       setTagChoices(selectedOptions)
     }
   }
 
-  console.log('tagchoices', tagChoices)
+  console.log('ingredients', ingredients)
   return (
     <div>
       <Button variant="danger" onClick={() => setIsEditing(false)}>
@@ -176,7 +176,7 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
           <Form.Label>Tunnisteet</Form.Label>
           <TagSelector
             onChange={handleTagsChange}
-            defaultValue={recipeDetails.recipe.tags.map((tag) => ({ value: tag.id, label: tag.name }))}
+            defaultValue={recipeDetails.recipe.tags.map((tag) => ({ value: tag.value, label: tag.label }))}
           />
         </Form.Group>
         <br />
@@ -200,9 +200,9 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
             {(provider) => (
               <tbody ref={provider.innerRef} {...provider.droppableProps}>
                 {ingredients.map((ingredient, index) => (
-                  <Draggable key={ingredient.id} draggableId={String(ingredient.id)} index={index}>
+                  <Draggable key={ingredient.name} draggableId={String(ingredient.id)} index={index}>
                     {(provider) => (
-                      <tr key={ingredient.id} {...provider.draggableProps} ref={provider.innerRef}>
+                      <tr key={ingredient.name} {...provider.draggableProps} ref={provider.innerRef}>
                         <td {...provider.dragHandleProps}> = </td>
                         <td>
                           <input value={ingredient.amount ? ingredient.amount : ''} name="amount" onChange={(event) => changeIngredients(event, ingredient.id)} />

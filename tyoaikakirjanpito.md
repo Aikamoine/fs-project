@@ -58,4 +58,5 @@
 | 29.8. | 2     | Käyttäjäohjeita muokkausnäkymiin |
 | 29.8. | 4     | Muutoksia käyttäjähallintaan, tietoturvaparannuksia, refaktorointia |
 | 30.8. | 7     | Lisukevalikko resepteihin: muutokset tietokantaan, UI-muutokset yms., refaktorointia, ohjeiden parannuksia |
-| yht   | 146  | | 
+| 29.8. | 3     | Reseptin editoinnin korjausta/viilausta |
+| yht   | 146+29.8.  | | 

@@ -11,7 +11,6 @@ const SideDishSelector = ({ sideDishes, setSideDish, servings }) => {
         carbs: selected.carbs,
         fat: selected.fat,
         id: 0,
-        ing_id: selected.id,
         kcal: selected.kcal,
         name: selected.name,
         protein: selected.protein,
