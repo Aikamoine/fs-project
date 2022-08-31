@@ -5,10 +5,11 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { toast } from 'react-toastify'
+import { useErrorHandler } from 'react-error-boundary'
+
 import { getRecipeDetails } from 'Utilities/services/recipes'
 import { addToList } from 'Utilities/services/shoppinglists'
 import { localStorageName } from 'Utilities/common'
-
 import { getAdminLevel } from 'Utilities/services/users'
 import RecipeHeader from './RecipeHeader'
 import IngredientView from './IngredientView'
@@ -24,6 +25,7 @@ const SingleRecipe = () => {
   const [isEditing, setIsEditing] = useState(false)
   const [sideDish, setSideDish] = useState()
   const navigate = useNavigate()
+  const handleError = useErrorHandler()
 
   const handleGetRecipeDetails = async () => {
     const details = await getRecipeDetails(urlName)
@@ -52,13 +54,17 @@ const SingleRecipe = () => {
 
   const addToShoppinglist = async (event) => {
     event.preventDefault()
-    navigate('/recipes', { replace: true })
-    await addToList({
-      ingredients: sideDish ? [...recipeDetails.ingredients, sideDish] : recipeDetails.ingredients,
-      id: recipeDetails.recipe.id,
-      servings: recipeDetails.recipe.servings,
-    })
-    toast(`Lisätty ${recipeDetails.recipe.name} ostoslistalle.`)
+    try {
+      await addToList({
+        ingredients: sideDish ? [...recipeDetails.ingredients, sideDish] : recipeDetails.ingredients,
+        id: recipeDetails.recipe.id,
+        servings: recipeDetails.recipe.servings,
+      })
+      navigate('/recipes', { replace: true })
+      toast(`Lisätty ${recipeDetails.recipe.name} ostoslistalle.`)
+    } catch (error) {
+      handleError(error)
+    }
   }
 
   if (isEditing) {

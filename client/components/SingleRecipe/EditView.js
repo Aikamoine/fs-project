@@ -141,7 +141,6 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
         name: selectedOptions.label,
         amount: null,
         unit: '',
-        ing_id: selectedOptions.value,
       }
 
       setNewId(newId - 1)

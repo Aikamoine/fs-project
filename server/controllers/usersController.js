@@ -24,7 +24,7 @@ const postUser = async (req, res) => {
   const user = {
     username,
     password: hashedPassword,
-    adminLevel: 0,
+    adminLevel: 1,
   }
 
   const createdUser = await User.create(user)

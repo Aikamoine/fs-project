@@ -33,7 +33,12 @@ const ErrorView = ({ error }) => {
   console.log('ErrorView', error)
   return (
     <div>
-      <ErrorMessage error={error} />
+      <div>
+        <ErrorMessage error={error} />
+      </div>
+      <div>
+        <a href="/">Takaisin etusivulle</a>
+      </div>
     </div>
   )
 }
