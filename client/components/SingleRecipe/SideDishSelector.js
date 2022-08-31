@@ -5,12 +5,11 @@ const SideDishSelector = ({ sideDishes, setSideDish, servings }) => {
   const onChange = (selectedOptions) => {
     if (selectedOptions) {
       const selected = sideDishes.find(({ id }) => id === selectedOptions.value)
-      console.log('selected', selected)
       setSideDish({
         amount: selected.servingSize * servings,
         carbs: selected.carbs,
         fat: selected.fat,
-        id: 0,
+        id: selected.id,
         kcal: selected.kcal,
         name: selected.name,
         protein: selected.protein,

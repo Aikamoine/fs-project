@@ -58,7 +58,6 @@ const login = async (req, res) => {
     })
   }
 
-  console.log('user', JSON.stringify(user, null, 2))
   const validUntil = sessionLength()
   const approvedUser = {
     username,

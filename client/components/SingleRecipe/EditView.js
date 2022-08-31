@@ -154,7 +154,6 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
     }
   }
 
-  console.log('ingredients', ingredients)
   return (
     <div>
       <Button variant="danger" onClick={() => setIsEditing(false)}>

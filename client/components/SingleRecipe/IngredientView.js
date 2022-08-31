@@ -13,7 +13,7 @@ const IngredientTable = ({ ingredients }) => (
     </thead>
     <tbody>
       {ingredients.map((ingredient) => (
-        <tr key={ingredient.id}>
+        <tr key={`${ingredient.id}${ingredient.amount}${ingredient.unit}`}>
           <td>{ingredient.amount}</td>
           <td>{ingredient.unit}</td>
           <td>{ingredient.name}</td>
@@ -26,7 +26,7 @@ const IngredientTable = ({ ingredients }) => (
 const IngredientList = ({ ingredients }) => (
   <>
     {ingredients.map((ingredient) => (
-      <div key={ingredient.id}>
+      <div key={`${ingredient.id}${ingredient.amount}${ingredient.unit}`}>
         {ingredient.amount ? Number(ingredient.amount) : ''}
         {' '}
         {ingredient.unit}
