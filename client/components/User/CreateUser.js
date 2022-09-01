@@ -38,22 +38,18 @@ const CreateUser = () => {
     }
   }
 
-  const usernameChange = ({ target }) => setUsername(target.value)
-  const passwordChange = ({ target }) => setPassword(target.value)
-  const passwordCheckChange = ({ target }) => setPasswordCheck(target.value)
-
   return (
     <Form onSubmit={handleSubmit}>
       <Form.Group>
         <Form.Label>Käyttäjänimi</Form.Label>
-        <Form.Control id="username" type="username" value={username} onChange={usernameChange} />
+        <Form.Control id="username" type="username" value={username} onChange={(event) => setUsername(event.target.value)} />
       </Form.Group>
       <p />
       <Form.Group>
         <Form.Label>Salasana</Form.Label>
-        <Form.Control id="password" type="password" value={password} onChange={passwordChange} />
+        <Form.Control id="password" type="password" value={password} onChange={(event) => setPassword(event.target.value)} />
         <Form.Label>Salasana uudestaan</Form.Label>
-        <Form.Control id="password-check" type="password" value={passwordCheck} onChange={passwordCheckChange} />
+        <Form.Control id="password-check" type="password" value={passwordCheck} onChange={(event) => setPasswordCheck(event.target.value)} />
       </Form.Group>
       <br />
       <Button type="submit" color="purple">

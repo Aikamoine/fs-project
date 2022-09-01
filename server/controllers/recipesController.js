@@ -136,7 +136,9 @@ const addRecipe = async (req, res) => {
     return res.status(200).end()
   } catch (error) {
     console.error(error)
-    return res.json({ message: 'Lisäyksessä tapahtui virhe. Tarkista reseptin tiedot selailusta.' })
+    return res.status(500).json({
+      error: 'Lisäyksessä tapahtui virhe. Tarkista reseptin tiedot selailusta.',
+    })
   }
 }
 

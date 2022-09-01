@@ -77,7 +77,9 @@ const getFineliIngredients = async (req, res) => {
       }
     })
   }).on('error', (error) => {
-    console.error(error.message)
+    res.status(500).json({
+      error,
+    })
   })
 }
 

@@ -61,4 +61,5 @@
 | 31.8. | 3     | Reseptin editoinnin korjausta/viilausta |
 | 31.8. | 3     | Virheidenkäsittelyn parannuksia, tietoturvaparannuksia, tietokannan sisällön päivityksiä |
 |  1.9. | 4     | Refaktorointia, ravintoainelaskureiden toiminnan verifiointia |
-| yht   | 152+1.9.   | | 
+|  1.9. | 2     | Refaktorointia, päivityksiä virheilmoituksiin, kannan populointia |
+| yht   | 158   | | 

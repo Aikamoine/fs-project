@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { getRecipes } from 'Utilities/services/recipes'
+import { toast } from 'react-toastify'
 
+import { getRecipes } from 'Utilities/services/recipes'
 import RecipeList from 'Components/RecipeView/RecipeList'
 
 const RecipeView = () => {
@@ -13,6 +14,7 @@ const RecipeView = () => {
 
   useEffect(() => {
     handleGetRecipes()
+    toast('Tunnisteita ei tule sekoittaa allergeenimerkintöihin! Lue reseptin tiedot tarkkaan, jos noudatat erikoisruokavaliota!')
   }, [])
 
   return (

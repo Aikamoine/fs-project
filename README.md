@@ -8,14 +8,13 @@ https://reseptiapuri.herokuapp.com/
 
 Sovelluksessa voi kirjautumatta katsella reseptejä sekä ainesosien tietoja ja luoda käyttäjätunnuksen.
 
-Kirjautunut käyttäjä voi lisätä reseptin ainesosat omalle ostoslistalleen, katsella listaa, ja poistaa sieltä yksittäisiä tuotteita, sekä kokonaisen reseptin sisällön.
+Kirjautunut käyttäjä voi lisätä reseptin ainesosat omalle ostoslistalleen, katsella ostoslistaansa, ja poistaa sieltä yksittäisiä tuotteita, sekä kokonaisen reseptin sisällön.
 
-Pääkäyttäjä voi lisätä reseptejä käyttöliittymän kautta ja hallita ainesosien ravintosisältöä.
+Pääkäyttäjä voi käyttöliittymän kautta lisätä reseptejä, hallita ainesosien ravintosisältöä ja reseptien tunnisteita. Näiden tietojen poistaminen on rajoitettu korkeammalle pääkäyttäjä-tasolle.
 
 ### Backlog
 - reseptin poisto ja editointi huomioimaan, jos resepti on jonkun ostoslistalla
   - nykyisin vain poistaa koko editoidun/poistetun reseptin listoilta
-- reseptille lisukkeen, esim. riisi tai peruna, valinta ja sen huomiointi ravintoarvoissa
 
 ## Harjoitustyön tavoite
 
