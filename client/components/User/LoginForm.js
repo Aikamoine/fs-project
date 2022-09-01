@@ -23,19 +23,16 @@ const LoginForm = () => {
     }
   }
 
-  const usernameChange = ({ target }) => setUsername(target.value)
-  const passwordChange = ({ target }) => setPassword(target.value)
-
   return (
     <Form onSubmit={handleSubmit}>
       <Form.Group>
         <Form.Label>Käyttäjänimi</Form.Label>
-        <Form.Control id="login" type="text" value={username} onChange={usernameChange} />
+        <Form.Control id="login" type="text" value={username} onChange={(event) => setUsername(event.target.value)} />
       </Form.Group>
       <p />
       <Form.Group>
         <Form.Label>Salasana</Form.Label>
-        <Form.Control type="password" value={password} onChange={passwordChange} />
+        <Form.Control type="password" value={password} onChange={(event) => setPassword(event.target.value)} />
       </Form.Group>
       <Button type="submit" color="purple">
         Kirjaudu sisään

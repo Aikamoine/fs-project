@@ -3,9 +3,8 @@ import Select from 'react-select'
 
 import { getIngredients } from 'Utilities/services/ingredients'
 
-const IngredientSelector = ({ onChange }) => {
+const IngredientSelector = ({ onChange, isClearable }) => {
   const [ingredients, setIngredients] = useState([])
-  const isClearable = true
 
   const handleGetIngredients = async () => {
     const ingredientList = await getIngredients()

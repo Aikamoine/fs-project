@@ -12,11 +12,13 @@ import TagSelector from 'Components/selectors/TagSelector'
 import Instructions from './Instructions'
 
 const formatUrlName = (name) => {
-  const spacesToUnderScore = name.replace(' ', '_').toLowerCase()
-  const umlautAToA = spacesToUnderScore.replace('ä', 'a')
-  const umlautOToO = umlautAToA.replace('ö', 'o')
+  let urlName
+  urlName = name.replace(/ /gi, '_').toLowerCase()
+  urlName = urlName.replace(/ä/g, 'a')
+  urlName = urlName.replace(/ö/g, 'o')
+  urlName = urlName.replace(/[^a-z_]/g, '')
 
-  return umlautOToO.replace(/[^a-z_]/g, '')
+  return urlName
 }
 
 const AddRecipe = () => {
@@ -48,12 +50,6 @@ const AddRecipe = () => {
       setAdminLevel(0)
     }
   }, [])
-
-  const nameChange = ({ target }) => setName(target.value)
-  const servingsChange = ({ target }) => setServings(target.value)
-  const timeChange = ({ target }) => setTime(target.value)
-  const infoChange = ({ target }) => setInfo(target.value)
-  const stepsChange = ({ target }) => setSteps(target.value)
 
   const handleIngredientChange = (selectedOptions) => {
     if (selectedOptions) {
@@ -144,19 +140,19 @@ const AddRecipe = () => {
       <Form>
         <Form.Group controlId="recipe-name">
           <Form.Label>Reseptin nimi:</Form.Label>
-          <Form.Control value={name} onChange={nameChange} />
+          <Form.Control value={name} onChange={(event) => setName(event.target.value)} />
         </Form.Group>
         <Form.Group controlId="servings">
           <Form.Label>Annoksia:</Form.Label>
-          <Form.Control type="number" value={servings} onChange={servingsChange} />
+          <Form.Control type="number" value={servings} onChange={(event) => setServings(event.target.value)} />
         </Form.Group>
         <Form.Group controlId="time">
           <Form.Label>Työaika: </Form.Label>
-          <Form.Control value={time} onChange={timeChange} />
+          <Form.Control value={time} onChange={(event) => setTime(event.target.value)} />
         </Form.Group>
         <Form.Group controlId="info">
           <Form.Label>Lisätietoja, esim. alkuperäisen reseptin nettiosoite: </Form.Label>
-          <Form.Control value={info} onChange={infoChange} />
+          <Form.Control value={info} onChange={(event) => setInfo(event.target.value)} />
         </Form.Group>
         <Form.Group controlId="tags">
           <Form.Label>Tunnisteet</Form.Label>
@@ -187,7 +183,7 @@ const AddRecipe = () => {
               <input style={{ width: '7em' }} value={unit} name="unit" onChange={({ target }) => setUnit(target.value)} />
             </td>
             <td>
-              <IngredientSelector onChange={handleIngredientChange} />
+              <IngredientSelector onChange={handleIngredientChange} isClearable />
             </td>
             <td>
               <Button size="sm" onClick={addIngredient}>
@@ -227,7 +223,7 @@ const AddRecipe = () => {
         )}
       <br />
       <h3>Työvaiheet</h3>
-      <textarea style={{ width: '100%' }} onChange={stepsChange} maxLength={10000} />
+      <textarea style={{ width: '100%' }} onChange={(event) => setSteps(event.target.value)} maxLength={10000} />
       {steps.split('\n').map((step, i) => (
         <div key={step}>{`${i + 1}. ${step}`}</div>
       ))}

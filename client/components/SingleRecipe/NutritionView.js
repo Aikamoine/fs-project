@@ -5,8 +5,6 @@ import Table from 'react-bootstrap/Table'
 const addMultiplier = (ingredient) => {
   switch (ingredient.unit) {
     case 'g':
-      ingredient.multiplier = Number(ingredient.amount) / 100
-      break
     case 'ml':
       ingredient.multiplier = Number(ingredient.amount) / 100
       break
@@ -26,12 +24,9 @@ const addMultiplier = (ingredient) => {
       ingredient.multiplier = ingredient.volumeweight ? (Number(ingredient.amount) * 10 * Number(ingredient.volumeweight)) / 100 : 0
       break
     case 'kpl':
-      ingredient.multiplier = (Number(ingredient.amount) * ingredient.unitweight) / 100
-      break
     case 'pkt':
-      ingredient.multiplier = (Number(ingredient.amount) * ingredient.unitweight) / 100
-      break
     case 'prk':
+    case 'tlk':
       ingredient.multiplier = (Number(ingredient.amount) * ingredient.unitweight) / 100
       break
     default:

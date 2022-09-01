@@ -38,12 +38,7 @@ const RecipeList = ({ recipes }) => {
     formatTagOptions()
   }, [recipes])
 
-  let filteredRecipes = JSON.parse(JSON.stringify(recipes))
-  const nameFilterChange = (target) => {
-    setNameFilter(target)
-  }
-
-  const numberChange = ({ target }) => setNumberFilter(target.value)
+  let filteredRecipes = [...recipes]
 
   const timesChange = (selectedOptions) => {
     setTimeFilter(selectedOptions)
@@ -54,21 +49,15 @@ const RecipeList = ({ recipes }) => {
   }
 
   if (nameFilter) {
-    filteredRecipes = JSON.parse(JSON.stringify(
-      recipes.filter((r) => r.name.toLowerCase().includes(nameFilter.toLowerCase())),
-    ))
+    filteredRecipes = filteredRecipes.filter((r) => r.name.toLowerCase().includes(nameFilter.toLowerCase()))
   }
 
   if (numberFilter > 0) {
-    filteredRecipes = JSON.parse(JSON.stringify(
-      filteredRecipes.filter((r) => r.servings >= numberFilter),
-    ))
+    filteredRecipes = filteredRecipes.filter((r) => r.servings >= numberFilter)
   }
 
   if (timeFilter.length > 0) {
-    filteredRecipes = JSON.parse(JSON.stringify(
-      filteredRecipes.filter((r) => timeFilter.findIndex((t) => r.time === t.label) >= 0),
-    ))
+    filteredRecipes = filteredRecipes.filter((r) => timeFilter.findIndex((t) => r.time === t.label) >= 0)
   }
 
   if (tagFilter.length > 0) {
@@ -85,8 +74,8 @@ const RecipeList = ({ recipes }) => {
           <th>Tunnisteet</th>
         </tr>
         <tr>
-          <td><input value={nameFilter} onChange={({ target }) => nameFilterChange(target.value)} /></td>
-          <td><input style={{ width: '8em' }} type="number" value={numberFilter} onChange={numberChange} /></td>
+          <td><input value={nameFilter} onChange={(event) => setNameFilter(event.target.value)} /></td>
+          <td><input style={{ width: '8em' }} type="number" value={numberFilter} onChange={(event) => setNumberFilter(event.target.value)} /></td>
           <td><Select options={timeOptions} isMulti onChange={timesChange} /></td>
           <td><Select options={tagOptions} isMulti onChange={tagsChange} /></td>
         </tr>

@@ -4,12 +4,12 @@ import { useChecklist } from 'react-checklist'
 import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import Table from 'react-bootstrap/Table'
 import { useErrorHandler } from 'react-error-boundary'
 import ErrorView from 'Components/ErrorView'
 import {
   getShoppinglist, deleteList, removeFromList, getShoppinglistRecipes, removeRecipe,
 } from 'Utilities/services/shoppinglists'
+import ServingsList from './ServingsList'
 
 const Shoppinglist = () => {
   const [shoppingList, setShoppingList] = useState([])
@@ -99,33 +99,7 @@ const Shoppinglist = () => {
           </p>
         </Col>
         <Col>
-          <Table>
-            <thead>
-              <tr>
-                <td>Resepti</td>
-                <td>Ruoka-annoksia</td>
-                <td>Muita annoksia</td>
-                <td />
-              </tr>
-            </thead>
-            <tbody>
-              {recipes.map((recipe, index) => (
-                // eslint-disable-next-line react/no-array-index-key
-                <tr key={`${recipe.recipe.name}${index}`}>
-                  <td>{recipe.recipe.name}</td>
-                  {recipe.recipe.tags.some((tag) => !tag.countServings)
-                    ? <><td /><td>{recipe.recipe.servings}</td></>
-                    : <><td>{recipe.recipe.servings}</td><td /></>}
-                  <td><Button size="sm" onClick={() => handleRemoveRecipe(recipe)}>Poista</Button></td>
-                </tr>
-              ))}
-              <tr>
-                <td>Yhteensä</td>
-                <td>{recipes.reduce((total, current) => total + (current.recipe.tags.some((tag) => !tag.countServings) ? 0 : current.recipe.servings), 0)}</td>
-                <td>{recipes.reduce((total, current) => total + (current.recipe.tags.some((tag) => !tag.countServings) ? current.recipe.servings : 0), 0)}</td>
-              </tr>
-            </tbody>
-          </Table>
+          <ServingsList recipes={recipes} handleRemoveRecipe={handleRemoveRecipe} />
         </Col>
       </Row>
     </div>

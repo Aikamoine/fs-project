@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -29,7 +30,7 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
   const changeIngredients = (event, id) => {
     const { name, value } = event.target
 
-    const element = ingredients.filter((i) => i.id === id)[0]
+    const element = ingredients.find((i) => i.id === id)
     if (name === 'amount') {
       element[name] = value.replace(',', '.')
     } else {
@@ -41,7 +42,7 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
   const changeSteps = (event, id) => {
     const { value } = event.target
 
-    const step = steps.filter((i) => i.id === id)[0]
+    const step = steps.find((i) => i.id === id)
 
     step.step = value
 
@@ -198,9 +199,9 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
             {(provider) => (
               <tbody ref={provider.innerRef} {...provider.droppableProps}>
                 {ingredients.map((ingredient, index) => (
-                  <Draggable key={ingredient.name} draggableId={String(ingredient.id)} index={index}>
+                  <Draggable key={`${ingredient.name}${index}`} draggableId={String(ingredient.id)} index={index}>
                     {(provider) => (
-                      <tr key={ingredient.name} {...provider.draggableProps} ref={provider.innerRef}>
+                      <tr key={`${ingredient.name}${index}`} {...provider.draggableProps} ref={provider.innerRef}>
                         <td {...provider.dragHandleProps}> = </td>
                         <td>
                           <input value={ingredient.amount ? ingredient.amount : ''} name="amount" onChange={(event) => changeIngredients(event, ingredient.id)} />
@@ -227,7 +228,7 @@ const EditView = ({ recipeDetails, setIsEditing, urlName }) => {
         </Table>
       </DragDropContext>
       <div>Lisää ainesosa</div>
-      <IngredientSelector onChange={handleIngredientChange} />
+      <IngredientSelector onChange={handleIngredientChange} isClearable />
       <br />
       <DragDropContext onDragEnd={handleStepDrag}>
         <Table striped bordered hover>
