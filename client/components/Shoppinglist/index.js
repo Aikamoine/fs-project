@@ -5,7 +5,6 @@ import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { useErrorHandler } from 'react-error-boundary'
-import ErrorView from 'Components/ErrorView'
 import {
   getShoppinglist, deleteList, removeFromList, getShoppinglistRecipes, removeRecipe,
 } from 'Utilities/services/shoppinglists'
@@ -62,10 +61,6 @@ const Shoppinglist = () => {
     return (
       <div>ladataan...</div>
     )
-  }
-
-  if (shoppingList.message) {
-    return <ErrorView error={shoppingList.message} />
   }
 
   return (

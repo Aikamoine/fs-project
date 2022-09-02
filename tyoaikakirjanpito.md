@@ -62,4 +62,5 @@
 | 31.8. | 3     | Virheidenkäsittelyn parannuksia, tietoturvaparannuksia, tietokannan sisällön päivityksiä |
 |  1.9. | 4     | Refaktorointia, ravintoainelaskureiden toiminnan verifiointia |
 |  1.9. | 2     | Refaktorointia, päivityksiä virheilmoituksiin, kannan populointia |
-| yht   | 158   | | 
+|  2.9. | 7     | UseContext käyttöön, tietoturvaparannuksia ja käyttäjän verifioinnin yhdenmukaistusta, Favicon-päivitys |
+| yht   | 165   | | 

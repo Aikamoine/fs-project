@@ -7,10 +7,9 @@ import Col from 'react-bootstrap/Col'
 import { toast } from 'react-toastify'
 import { useErrorHandler } from 'react-error-boundary'
 
+import { useGlobalState } from 'Components/GlobalState'
 import { getRecipeDetails } from 'Utilities/services/recipes'
 import { addToList } from 'Utilities/services/shoppinglists'
-import { localStorageName } from 'Utilities/common'
-import { getAdminLevel } from 'Utilities/services/users'
 import RecipeHeader from './RecipeHeader'
 import IngredientView from './IngredientView'
 import StepsView from './StepsView'
@@ -21,28 +20,18 @@ import SideDishSelector from './SideDishSelector'
 const SingleRecipe = () => {
   const { urlName } = useParams()
   const [recipeDetails, setRecipeDetails] = useState()
-  const [adminLevel, setAdminLevel] = useState(0)
   const [isEditing, setIsEditing] = useState(false)
   const [sideDish, setSideDish] = useState()
   const navigate = useNavigate()
   const handleError = useErrorHandler()
+  const [globalState] = useGlobalState()
 
   const handleGetRecipeDetails = async () => {
     const details = await getRecipeDetails(urlName)
     setRecipeDetails(details)
   }
 
-  const checkAdminStatus = async () => {
-    const level = await getAdminLevel()
-    setAdminLevel(level.adminLevel)
-  }
-
-  const loggedUser = JSON.parse(window.localStorage.getItem(localStorageName))
-
   useEffect(() => {
-    if (loggedUser) {
-      checkAdminStatus()
-    }
     handleGetRecipeDetails()
   }, [])
 
@@ -75,8 +64,6 @@ const SingleRecipe = () => {
     <div>
       <RecipeHeader
         recipe={recipeDetails.recipe}
-        adminLevel={adminLevel}
-        loggedUser={loggedUser}
         setIsEditing={setIsEditing}
       />
       <br />
@@ -94,7 +81,7 @@ const SingleRecipe = () => {
       <br />
       <StepsView steps={recipeDetails.recipe.recipe_steps} />
       <br />
-      {loggedUser && (
+      {globalState.id && (
         <p>
           <Button type="submit" onClick={addToShoppinglist}>
             Lisää ostoslistalle

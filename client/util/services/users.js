@@ -3,9 +3,9 @@ import { setConfig } from 'Utilities/common'
 
 const basePath = '/api/users'
 
-export const getAdminLevel = async () => {
+export const getUserInfo = async () => {
   const config = setConfig()
-  const response = await axios.get(`${basePath}/adminlevel`, config)
+  const response = await axios.get(`${basePath}/info`, config)
   return response.data
 }
 

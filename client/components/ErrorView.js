@@ -29,18 +29,15 @@ const ErrorMessage = ({ error }) => {
   )
 }
 
-const ErrorView = ({ error }) => {
-  console.log('ErrorView', error)
-  return (
+const ErrorView = ({ error }) => (
+  <div>
     <div>
-      <div>
-        <ErrorMessage error={error} />
-      </div>
-      <div>
-        <a href="/">Takaisin etusivulle</a>
-      </div>
+      <ErrorMessage error={error} />
     </div>
-  )
-}
+    <div>
+      <a href="/">Takaisin etusivulle</a>
+    </div>
+  </div>
+)
 
 export default ErrorView

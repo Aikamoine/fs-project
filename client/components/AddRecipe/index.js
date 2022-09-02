@@ -3,12 +3,14 @@ import { Form, Button } from 'react-bootstrap'
 import Table from 'react-bootstrap/Table'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
+import { useErrorHandler } from 'react-error-boundary'
 
 import { localStorageName, adminLevels } from 'Utilities/common'
-import { getAdminLevel } from 'Utilities/services/users'
+import { getUserInfo } from 'Utilities/services/users'
 import { addRecipe } from 'Utilities/services/recipes'
 import IngredientSelector from 'Components/selectors/IngredientSelector'
 import TagSelector from 'Components/selectors/TagSelector'
+import { useGlobalState } from 'Components/GlobalState'
 import Instructions from './Instructions'
 
 const formatUrlName = (name) => {
@@ -33,21 +35,26 @@ const AddRecipe = () => {
   const [ingredient, setIngredient] = useState('')
   const [ingredients, setIngredients] = useState('')
   const [steps, setSteps] = useState('')
-  const [adminLevel, setAdminLevel] = useState(0)
   const [instructions, setInstructions] = useState(false)
   const navigate = useNavigate()
   const ref = useRef(null)
+  const [globalState, updateGlobalState] = useGlobalState()
+  const handleError = useErrorHandler()
 
   const checkAdminStatus = async () => {
-    const level = await getAdminLevel()
-    setAdminLevel(level.adminLevel)
+    try {
+      const level = await getUserInfo()
+      updateGlobalState(level)
+    } catch (error) {
+      handleError(error)
+    }
   }
 
   useEffect(() => {
     if (window.localStorage.getItem(localStorageName)) {
       checkAdminStatus()
     } else {
-      setAdminLevel(0)
+      updateGlobalState({ adminLevel: 0 })
     }
   }, [])
 
@@ -123,7 +130,7 @@ const AddRecipe = () => {
     navigate('/recipes', { replace: false })
   }
 
-  if (adminLevel < adminLevels('editor')) {
+  if (globalState.adminLevel < adminLevels('editor')) {
     return (
       <div>
         Tämä sivu on vain pääkäyttäjille!

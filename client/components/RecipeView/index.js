@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
 
+import { useGlobalState } from 'Components/GlobalState'
 import { getRecipes } from 'Utilities/services/recipes'
 import RecipeList from 'Components/RecipeView/RecipeList'
 
 const RecipeView = () => {
   const [recipes, setRecipes] = useState([])
+  const [globalState, updateGlobalState] = useGlobalState()
 
   const handleGetRecipes = async () => {
     const newRecipes = await getRecipes()
@@ -14,7 +16,10 @@ const RecipeView = () => {
 
   useEffect(() => {
     handleGetRecipes()
-    toast('Tunnisteita ei tule sekoittaa allergeenimerkintöihin! Lue reseptin tiedot tarkkaan, jos noudatat erikoisruokavaliota!')
+    if (!globalState.allergenWarningShown) {
+      toast('Tunnisteita ei tule sekoittaa allergeenimerkintöihin! Lue reseptin tiedot tarkkaan, jos noudatat erikoisruokavaliota!')
+      updateGlobalState({ allergenWarningShown: true })
+    }
   }, [])
 
   return (

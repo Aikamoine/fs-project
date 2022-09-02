@@ -1,23 +1,24 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 import NavDropdown from 'react-bootstrap/NavDropdown'
 import { localStorageName, adminLevels } from 'Utilities/common'
-import { getAdminLevel } from 'Utilities/services/users'
+import { getUserInfo } from 'Utilities/services/users'
+import { useGlobalState } from './GlobalState'
 
 const AdminActions = ({ adminLevel }) => {
   if (adminLevel >= adminLevels('editor')) {
     return (
       <NavDropdown title="Admin" id="navbarScrollingDropdown">
-        <NavDropdown.Item href="/addrecipe">
+        <NavDropdown.Item as={Link} to="/addrecipe">
           Reseptin lisäys
         </NavDropdown.Item>
-        <NavDropdown.Item href="/manageingredients">
+        <NavDropdown.Item as={Link} to="/manageingredients">
           Ainesosien hallinta
         </NavDropdown.Item>
-        <NavDropdown.Item href="/tags/manage">
+        <NavDropdown.Item as={Link} to="/tags/manage">
           Tunnisteiden hallinta
         </NavDropdown.Item>
       </NavDropdown>
@@ -35,11 +36,11 @@ const UserActions = ({ user }) => {
             Ostoslista
           </Link>
         </Nav.Link>
-        <Nav.Link href="#" as="span">
-          <Link to="/logout">
+        <NavDropdown title={user} id="navbarScrollingDropdown">
+          <NavDropdown.Item as={Link} to="/logout">
             Kirjaudu ulos
-          </Link>
-        </Nav.Link>
+          </NavDropdown.Item>
+        </NavDropdown>
       </>
     )
   }
@@ -61,15 +62,15 @@ const UserActions = ({ user }) => {
 }
 
 const NavBar = () => {
-  const [adminLevel, setAdminLevel] = useState(0)
+  const [globalState, updateGlobalState] = useGlobalState()
 
   const checkAdminStatus = async () => {
-    const level = await getAdminLevel()
-    setAdminLevel(level.adminLevel)
+    const level = await getUserInfo()
+    updateGlobalState(level)
   }
 
-  const loggedUser = JSON.parse(window.localStorage.getItem(localStorageName))
   useEffect(() => {
+    const loggedUser = JSON.parse(window.localStorage.getItem(localStorageName))
     if (loggedUser) {
       checkAdminStatus()
     }
@@ -91,8 +92,8 @@ const NavBar = () => {
                 Ainesosat
               </Link>
             </Nav.Link>
-            <UserActions user={loggedUser} />
-            <AdminActions adminLevel={adminLevel} />
+            <UserActions user={globalState.username} />
+            <AdminActions adminLevel={globalState.adminLevel} />
           </Nav>
         </Navbar.Collapse>
       </Container>

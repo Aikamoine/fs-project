@@ -3,20 +3,26 @@ import Table from 'react-bootstrap/Table'
 import ToggleButton from 'react-bootstrap/ToggleButton'
 import Button from 'react-bootstrap/Button'
 import { useErrorHandler } from 'react-error-boundary'
+
 import { localStorageName, adminLevels } from 'Utilities/common'
 import { getTags, saveTag, deleteTag } from 'Utilities/services/tags'
-import { getAdminLevel } from 'Utilities/services/users'
+import { getUserInfo } from 'Utilities/services/users'
+import { useGlobalState } from 'Components/GlobalState'
 import Instructions from './Instructions'
 
 const ManageTags = () => {
   const [tags, setTags] = useState([])
-  const [adminLevel, setAdminLevel] = useState(0)
   const [instructions, setInstructions] = useState(false)
   const handleError = useErrorHandler()
+  const [globalState, updateGlobalState] = useGlobalState()
 
   const checkAdminStatus = async () => {
-    const level = await getAdminLevel()
-    setAdminLevel(level.adminLevel)
+    try {
+      const level = await getUserInfo()
+      updateGlobalState(level)
+    } catch (error) {
+      handleError(error)
+    }
   }
 
   const handleGetTags = async () => {
@@ -29,7 +35,7 @@ const ManageTags = () => {
       checkAdminStatus()
       handleGetTags()
     } else {
-      setAdminLevel(0)
+      updateGlobalState({ adminLevel: 0 })
     }
   }, [])
 
@@ -92,7 +98,7 @@ const ManageTags = () => {
     setTags([newTag, ...tags])
   }
 
-  if (adminLevel < adminLevels('editor')) {
+  if (globalState.adminLevel < adminLevels('editor')) {
     return (
       <div>
         Tämä sivu on vain pääkäyttäjille!
@@ -118,7 +124,7 @@ const ManageTags = () => {
             <th>Uusi nimi</th>
             <th>Ruoka-annos</th>
             <th>Tallennus</th>
-            {adminLevel >= adminLevels('admin') && <th>Poisto</th>}
+            {globalState.adminLevel >= adminLevels('admin') && <th>Poisto</th>}
           </tr>
         </thead>
         <tbody>
@@ -142,7 +148,7 @@ const ManageTags = () => {
               <td>
                 <Button size="sm" disabled={!tag.edited} onClick={() => handleSave(index)}>Tallenna</Button>
               </td>
-              {adminLevel >= adminLevels('admin') && (
+              {globalState.adminLevel >= adminLevels('admin') && (
                 <td>
                   <Button size="sm" variant="danger" onClick={() => handleDelete(index)}>Poista</Button>
                 </td>

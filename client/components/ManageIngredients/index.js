@@ -7,9 +7,10 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { toast } from 'react-toastify'
 import Select from 'react-select'
+import { useErrorHandler } from 'react-error-boundary'
 
 import { localStorageName, adminLevels } from 'Utilities/common'
-import { getAdminLevel } from 'Utilities/services/users'
+import { getUserInfo } from 'Utilities/services/users'
 import {
   getIngredients,
   addIngredient,
@@ -17,6 +18,7 @@ import {
   updateIngredient,
   deleteIngredient,
 } from 'Utilities/services/ingredients'
+import { useGlobalState } from 'Components/GlobalState'
 import ControlButton from './ControlButton'
 
 import foodNames from '../../assets/foodNames.json'
@@ -27,13 +29,18 @@ const roundNumber = (value) => Math.round(Number(value) * 100) / 100
 const ManageIngredients = () => {
   const [ingredientList, setIngredientList] = useState([])
   const [fineliIngredients, setFineliIngredients] = useState()
-  const [adminLevel, setAdminLevel] = useState(0)
   const [filter, setFilter] = useState('')
   const [instructions, setInstructions] = useState(false)
+  const [globalState, updateGlobalState] = useGlobalState()
+  const handleError = useErrorHandler()
 
   const checkAdminStatus = async () => {
-    const level = await getAdminLevel()
-    setAdminLevel(level.adminLevel)
+    try {
+      const level = await getUserInfo()
+      updateGlobalState(level)
+    } catch (error) {
+      handleError(error)
+    }
   }
 
   const handleGetIngredients = async () => {
@@ -49,7 +56,7 @@ const ManageIngredients = () => {
       checkAdminStatus()
       handleGetIngredients()
     } else {
-      setAdminLevel(0)
+      updateGlobalState({ adminLevel: 0 })
     }
   }, [])
 
@@ -180,7 +187,7 @@ const ManageIngredients = () => {
     }
   }
 
-  if (adminLevel < adminLevels('editor')) {
+  if (globalState.adminLevel < adminLevels('editor')) {
     return (
       <div>
         Tämä sivu on vain pääkäyttäjille!

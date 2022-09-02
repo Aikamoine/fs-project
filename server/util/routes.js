@@ -35,7 +35,7 @@ router.post('/tags', sessionValidator, tags.saveTag)
 router.delete('/tags/:id', sessionValidator, tags.deleteTag)
 
 router.post('/users', users.postUser)
-router.get('/users/adminlevel', sessionValidator, users.getAdminLevel)
+router.get('/users/info', sessionValidator, users.getUserInfo)
 router.post('/login', users.login)
 router.delete('/logout', sessionValidator, users.logout)
 
