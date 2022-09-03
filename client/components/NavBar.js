@@ -21,6 +21,12 @@ const AdminActions = ({ adminLevel }) => {
         <NavDropdown.Item as={Link} to="/tags/manage">
           Tunnisteiden hallinta
         </NavDropdown.Item>
+        {adminLevel >= adminLevels('admin')
+          && (
+            <NavDropdown.Item as={Link} to="/users/manage">
+              Käyttäjähallinta
+            </NavDropdown.Item>
+          )}
       </NavDropdown>
     )
   }

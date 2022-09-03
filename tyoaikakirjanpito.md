@@ -63,4 +63,6 @@
 |  1.9. | 4     | Refaktorointia, ravintoainelaskureiden toiminnan verifiointia |
 |  1.9. | 2     | Refaktorointia, päivityksiä virheilmoituksiin, kannan populointia |
 |  2.9. | 7     | UseContext käyttöön, tietoturvaparannuksia ja käyttäjän verifioinnin yhdenmukaistusta, Favicon-päivitys |
-| yht   | 165   | | 
+|  3.9. | 1     | Testien tunkkaamista. Tämä sovellus jää nyt ilman testejä. Kyllä, olen huono ihminen. |
+|  3.9. | 3     | Käyttäjähallinta admin-käyttäjälle |
+| yht   | 169   | | 

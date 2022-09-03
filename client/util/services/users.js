@@ -10,7 +10,14 @@ export const getUserInfo = async () => {
 }
 
 export const getUsers = async () => {
-  const response = await axios.get(basePath)
+  const config = setConfig()
+  const response = await axios.get(`${basePath}/manage`, config)
+  return response.data
+}
+
+export const updateUser = async (user) => {
+  const config = setConfig()
+  const response = await axios.post(`${basePath}/manage`, user, config)
   return response.data
 }
 

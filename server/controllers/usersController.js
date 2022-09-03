@@ -1,13 +1,53 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const { Op } = require('sequelize')
-const { SECRET, saltRounds } = require('../util/common')
+const sequelize = require('sequelize')
 
+const { adminLevels } = require('@util/common')
+const { SECRET, saltRounds } = require('../util/common')
 const { User, Session } = require('../models')
 
 const getAll = async (req, res) => {
-  const users = await User.findAll()
-  res.json(users)
+  if (req.decodedToken.adminLevel < adminLevels('admin')) {
+    return res.status(403).json({
+      error: 'Käyttöoikeutesi ei riitä käyttäjähallintaan',
+    })
+  }
+  const users = await User.findAll({
+    attributes: ['id', 'username', 'isActive', 'adminLevel', [sequelize.literal(false), 'edited']],
+    order: ['username'],
+  })
+  return res.json(users)
+}
+
+const updateUser = async (req, res) => {
+  if (req.decodedToken.adminLevel < adminLevels('admin')) {
+    return res.status(403).json({
+      error: 'Käyttöoikeutesi ei riitä käyttäjähallintaan',
+    })
+  }
+
+  const {
+    id, username, isActive, adminLevel,
+  } = req.body
+
+  await User.update(
+    {
+      isActive,
+      adminLevel,
+    },
+    {
+      where: { id, username },
+    },
+  )
+
+  if (!isActive) {
+    await Session.destroy({
+      where: { userId: id },
+    })
+  }
+
+  return res.status(200).end()
 }
 
 const getUserInfo = async (req, res) => {
@@ -107,4 +147,5 @@ module.exports = {
   login,
   logout,
   getUserInfo,
+  updateUser,
 }
