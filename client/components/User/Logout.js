@@ -1,15 +1,25 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
+import { Link } from 'react-router-dom'
+
 import { localStorageName } from 'Utilities/common'
 import { logout } from 'Utilities/services/users'
+import { useGlobalState } from 'Components/GlobalState'
 
 const Logout = () => {
-  const [logoutSuccess, setLogoutSuccess] = useState(0)
+  const [globalState, updateGlobalState] = useGlobalState()
 
   const handleLogout = async () => {
-    if (window.localStorage.getItem(localStorageName)) {
+    if (window.localStorage.getItem(localStorageName) || globalState.adminLevel > 0) {
       try {
         const success = await logout()
-        setLogoutSuccess(success.destroyed)
+        if (success.destroyed) {
+          updateGlobalState({
+            adminLevel: 0,
+            allergenWarningShown: false,
+            id: null,
+            username: null,
+          })
+        }
       } catch (error) {
         console.log(error)
       }
@@ -20,16 +30,19 @@ const Logout = () => {
     handleLogout()
   }, [])
 
-  if (logoutSuccess) {
-    setLogoutSuccess(0)
-    window.location.reload()
-  }
-
   return (
     <div>
       <div>Olet kirjautunut ulos</div>
-      <div><a href="/recipes">Tästä selaamaan reseptejä</a></div>
-      <div><a href="/login">Kirjaudu takaisin sisään</a></div>
+      <div>
+        <Link to="/recipes">
+          Tästä selaamaan reseptejä
+        </Link>
+      </div>
+      <div>
+        <Link to="/login">
+          Kirjaudu takaisin sisään
+        </Link>
+      </div>
     </div>
   )
 }

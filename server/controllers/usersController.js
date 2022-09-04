@@ -119,6 +119,7 @@ const login = async (req, res) => {
     token,
     username,
     id: user.id,
+    adminLevel: user.adminLevel,
   })
 }
 

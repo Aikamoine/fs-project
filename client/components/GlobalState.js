@@ -15,22 +15,22 @@ export const GlobalState = (props) => {
   const updateGlobalState = (value) => {
     const newState = { ...globalState }
     let edited = false
-    if (value.adminLevel) {
+    if ('adminLevel' in value) {
       newState.adminLevel = value.adminLevel
       edited = true
     }
 
-    if (value.username) {
+    if ('username' in value) {
       newState.username = value.username
       edited = true
     }
 
-    if (value.id) {
+    if ('id' in value) {
       newState.id = value.id
       edited = true
     }
 
-    if (value.allergenWarningShown) {
+    if ('allergenWarningShown' in value) {
       newState.allergenWarningShown = value.allergenWarningShown
       edited = true
     }

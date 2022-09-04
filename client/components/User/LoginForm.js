@@ -1,23 +1,35 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Form, Button } from 'react-bootstrap'
+import { toast } from 'react-toastify'
 
 import { localStorageName } from 'Utilities/common'
 import { login } from 'Utilities/services/users'
-import { toast } from 'react-toastify'
+import { useGlobalState } from 'Components/GlobalState'
 
 const LoginForm = () => {
-  const [username, setUsername] = useState('')
+  const [usernameInput, setUsernameInput] = useState('')
   const [password, setPassword] = useState('')
+  const [, updateGlobalState] = useGlobalState()
   const navigate = useNavigate()
 
   const handleSubmit = async (event) => {
     try {
       event.preventDefault()
-      const response = await login({ username, password })
-      window.localStorage.setItem(localStorageName, JSON.stringify(response))
+      const {
+        token, username, id, adminLevel,
+      } = await login({ username: usernameInput, password })
+
+      window.localStorage.setItem(localStorageName, JSON.stringify({ token }))
+
+      updateGlobalState({
+        adminLevel,
+        allergenWarningShown: false,
+        id,
+        username,
+      })
+
       navigate('/recipes', { replace: true })
-      window.location.reload()
     } catch (error) {
       toast(error.response.data.error)
     }
@@ -27,7 +39,7 @@ const LoginForm = () => {
     <Form onSubmit={handleSubmit}>
       <Form.Group>
         <Form.Label>Käyttäjänimi</Form.Label>
-        <Form.Control id="login" type="text" value={username} onChange={(event) => setUsername(event.target.value)} />
+        <Form.Control id="login" type="text" value={usernameInput} onChange={(event) => setUsernameInput(event.target.value)} />
       </Form.Group>
       <p />
       <Form.Group>

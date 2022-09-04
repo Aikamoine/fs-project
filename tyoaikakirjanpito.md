@@ -65,4 +65,5 @@
 |  2.9. | 7     | UseContext käyttöön, tietoturvaparannuksia ja käyttäjän verifioinnin yhdenmukaistusta, Favicon-päivitys |
 |  3.9. | 1     | Testien tunkkaamista. Tämä sovellus jää nyt ilman testejä. Kyllä, olen huono ihminen. |
 |  3.9. | 3     | Käyttäjähallinta admin-käyttäjälle |
-| yht   | 169   | | 
+|  4.9. | 1     | Kirjautuminen ja käyttäjän luonti toimimaan ilman sivun uudelleenlatausta |
+| yht   | 169 + 4.9.  | | 
