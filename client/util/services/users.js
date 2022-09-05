@@ -36,3 +36,9 @@ export const logout = async () => {
   const response = await axios.delete('/api/logout', config)
   return response.data
 }
+
+export const changePassword = async (data) => {
+  const config = setConfig()
+  const response = await axios.post(`${basePath}/edit`, data, config)
+  return response.data
+}

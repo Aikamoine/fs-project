@@ -38,6 +38,7 @@ router.post('/users', users.postUser)
 router.get('/users/info', sessionValidator, users.getUserInfo)
 router.get('/users/manage', sessionValidator, users.getAll)
 router.post('/users/manage', sessionValidator, users.updateUser)
+router.post('/users/edit', sessionValidator, users.changePassword)
 router.post('/login', users.login)
 router.delete('/logout', sessionValidator, users.logout)
 

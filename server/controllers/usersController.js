@@ -123,6 +123,48 @@ const login = async (req, res) => {
   })
 }
 
+const changePassword = async (req, res) => {
+  console.log('changepassword', req.body)
+  const { id, username } = req.decodedToken
+  const { originalPassword, password } = req.body
+
+  const user = await User.findOne({
+    where: {
+      username,
+      id,
+    },
+  })
+
+  const passwordCorrect = user === null
+    ? false
+    : await bcrypt.compare(originalPassword, user.password)
+
+  if (!(user && passwordCorrect && username === req.body.username)) {
+    return res.status(401).json({
+      error: 'Virheellinen salasana',
+    })
+  }
+
+  const hashedPassword = await bcrypt.hash(password, saltRounds)
+
+  await User.update(
+    {
+      password: hashedPassword,
+    },
+    {
+      where: { id, username },
+    },
+  )
+
+  await Session.destroy({
+    where: {
+      userId: id,
+    },
+  })
+
+  return res.status(200).end()
+}
+
 const logout = async (req, res) => {
   const auth = req.get('authorization')
   const { id } = req.decodedToken
@@ -149,4 +191,5 @@ module.exports = {
   logout,
   getUserInfo,
   updateUser,
+  changePassword,
 }

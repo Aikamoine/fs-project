@@ -4,6 +4,8 @@
 
 export const localStorageName = 'reseptiapuriUser'
 
+export const passwordMinLength = 8
+
 export const setConfig = () => {
   const user = JSON.parse(window.localStorage.getItem(localStorageName))
 

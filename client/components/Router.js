@@ -13,6 +13,7 @@ import CreateUser from './User/CreateUser'
 import LoginForm from './User/LoginForm'
 import Logout from './User/Logout'
 import ManageUsers from './User/ManageUsers'
+import EditView from './User/EditView'
 
 export default () => (
   <div className="content">
@@ -20,6 +21,7 @@ export default () => (
       <Route exact path="/" element={<FrontPage />} />
       <Route path="/users" element={<CreateUser />} />
       <Route path="/users/manage" element={<ManageUsers />} />
+      <Route path="/users/edit" element={<EditView />} />
       <Route path="/shoppinglist" element={<Shoppinglist />} />
       <Route path="/login" element={<LoginForm />} />
       <Route path="/recipes" element={<RecipeView />} />

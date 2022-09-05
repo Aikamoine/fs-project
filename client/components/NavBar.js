@@ -43,6 +43,9 @@ const UserActions = ({ user }) => {
           </Link>
         </Nav.Link>
         <NavDropdown title={user} id="navbarScrollingDropdown">
+          <NavDropdown.Item as={Link} to="/users/edit">
+            Muuta salasanaa
+          </NavDropdown.Item>
           <NavDropdown.Item as={Link} to="/logout">
             Kirjaudu ulos
           </NavDropdown.Item>
