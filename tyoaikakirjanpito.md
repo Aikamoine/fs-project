@@ -67,5 +67,5 @@
 |  3.9. | 3     | Käyttäjähallinta admin-käyttäjälle |
 |  4.9. | 1     | Kirjautuminen ja käyttäjän luonti toimimaan ilman sivun uudelleenlatausta |
 |  5.9. | 3    | Custom-hook salasanojen laadun tarkastukseen, salasanojen laadun tarkistus, käyttjän admin-statuksen tarkistus custom-hookin taakse |
-|  6.9. | 2    | Salasanan vaihto -toiminnallisuus käyttäjille, repositorion siistimistä ja tyylikorjauksia |
+|  5.9. | 2    | Salasanan vaihto -toiminnallisuus käyttäjille, repositorion siistimistä ja tyylikorjauksia |
 | yht   | 175  | | 
