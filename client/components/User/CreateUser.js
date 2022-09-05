@@ -5,7 +5,7 @@ import Card from 'react-bootstrap/Card'
 import { toast } from 'react-toastify'
 
 import { postUser, login } from 'Utilities/services/users'
-import { localStorageName } from 'Utilities/common'
+import { localStorageName, passwordMinLength } from 'Utilities/common'
 import { useGlobalState } from 'Components/hooks/GlobalState'
 import usePasswordValidation from '../hooks/usePasswordValidation'
 
@@ -15,7 +15,6 @@ const CreateUser = () => {
   const [passwordCheck, setPasswordCheck] = useState('')
   const [, updateGlobalState] = useGlobalState()
   const navigate = useNavigate()
-  const minLength = 8
 
   const [
     validLength,
@@ -24,13 +23,13 @@ const CreateUser = () => {
     lowerCase,
     match,
     specialChar,
-  ] = usePasswordValidation(password, passwordCheck, minLength)
+  ] = usePasswordValidation(password, passwordCheck, passwordMinLength)
 
   const allChecksPass = validLength && hasNumber && upperCase && match && specialChar && usernameInput.length > 0
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    if (!allChecksPass) {
+    if (allChecksPass) {
       try {
         await postUser({ username: usernameInput, password })
 
@@ -84,7 +83,7 @@ const CreateUser = () => {
           <Card.Title>Salasanan vaatimukset</Card.Title>
           <Card.Text>
             <ul>
-              <li style={{ color: validLength ? 'green' : 'red' }}>Pituus vähintään {minLength}</li>
+              <li style={{ color: validLength ? 'green' : 'red' }}>Pituus vähintään {passwordMinLength}</li>
               <li style={{ color: hasNumber ? 'green' : 'red' }}>Numero</li>
               <li style={{ color: upperCase ? 'green' : 'red' }}>Iso kirjain</li>
               <li style={{ color: lowerCase ? 'green' : 'red' }}>Pieni kirjain</li>

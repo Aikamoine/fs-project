@@ -6,7 +6,8 @@ body {
 }
 
 .navbar {
-  height: 2em;
+  display: flex;
+  flex-direction: column;
   background-color: $mainColor;
   img {
     height: 100%
@@ -21,7 +22,8 @@ body {
 }
 
 .footer {
-  height: 1em;
+  display: flex;
+  flex-direction: column;
   background-color: $mainColor;
   img {
     height: 100%;

@@ -75,7 +75,7 @@ const postUser = async (req, res) => {
 const login = async (req, res) => {
   const sessionLength = () => {
     const today = new Date()
-    const validDays = 2
+    const validDays = 5
     const validDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + validDays)
 
     return validDate
@@ -124,7 +124,6 @@ const login = async (req, res) => {
 }
 
 const changePassword = async (req, res) => {
-  console.log('changepassword', req.body)
   const { id, username } = req.decodedToken
   const { originalPassword, password } = req.body
 
