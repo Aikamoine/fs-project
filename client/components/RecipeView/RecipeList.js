@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import Table from 'react-bootstrap/Table'
 import Select from 'react-select'
 
-// TODO: is there a point to this parse(strinfigy) shuffle??
 const RecipeList = ({ recipes }) => {
   const [nameFilter, setNameFilter] = useState('')
   const [numberFilter, setNumberFilter] = useState(0)

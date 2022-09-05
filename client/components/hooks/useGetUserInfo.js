@@ -19,7 +19,6 @@ const useGetUserInfo = () => {
   }
 
   useEffect(() => {
-    console.log('hooking')
     if (window.localStorage.getItem(localStorageName)) {
       checkUserInfo()
     } else {
