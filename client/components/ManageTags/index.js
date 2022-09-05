@@ -6,8 +6,8 @@ import { useErrorHandler } from 'react-error-boundary'
 
 import { localStorageName, adminLevels } from 'Utilities/common'
 import { getTags, saveTag, deleteTag } from 'Utilities/services/tags'
-import { getUserInfo } from 'Utilities/services/users'
-import { useGlobalState } from 'Components/GlobalState'
+import { useGlobalState } from 'Components/hooks/GlobalState'
+import useGetUserInfo from 'Components/hooks/useGetUserInfo'
 import Instructions from './Instructions'
 
 const ManageTags = () => {
@@ -16,23 +16,15 @@ const ManageTags = () => {
   const handleError = useErrorHandler()
   const [globalState, updateGlobalState] = useGlobalState()
 
-  const checkAdminStatus = async () => {
-    try {
-      const level = await getUserInfo()
-      updateGlobalState(level)
-    } catch (error) {
-      handleError(error)
-    }
-  }
-
   const handleGetTags = async () => {
     const tagQuery = await getTags()
     setTags(tagQuery.map((tag) => ({ ...tag, edited: false, newName: '' })))
   }
 
+  useGetUserInfo()
+
   useEffect(() => {
     if (window.localStorage.getItem(localStorageName)) {
-      checkAdminStatus()
       handleGetTags()
     } else {
       updateGlobalState({ adminLevel: 0 })

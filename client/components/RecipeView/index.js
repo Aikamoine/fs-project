@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
 
-import { useGlobalState } from 'Components/GlobalState'
+import { useGlobalState } from 'Components/hooks/GlobalState'
 import { getRecipes } from 'Utilities/services/recipes'
 import RecipeList from 'Components/RecipeView/RecipeList'
 

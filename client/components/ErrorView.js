@@ -1,6 +1,4 @@
 import React from 'react'
-// import NavBar from './NavBar'
-// Navbar links wouldn't work for some reason
 import { localStorageName } from 'Utilities/common'
 
 const ErrorMessage = ({ error }) => {

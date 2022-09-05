@@ -7,7 +7,7 @@ import Col from 'react-bootstrap/Col'
 import { toast } from 'react-toastify'
 import { useErrorHandler } from 'react-error-boundary'
 
-import { useGlobalState } from 'Components/GlobalState'
+import { useGlobalState } from 'Components/hooks/GlobalState'
 import { getRecipeDetails } from 'Utilities/services/recipes'
 import { addToList } from 'Utilities/services/shoppinglists'
 import RecipeHeader from './RecipeHeader'

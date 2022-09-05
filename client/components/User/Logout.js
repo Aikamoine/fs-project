@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 import { localStorageName } from 'Utilities/common'
 import { logout } from 'Utilities/services/users'
-import { useGlobalState } from 'Components/GlobalState'
+import { useGlobalState } from 'Components/hooks/GlobalState'
 
 const Logout = () => {
   const [globalState, updateGlobalState] = useGlobalState()

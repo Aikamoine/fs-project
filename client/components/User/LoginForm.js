@@ -5,7 +5,7 @@ import { toast } from 'react-toastify'
 
 import { localStorageName } from 'Utilities/common'
 import { login } from 'Utilities/services/users'
-import { useGlobalState } from 'Components/GlobalState'
+import { useGlobalState } from 'Components/hooks/GlobalState'
 
 const LoginForm = () => {
   const [usernameInput, setUsernameInput] = useState('')

@@ -1,16 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useRef } from 'react'
 import { Form, Button } from 'react-bootstrap'
 import Table from 'react-bootstrap/Table'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import { useErrorHandler } from 'react-error-boundary'
 
-import { localStorageName, adminLevels } from 'Utilities/common'
-import { getUserInfo } from 'Utilities/services/users'
+import { adminLevels } from 'Utilities/common'
 import { addRecipe } from 'Utilities/services/recipes'
 import IngredientSelector from 'Components/selectors/IngredientSelector'
 import TagSelector from 'Components/selectors/TagSelector'
-import { useGlobalState } from 'Components/GlobalState'
+import useGetUserInfo from 'Components/hooks/useGetUserInfo'
+import { useGlobalState } from 'Components/hooks/GlobalState'
 import Instructions from './Instructions'
 
 const formatUrlName = (name) => {
@@ -38,25 +38,10 @@ const AddRecipe = () => {
   const [instructions, setInstructions] = useState(false)
   const navigate = useNavigate()
   const ref = useRef(null)
-  const [globalState, updateGlobalState] = useGlobalState()
+  const [globalState] = useGlobalState()
   const handleError = useErrorHandler()
 
-  const checkAdminStatus = async () => {
-    try {
-      const level = await getUserInfo()
-      updateGlobalState(level)
-    } catch (error) {
-      handleError(error)
-    }
-  }
-
-  useEffect(() => {
-    if (window.localStorage.getItem(localStorageName)) {
-      checkAdminStatus()
-    } else {
-      updateGlobalState({ adminLevel: 0 })
-    }
-  }, [])
+  useGetUserInfo()
 
   const handleIngredientChange = (selectedOptions) => {
     if (selectedOptions) {
@@ -113,19 +98,23 @@ const AddRecipe = () => {
     }
 
     toast('Reseptiä lisätään. Sinut ohjataan seuraavalle sivulle, kun lisäys on valmis')
-    await addRecipe(
-      {
-        name,
-        servings,
-        time,
-        info,
-        usesSideDish: !sideDish, // recipe includes a side dish, so it doesn't use one
-        urlName: formatUrlName(name),
-        ingredients,
-        tags: tagChoices,
-        steps: steps.split('\n'),
-      },
-    )
+    try {
+      await addRecipe(
+        {
+          name,
+          servings,
+          time,
+          info,
+          usesSideDish: !sideDish, // recipe includes a side dish, so it doesn't use one
+          urlName: formatUrlName(name),
+          ingredients,
+          tags: tagChoices,
+          steps: steps.split('\n'),
+        },
+      )
+    } catch (error) {
+      handleError(error)
+    }
 
     navigate('/recipes', { replace: false })
   }

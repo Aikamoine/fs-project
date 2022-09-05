@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom'
 
 import 'Assets/custom.scss'
 import App from 'Components/App'
-import { GlobalState } from 'Components/GlobalState'
+import { GlobalState } from 'Components/hooks/GlobalState'
 
 const refresh = () => render(
   <GlobalState>

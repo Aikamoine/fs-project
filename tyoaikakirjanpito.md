@@ -66,4 +66,5 @@
 |  3.9. | 1     | Testien tunkkaamista. Tämä sovellus jää nyt ilman testejä. Kyllä, olen huono ihminen. |
 |  3.9. | 3     | Käyttäjähallinta admin-käyttäjälle |
 |  4.9. | 1     | Kirjautuminen ja käyttäjän luonti toimimaan ilman sivun uudelleenlatausta |
-| yht   | 169 + 4.9.  | | 
+|  5.9. | 3    | Custom-hook salasanojen laadun tarkastukseen, salasanojen laadun tarkistus, käyttjän admin-statuksen tarkistus custom-hookin taakse |
+| yht   | 170+5.9.  | | 

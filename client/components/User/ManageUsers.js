@@ -4,28 +4,20 @@ import Table from 'react-bootstrap/Table'
 import Button from 'react-bootstrap/Button'
 import Select from 'react-select'
 
-import { localStorageName, adminLevels } from 'Utilities/common'
-import { getUsers, getUserInfo, updateUser } from 'Utilities/services/users'
-import { useGlobalState } from 'Components/GlobalState'
+import { adminLevels } from 'Utilities/common'
+import { getUsers, updateUser } from 'Utilities/services/users'
+import { useGlobalState } from 'Components/hooks/GlobalState'
+import useGetUserInfo from 'Components/hooks/useGetUserInfo'
 
 const ManageUsers = () => {
   const [users, setUsers] = useState([])
-  const [globalState, updateGlobalState] = useGlobalState()
+  const [globalState] = useGlobalState()
   const handleError = useErrorHandler()
   const adminOptions = [
     { value: 1, label: 'user' },
     { value: 2, label: 'editor' },
     { value: 3, label: 'admin' },
   ]
-
-  const checkAdminStatus = async () => {
-    try {
-      const level = await getUserInfo()
-      updateGlobalState(level)
-    } catch (error) {
-      handleError(error)
-    }
-  }
 
   const handleGetUsers = async () => {
     try {
@@ -36,13 +28,10 @@ const ManageUsers = () => {
     }
   }
 
+  useGetUserInfo()
+
   useEffect(() => {
-    if (window.localStorage.getItem(localStorageName)) {
-      checkAdminStatus()
-      handleGetUsers()
-    } else {
-      updateGlobalState({ adminLevel: 0 })
-    }
+    handleGetUsers()
   }, [])
 
   const userActiveChange = (id) => {

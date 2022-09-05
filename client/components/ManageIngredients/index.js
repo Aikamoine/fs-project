@@ -7,10 +7,9 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { toast } from 'react-toastify'
 import Select from 'react-select'
-import { useErrorHandler } from 'react-error-boundary'
 
 import { localStorageName, adminLevels } from 'Utilities/common'
-import { getUserInfo } from 'Utilities/services/users'
+
 import {
   getIngredients,
   addIngredient,
@@ -18,7 +17,8 @@ import {
   updateIngredient,
   deleteIngredient,
 } from 'Utilities/services/ingredients'
-import { useGlobalState } from 'Components/GlobalState'
+import useGetUserInfo from 'Components/hooks/useGetUserInfo'
+import { useGlobalState } from 'Components/hooks/GlobalState'
 import ControlButton from './ControlButton'
 
 import foodNames from '../../assets/foodNames.json'
@@ -32,16 +32,6 @@ const ManageIngredients = () => {
   const [filter, setFilter] = useState('')
   const [instructions, setInstructions] = useState(false)
   const [globalState, updateGlobalState] = useGlobalState()
-  const handleError = useErrorHandler()
-
-  const checkAdminStatus = async () => {
-    try {
-      const level = await getUserInfo()
-      updateGlobalState(level)
-    } catch (error) {
-      handleError(error)
-    }
-  }
 
   const handleGetIngredients = async () => {
     const allIngredients = await getIngredients()
@@ -51,9 +41,10 @@ const ManageIngredients = () => {
     setFilter('')
   }
 
+  useGetUserInfo()
+
   useEffect(() => {
     if (window.localStorage.getItem(localStorageName)) {
-      checkAdminStatus()
       handleGetIngredients()
     } else {
       updateGlobalState({ adminLevel: 0 })

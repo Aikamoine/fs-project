@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 import NavDropdown from 'react-bootstrap/NavDropdown'
-import { localStorageName, adminLevels } from 'Utilities/common'
-import { getUserInfo } from 'Utilities/services/users'
-import { useGlobalState } from './GlobalState'
+import { adminLevels } from 'Utilities/common'
+import { useGlobalState } from 'Components/hooks/GlobalState'
+import useGetUserInfo from 'Components/hooks/useGetUserInfo'
 
 const AdminActions = ({ adminLevel }) => {
   if (adminLevel >= adminLevels('editor')) {
@@ -68,19 +68,9 @@ const UserActions = ({ user }) => {
 }
 
 const NavBar = () => {
-  const [globalState, updateGlobalState] = useGlobalState()
+  const [globalState] = useGlobalState()
 
-  const checkAdminStatus = async () => {
-    const level = await getUserInfo()
-    updateGlobalState(level)
-  }
-
-  useEffect(() => {
-    const loggedUser = JSON.parse(window.localStorage.getItem(localStorageName))
-    if (loggedUser) {
-      checkAdminStatus()
-    }
-  }, [])
+  useGetUserInfo()
 
   return (
     <Navbar bg="light" expand="sm" variant="light">
