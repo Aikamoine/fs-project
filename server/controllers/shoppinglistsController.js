@@ -1,4 +1,3 @@
-const { Op } = require('sequelize')
 const { sequelize } = require('../util/db')
 
 const {
@@ -52,15 +51,12 @@ const deleteList = async (req, res) => {
 
 const deleteSelected = async (req, res) => {
   const toDestroy = req.body
+  console.log('DESTROYING', toDestroy)
 
   await Shoppinglist.destroy({
     where: {
-      [Op.and]: [
-        {
-          userId: req.decodedToken.id,
-        },
-        { id: toDestroy },
-      ],
+      userId: req.decodedToken.id,
+      ingredientId: toDestroy,
     },
   })
 
